@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  angular:
+    build: .
+    container_name: angularGabit
+    ports:
+      - "4200:4200"  # Mapea el puerto de Angular
+    volumes:
+      - .:/app       # Sincroniza tu proyecto local con el contenedor
+      #- /app/node_modules # Evita conflictos con node_modules local
+    stdin_open: true
+    tty: true
