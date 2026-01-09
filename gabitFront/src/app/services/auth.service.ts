@@ -78,7 +78,7 @@ export class AuthService {
     this.isLoggedIn.set(false);
     this.user.set(null);
     localStorage.removeItem('userLogged');
-    this.router.navigate(['/login']); //deberia redirigir a la landing de gabit o se puede dejar login consultar con Carmen
+    this.router.navigate(['/login']);
   }
 
   //La siguiente funcion es solamente para un registro mokeado debera desaparecer
