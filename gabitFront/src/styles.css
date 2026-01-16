@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 :root{
-    font-family: sans-serif;
+    
+    --titles: "Caprasimo", serif;
+    --bodycopy: "Epilogue", sans-serif;
     --primary-color: #05576B;
     --primary-color-300: #6b9fb0;
     --primary-color-700: #043e4e;

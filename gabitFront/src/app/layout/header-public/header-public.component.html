@@ -1,13 +1,23 @@
 <header>
     <img src="logo">
     <nav>
-        
+
         <ul *ngIf="!isLoggedIn()">
             <li><a routerLink="/registro">Registro</a></li>
             <li><a routerLink="/login">Login</a></li>
         </ul>
         <ul *ngIf="isLoggedIn()">
             <li><a (click)="logout()" style="cursor: pointer">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<header>
+    <img id="logo" src="assets/gabitSinMargen.png" alt="Logo">
+    <nav>
+        <ul>
+            <li>
+                <a href="">Inicia sesión</a>
+            </li>
         </ul>
     </nav>
 </header>
