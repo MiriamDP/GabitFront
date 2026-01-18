@@ -32,6 +32,10 @@ main{
     box-shadow: 5px 5px 5px var(--shadow-light-dark-side),-5px -5px 5px var(--shadow-light-light-side);
 }
 
+.form-group{
+    height: 20%;
+}
+
 input{
     background-color: #e8efef;
     width: 100%;
@@ -71,4 +75,38 @@ legend{
     font-family: var(--font-accent);
     font-size: 3rem;
     color: var(--primary-color);
+}
+
+input:focus{
+    outline: 2px solid var(--primary-color);
+}
+
+span{
+    margin-top: 1rem;
+    display: none;
+}
+
+input[type="email"]:user-invalid+span{
+    display: block;
+    color: var(--error);
+}
+
+input[type="password"]:user-invalid+span{
+    display: block;
+    color: var(--error);
+}
+
+input:required:user-invalid:not(:focus){
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 20px);
+    border-color: var(--color-error);
+    background-image: url('/assets/checked_red.png');
+}
+
+input:user-valid{
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 20px);
+    background-image: url('/assets/checked_green.png');
 }

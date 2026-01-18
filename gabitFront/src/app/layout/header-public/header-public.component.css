@@ -1,11 +1,32 @@
 header{
     height: 7vh;
-    background-color: red;
+    background-color: var(--primary-color-300);
     display: flex;
     justify-content: space-between;
+    padding-inline: 1rem;
+    a{
+        height: 100%;
+        align-content: center;
+        img{
+            height: 75%;
+            width: auto;
+            object-fit: cover;
+        }
+    }
 }
 
 nav ul{
+    height: 100%;
     display: flex;
-    gap:10px;
+    gap:1.5rem;
+    align-items: center;
+    padding-right: 2rem;
+    li a{
+        text-decoration: none;
+        color: white;
+        font-size: 1.2rem;
+        &:hover{
+            color: var(--primary-color-700);
+        }
+    }
 }

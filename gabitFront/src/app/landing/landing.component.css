@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: var(--bodycopy);
-}
-
-
 body {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -162,7 +154,7 @@ footer {
     grid-column: 1 / 13;
     grid-row: 3 / 4;
     background-color: #074d69;
-    height: 40vh;
+    height: 35vh;
     align-self: flex-end;
     display: flex;
     justify-content: center;
@@ -182,6 +174,7 @@ footer {
     gap: 10px;
     width: 30%;
     align-items: center;
+    cursor: default;
 }
 
 footer nav {
@@ -199,6 +192,9 @@ footer nav {
     flex-direction: column;
     width: 30%;
     align-items: center;
+    h1{
+        cursor: default;
+    }
 }
 
 .footer__social div a{

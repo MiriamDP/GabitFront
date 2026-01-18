@@ -6,11 +6,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingComponent } from './landing/landing.component';
 
 const routes: Routes = [
+  {path: '', component: LandingComponent},
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistryComponent },
   { path: 'dashboard', component: DashboardComponent },
-  {path: '', component: LandingComponent},
-  {path: 'landing', component: LandingComponent}
 ];
 
 @NgModule({
