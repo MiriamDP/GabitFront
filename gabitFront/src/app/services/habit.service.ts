@@ -39,7 +39,7 @@ export interface Achievement {
   providedIn: 'root'
 })
 export class HabitService {
-  private apiUrl = 'http://localhost:3000/gabit';
+  private apiUrl = 'aun no hay api';
 
   constructor(private http: HttpClient) { }
 
@@ -75,10 +75,6 @@ export class HabitService {
     return this.http.get(`${this.apiUrl}/public/leer`);
   }
 
-  // ============================
-  // ACTUALIZAR Y ELIMINAR
-  // ============================
-
   /**
    * Actualizar un hábito
    */
@@ -86,12 +82,6 @@ export class HabitService {
     return this.http.put(`${this.apiUrl}/habits/actualizar/${id}`, habit);
   }
 
-  /**
-   * Eliminar un hábito
-   */
-  deleteHabit(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/habits/borrar/${id}`);
-  }
 
   // ============================
   // CATEGORÍAS
