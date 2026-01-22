@@ -1,0 +1,146 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="greeting-section">
+        <h1 class="greeting">{{ getGreeting() }}, {{ userName }} 👋</h1>
+        <p class="subtitle">Aquí está tu progreso en Gabit</p>
+      </div>
+      <button class="btn-primary" (click)="createNewHabit()">
+        <span class="icon">+</span>
+        Crear nuevo hábito
+      </button>
+    </div>
+  </header>
+
+  <!-- Stats Cards -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon habits-icon">🎯</div>
+        <div class="stat-content">
+          <p class="stat-label">Hábitos activos</p>
+          <p class="stat-value">{{ stats.activeHabits }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon missions-icon">✅</div>
+        <div class="stat-content">
+          <p class="stat-label">Misiones totales</p>
+          <p class="stat-value">{{ stats.completedMissions }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon levels-icon">🏆</div>
+        <div class="stat-content">
+          <p class="stat-label">Niveles totales</p>
+          <p class="stat-value">{{ getTotalLevels() }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon points-icon">⭐</div>
+        <div class="stat-content">
+          <p class="stat-label">Puntos</p>
+          <p class="stat-value">{{ stats.totalPoints }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando tus hábitos...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-state">
+    <div class="error-icon">⚠️</div>
+    <p class="error-message">{{ error }}</p>
+    <button class="btn-secondary" (click)="loadUserHabits()">Reintentar</button>
+  </div>
+
+  <!-- Habits List -->
+  <section *ngIf="!isLoading && !error" class="habits-section">
+    <div class="section-header">
+      <h2 class="section-title">Mis hábitos</h2>
+      <p class="section-subtitle" *ngIf="userHabits.length > 0">
+        {{ getHabitsCountText() }}
+      </p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="userHabits.length === 0" class="empty-state">
+      <div class="empty-icon">📝</div>
+      <h3 class="empty-title">No tienes hábitos aún</h3>
+      <p class="empty-message">Crea tu primer hábito y comienza tu viaje de crecimiento personal</p>
+      <button class="btn-primary" (click)="createNewHabit()">
+        <span class="icon">+</span>
+        Crear mi primer hábito
+      </button>
+    </div>
+
+    <!-- Habits Grid -->
+    <div *ngIf="userHabits.length > 0" class="habits-grid">
+      <div *ngFor="let habit of userHabits" 
+           class="habit-card" 
+           (click)="viewHabitDetails(habit.id)"
+           [style.border-left-color]="habit.color">
+        
+        <!-- Card Header -->
+        <div class="habit-header">
+          <div class="habit-category">
+            <span class="category-icon">{{ habit.categoria_icono }}</span>
+            <span class="category-name">{{ habit.categoria_nombre }}</span>
+          </div>
+          <div class="habit-badge" *ngIf="habit.es_publico">
+            <span class="badge-icon">🌍</span>
+            Público
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="habit-body">
+          <h3 class="habit-name">{{ habit.nombre }}</h3>
+          <p class="habit-description">{{ habit.descripcion }}</p>
+        </div>
+
+        <!-- Card Stats -->
+        <div class="habit-stats">
+          <div class="stat-item">
+            <span class="stat-icon">📊</span>
+            <span class="stat-text">{{ habit.total_niveles }} niveles</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">✓</span>
+            <span class="stat-text">{{ habit.total_misiones }} misiones</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="habit-progress">
+          <div class="progress-header">
+            <span class="progress-label">Progreso</span>
+            <span class="progress-percentage">{{ getProgressPercentage(habit) }}%</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" 
+                 [style.width.%]="getProgressPercentage(habit)"
+                 [style.background-color]="habit.color"></div>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="habit-footer">
+          <span class="creation-date">
+            <span class="date-icon">📅</span>
+            Creado el {{ formatDate(habit.fecha_creacion) }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

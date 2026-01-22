@@ -1,17 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { HabitService } from '../services/habit.service';
-import { Habit, UserStats } from '../interfaces/habit/habit.interface';
+import { HabitService } from '../../services/habit.service';
+
+interface UserHabit {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  categoria_nombre: string;
+  categoria_icono: string;
+  color: string;
+  total_niveles: number;
+  total_niveles_creados: number;
+  total_misiones: number;
+  fecha_creacion: string;
+  es_publico: boolean;
+}
+
+interface UserStats {
+  totalHabits: number;
+  activeHabits: number;
+  completedMissions: number;
+  totalPoints: number;
+}
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  userName: string = '';
-  userHabits: Habit[] = [];
+  userName = 'Carmen'; // TODO: Obtener del servicio de autenticación
+  userHabits: UserHabit[] = [];
   isLoading = true;
   error: string | null = null;
 
@@ -19,25 +38,18 @@ export class DashboardComponent implements OnInit {
     totalHabits: 0,
     activeHabits: 0,
     completedMissions: 0,
-    totalPoints: 0,
-    longestStreak: 0
+    totalPoints: 0
   };
 
   constructor(
-    public authService: AuthService,
     private habitService: HabitService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    const user = this.authService.user();
-    if (user) {
-      this.userName = user.name || user.email || 'Usuario';
-    }
     this.loadUserHabits();
   }
 
-  /* Ahora no funciona porque no hay api jheje */
   loadUserHabits(): void {
     this.isLoading = true;
     this.error = null;
@@ -46,15 +58,24 @@ export class DashboardComponent implements OnInit {
       next: (response) => {
         if (response.success) {
           this.userHabits = response.data;
-          this.stats = this.habitService.getUserStats(this.userHabits);
+          this.calculateStats();
         }
         this.isLoading = false;
       },
       error: (error) => {
-        this.error = 'Ha ocurrido un error al cargar tus hábitos. Por favor, inténtalo de nuevo más tarde.';
+        console.error('❌ Error al cargar hábitos:', error);
+        this.error = 'No se pudieron cargar tus hábitos. Verifica que el servidor esté corriendo.';
         this.isLoading = false;
       }
     });
+  }
+
+  calculateStats(): void {
+    this.stats.totalHabits = this.userHabits.length;
+    this.stats.activeHabits = this.userHabits.length; // Por ahora todos son activos
+    // TODO: Calcular desde el backend cuando tengamos progreso
+    this.stats.completedMissions = this.userHabits.reduce((sum, h) => sum + (h.total_misiones || 0), 0);
+    this.stats.totalPoints = 0; // TODO: Calcular desde el backend
   }
 
   getTotalLevels(): number {
@@ -75,8 +96,10 @@ export class DashboardComponent implements OnInit {
     console.log('Ver detalles del hábito:', habitId);
   }
 
-  getProgressPercentage(): number {
-    return this.habitService.getProgressPercentage();
+  getProgressPercentage(habit: UserHabit): number {
+    // TODO: Calcular progreso real desde el backend
+    // Por ahora devolvemos un valor aleatorio para demostración
+    return Math.floor(Math.random() * 100);
   }
 
   formatDate(dateString: string): string {

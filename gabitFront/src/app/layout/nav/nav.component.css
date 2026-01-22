@@ -1,0 +1,171 @@
+/* ============================
+   ESTRUCTURA DEL COMPONENTE (Host)
+   ============================ */
+:host {
+  display: block;
+  width: 280px;      /* Ancho fijo reservado para el menú */
+  flex-shrink: 0;    /* Evita que se encoja si falta espacio */
+  height: 100vh;     /* Altura completa */
+  position: sticky;  /* Opcional: Se queda quieto al hacer scroll */
+  top: 0;
+  z-index: 100;
+  background: #e8efef; /* Color de fondo igual al dashboard */
+}
+
+.sidebar {
+  /* Ya no usamos width aquí, lo controla el :host */
+  height: 100%;
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background: #e8efef;
+  /* Sombra suave a la derecha */
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 5px 0 15px rgba(163, 177, 198, 0.2);
+}
+
+/* ============================
+   LOGO (Arreglo del logo gigante)
+   ============================ */
+.sidebar-header {
+  text-align: center;
+  padding-bottom: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(163, 177, 198, 0.3);
+}
+
+.logo {
+  width: 100%;        /* Ajustarse al contenedor */
+  max-width: 120px;   /* Limite máximo */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ============================
+   USUARIO
+   ============================ */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 0.5rem 1.5rem 0.5rem;
+  border-bottom: 1px solid rgba(163, 177, 198, 0.3);
+  margin-bottom: 1.5rem;
+}
+
+.user-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #05576B 0%, #3C9CB4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #05576B; /* Variable directa por seguridad */
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-email {
+  font-size: 0.75rem;
+  color: #64748B;
+  margin: 0;
+}
+
+/* ============================
+   MENÚ
+   ============================ */
+.nav-menu {
+  flex: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-menu li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #64748B;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.nav-menu li:hover {
+  background: rgba(255, 255, 255, 0.6);
+  color: #05576B;
+  transform: translateX(4px);
+}
+
+.nav-menu li.active {
+  background: #e8efef;
+  color: #05576B;
+  box-shadow: inset 3px 3px 6px rgba(163, 177, 198, 0.3), 
+              inset -3px -3px 6px rgba(255, 255, 255, 0.8);
+}
+
+/* Botón Cerrar Sesión */
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(163, 177, 198, 0.3);
+}
+
+.btn-logout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: transparent;
+  border: 1px solid rgba(163, 177, 198, 0.5);
+  border-radius: 12px;
+  color: #64748B;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-logout:hover {
+  background: rgba(220, 38, 38, 0.05);
+  color: #DC2626;
+  border-color: #DC2626;
+}
+
+/* RESPONSIVE: Si la pantalla es pequeña, ocultamos el host o lo hacemos fijo */
+@media (max-width: 768px) {
+  :host {
+    width: 70px; /* Colapsado en móvil */
+  }
+  .user-info, .nav-menu li span, .btn-logout span {
+    display: none;
+  }
+  .nav-menu li { justify-content: center; padding: 1rem 0; }
+  .logo { width: 40px; }
+}

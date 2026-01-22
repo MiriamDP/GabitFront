@@ -1,0 +1,35 @@
+<nav class="sidebar">
+  <!-- Logo -->
+  <div class="sidebar-header">
+    <img src="assets/logoAzul.png" alt="Gabit Logo" class="logo">
+  </div>
+
+  <!-- User Info -->
+  <div class="user-section">
+    <div class="user-avatar">
+      {{ userName.charAt(0).toUpperCase() }}
+    </div>
+    <div class="user-info">
+      <p class="user-name">{{ userName }}</p>
+      <p class="user-email">{{ userEmail }}</p>
+    </div>
+  </div>
+
+  <!-- Navigation Menu -->
+  <ul class="nav-menu">
+    <li *ngFor="let item of menuItems" 
+        [class.active]="item.active"
+        (click)="navigateTo(item.route)">
+      <i-lucide [name]="item.icon" [size]="20"></i-lucide>
+      <span>{{ item.label }}</span>
+    </li>
+  </ul>
+
+  <!-- Logout Button -->
+  <div class="sidebar-footer">
+    <button class="btn-logout" (click)="logout()">
+      <i-lucide name="log-out" [size]="20"></i-lucide>
+      <span>Cerrar sesión</span>
+    </button>
+  </div>
+</nav>

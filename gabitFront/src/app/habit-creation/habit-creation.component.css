@@ -1,0 +1,892 @@
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos Generales */
+.habit-creation-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Header */
+.creation-header {
+  margin-bottom: 3rem;
+}
+
+.creation-header .header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.creation-header .page-title {
+  font-family: 'Caprasimo', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #05576B;
+  margin: 0;
+}
+
+.creation-header .btn-cancel {
+  background: transparent;
+  border: 2px solid #D4E6F2;
+  color: #64748B;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.creation-header .btn-cancel:hover {
+  border-color: #9B1426;
+  color: #9B1426;
+  background: rgba(155, 20, 38, 0.05);
+}
+
+/* Indicador de Progreso */
+.progress-indicator {
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.progress-indicator .progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-indicator .progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.progress-indicator .progress-step .step-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #F0F6F6;
+  border: 3px solid #D4E6F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #64748B;
+  transition: all 0.3s ease;
+}
+
+.progress-indicator .progress-step .step-circle .check-icon {
+  color: white;
+  font-size: 1.3rem;
+}
+
+.progress-indicator .progress-step .step-label {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748B;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+/* Estado Activo del Step */
+.progress-indicator .progress-step.active .step-circle {
+  background: #05576B;
+  border-color: #05576B;
+  color: white;
+  box-shadow: 0 4px 12px rgba(5, 87, 107, 0.3);
+  transform: scale(1.05);
+}
+
+.progress-indicator .progress-step.active .step-label {
+  color: #05576B;
+}
+
+/* Estado Completado del Step */
+.progress-indicator .progress-step.completed .step-circle {
+  background: #056B3B;
+  border-color: #056B3B;
+  color: white;
+}
+
+.progress-indicator .progress-step.completed .step-label {
+  color: #056B3B;
+}
+
+.progress-indicator .progress-step:hover:not(.active) .step-circle {
+  transform: scale(1.05);
+  border-color: #3C9CB4;
+}
+
+/* Barra de Progreso */
+.progress-indicator .progress-bar {
+  height: 6px;
+  background: #D4E6F2;
+  border-radius: 3px;
+  overflow: hidden;
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+  z-index: 0;
+}
+
+.progress-indicator .progress-bar .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #05576B 0%, #3C9CB4 100%);
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Formulario de Creación */
+.creation-form .form-step {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.creation-form .step-content {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.creation-form .step-title {
+  font-family: 'Caprasimo', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #05576B;
+  margin: 0 0 0.5rem 0;
+}
+
+.creation-form .step-description {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1rem;
+  color: #64748B;
+  margin: 0 0 2rem 0;
+}
+
+/* Grupos de Formulario */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group-inline {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group-inline .form-group {
+  margin-bottom: 0;
+}
+
+.form-group-inline .flex-1 {
+  flex: 1;
+}
+
+/* Etiquetas (Labels) */
+.form-label {
+  display: block;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #021D24;
+  margin-bottom: 0.5rem;
+}
+
+.form-label .required {
+  color: #9B1426;
+}
+
+.form-label-sm {
+  display: block;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #021D24;
+  margin-bottom: 0.4rem;
+}
+
+.form-label-sm .required {
+  color: #9B1426;
+}
+
+.form-hint {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.85rem;
+  color: #64748B;
+  margin: -0.25rem 0 0.75rem 0;
+}
+
+/* Inputs, Textareas, Selects */
+.form-input,
+.form-textarea,
+.form-select,
+.form-input-sm,
+.form-textarea-sm,
+.form-select-sm {
+  width: 100%;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1rem;
+  color: #021D24;
+  background: #F0F6F6;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder,
+.form-select::placeholder,
+.form-input-sm::placeholder,
+.form-textarea-sm::placeholder,
+.form-select-sm::placeholder {
+  color: #64748B;
+  opacity: 0.6;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus,
+.form-input-sm:focus,
+.form-textarea-sm:focus,
+.form-select-sm:focus {
+  outline: none;
+  background: white;
+  border-color: #3C9CB4;
+  box-shadow: 0 0 0 3px rgba(60, 156, 180, 0.1);
+}
+
+.form-input:hover:not(:focus),
+.form-textarea:hover:not(:focus),
+.form-select:hover:not(:focus),
+.form-input-sm:hover:not(:focus),
+.form-textarea-sm:hover:not(:focus),
+.form-select-sm:hover:not(:focus) {
+  border-color: #D4E6F2;
+}
+
+/* Estilos específicos y variaciones small */
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.form-input-sm {
+  font-size: 0.9rem;
+  padding: 0.6rem 0.875rem;
+}
+
+.form-textarea-sm {
+  font-size: 0.9rem;
+  padding: 0.6rem 0.875rem;
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.form-select-sm {
+  font-size: 0.9rem;
+  padding: 0.6rem 0.875rem;
+  cursor: pointer;
+}
+
+.form-error {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.85rem;
+  color: #9B1426;
+  margin-top: 0.5rem;
+}
+
+/* Checkboxes */
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #F0F6F6;
+  transition: background 0.3s ease;
+}
+
+.checkbox-label:hover {
+  background: #D4E6F2;
+}
+
+.checkbox-label .form-checkbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  cursor: pointer;
+  accent-color: #05576B;
+  margin-top: 2px;
+}
+
+.checkbox-label .checkbox-text {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.95rem;
+  color: #021D24;
+  line-height: 1.5;
+}
+
+.checkbox-label .checkbox-text strong {
+  font-weight: 600;
+  color: #05576B;
+}
+
+/* Grid de Categorías */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 0.75rem;
+  background: #F0F6F6;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-card .category-icon {
+  font-size: 2rem;
+}
+
+.category-card .category-name {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #021D24;
+  text-align: center;
+}
+
+.category-card:hover {
+  background: #D4E6F2;
+  transform: translateY(-2px);
+}
+
+.category-card.selected {
+  background: white;
+  border-color: #05576B;
+  box-shadow: 0 4px 12px rgba(5, 87, 107, 0.15);
+}
+
+.category-card.selected .category-name {
+  color: #05576B;
+}
+
+/* Selector de Color */
+.color-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #F0F6F6;
+  border-radius: 12px;
+}
+
+.color-option {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.color-option .color-check {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.color-option.selected {
+  border-color: #05576B;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+/* Slider */
+.slider-container {
+  padding: 1rem;
+  background: #F0F6F6;
+  border-radius: 12px;
+}
+
+.slider-container .form-slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #D4E6F2;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.slider-container .form-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #05576B;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(5, 87, 107, 0.3);
+  transition: all 0.3s ease;
+}
+
+.slider-container .form-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(5, 87, 107, 0.4);
+}
+
+.slider-container .form-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #05576B;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(5, 87, 107, 0.3);
+  transition: all 0.3s ease;
+}
+
+.slider-container .form-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(5, 87, 107, 0.4);
+}
+
+.slider-container .slider-value {
+  text-align: center;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #05576B;
+  margin-top: 0.75rem;
+}
+
+/* Configuración de Niveles */
+.levels-configuration {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.level-card {
+  background: #F0F6F6;
+  border: 2px solid #D4E6F2;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.level-card:hover {
+  border-color: #3C9CB4;
+  box-shadow: 0 4px 12px rgba(5, 87, 107, 0.1);
+}
+
+.level-card .level-header {
+  background: linear-gradient(135deg, #05576B 0%, #3C9CB4 100%);
+  padding: 0.75rem 1.25rem;
+}
+
+.level-card .level-header .level-number {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.level-card .level-body {
+  padding: 1.25rem;
+}
+
+/* Misiones */
+.missions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mission-level-section .mission-level-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #D4E6F2;
+}
+
+.mission-level-section .mission-level-header .mission-level-title {
+  font-family: 'Caprasimo', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #05576B;
+  margin: 0;
+}
+
+.mission-level-section .empty-missions {
+  padding: 2rem;
+  text-align: center;
+  background: #F0F6F6;
+  border-radius: 12px;
+  color: #64748B;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.95rem;
+}
+
+.mission-level-section .missions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mission-card {
+  background: white;
+  border: 2px solid #D4E6F2;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.mission-card:hover {
+  border-color: #3C9CB4;
+  box-shadow: 0 2px 8px rgba(5, 87, 107, 0.1);
+}
+
+.mission-card .mission-header {
+  background: #F0F6F6;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mission-card .mission-header .mission-number {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #05576B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mission-card .mission-body {
+  padding: 1rem;
+}
+
+/* Logros */
+.achievements-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.achievement-card {
+  background: white;
+  border: 2px solid #D4E6F2;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.achievement-card:hover {
+  border-color: #F2D639;
+  box-shadow: 0 4px 16px rgba(242, 214, 57, 0.2);
+  transform: translateY(-2px);
+}
+
+.achievement-card .achievement-header {
+  background: linear-gradient(135deg, #F2D639 0%, #FA914F 100%);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.achievement-card .achievement-header .achievement-icon-display {
+  font-size: 3rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.achievement-card .achievement-body {
+  padding: 1.25rem;
+}
+
+/* Empty State */
+.empty-state {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: #F0F6F6;
+  border-radius: 12px;
+  margin-top: 1.5rem;
+}
+
+.empty-state p {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1rem;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Botones */
+.btn-add,
+.btn-add-small,
+.btn-primary,
+.btn-secondary,
+.btn-success {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-add:disabled,
+.btn-add-small:disabled,
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-success:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-add:not(:disabled):hover,
+.btn-add-small:not(:disabled):hover,
+.btn-primary:not(:disabled):hover,
+.btn-secondary:not(:disabled):hover,
+.btn-success:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-add:not(:disabled):active,
+.btn-add-small:not(:disabled):active,
+.btn-primary:not(:disabled):active,
+.btn-secondary:not(:disabled):active,
+.btn-success:not(:disabled):active {
+  transform: translateY(0);
+}
+
+.btn-add {
+  background: #05576B;
+  color: white;
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+}
+
+.btn-add:not(:disabled):hover {
+  background: #0E3B47;
+}
+
+.btn-add-small {
+  background: #3C9CB4;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.btn-add-small:not(:disabled):hover {
+  background: #05576B;
+}
+
+.btn-primary {
+  background: #05576B;
+  color: white;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+}
+
+.btn-primary:not(:disabled):hover {
+  background: #0E3B47;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #64748B;
+  border: 2px solid #D4E6F2;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+}
+
+.btn-secondary:not(:disabled):hover {
+  border-color: #3C9CB4;
+  color: #05576B;
+  background: rgba(60, 156, 180, 0.05);
+}
+
+.btn-success {
+  background: #056B3B;
+  color: white;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+}
+
+.btn-success:not(:disabled):hover {
+  /* Calculado: darken #056B3B by 10% */
+  background: #023b20;
+}
+
+.btn-remove-icon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: #64748B;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-remove-icon:hover {
+  background: rgba(155, 20, 38, 0.1);
+  color: #9B1426;
+}
+
+/* Acciones del Formulario */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #F0F6F6;
+  border-radius: 12px;
+}
+
+.form-actions .spacer {
+  flex: 1;
+}
+
+/* Mensaje de Carga */
+.loading-message {
+  text-align: center;
+  padding: 2rem;
+  color: #64748B;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1rem;
+  background: #F0F6F6;
+  border-radius: 12px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .habit-creation-container {
+    padding: 1rem 0.75rem;
+  }
+
+  .creation-header .page-title {
+    font-size: 1.75rem;
+  }
+
+  .progress-indicator .progress-step .step-label {
+    font-size: 0.75rem;
+  }
+
+  .progress-indicator .progress-step .step-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 0.95rem;
+  }
+
+  .creation-form .step-content {
+    padding: 1.5rem;
+  }
+
+  .creation-form .step-title {
+    font-size: 1.5rem;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .color-picker {
+    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .form-group-inline {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .achievements-list {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .spacer {
+    display: none;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}

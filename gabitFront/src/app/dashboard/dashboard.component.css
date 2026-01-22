@@ -1,0 +1,168 @@
+/* ============================
+   LAYOUT PRINCIPAL (La solución al solapamiento)
+   ============================ */
+:host {
+  display: flex;       /* Esto activa el modo "Lado a Lado" */
+  width: 100%;
+  min-height: 100vh;
+  background-color: #e8efef;
+  font-family: 'Epilogue', sans-serif; /* Asegurar fuente */
+}
+
+/* Variables locales por si fallan las globales */
+:host {
+  --primary: #05576B;
+  --text-dark: #021D24;
+  --text-light: #64748B;
+}
+
+/* Contenedor del contenido derecho */
+.main-content {
+  flex: 1;              /* Ocupa todo el espacio restante */
+  padding: 2rem 3rem;   /* Espacio interno generoso */
+  overflow-y: auto;     /* Permite scroll si el contenido es largo */
+  max-height: 100vh;    /* Limita la altura a la ventana */
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ============================
+   HEADER
+   ============================ */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.greeting {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* Botón Crear */
+.btn-create {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.5), 
+              -6px -6px 12px rgba(255, 255, 255, 0.8);
+  transition: transform 0.2s;
+}
+
+.btn-create:hover {
+  transform: translateY(-2px);
+  background-color: #0E3B47;
+}
+
+/* ============================
+   STATS CARDS
+   ============================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: #e8efef;
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  /* Neumorfismo Saliente */
+  box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.5), 
+              -8px -8px 16px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  /* Sombras internas para profundidad */
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Colores de Iconos */
+.stat-icon.habits { background: linear-gradient(135deg, #05576B 0%, #3C9CB4 100%); }
+.stat-icon.missions { background: linear-gradient(135deg, #059669 0%, #34D399 100%); }
+.stat-icon.levels { background: linear-gradient(135deg, #D97706 0%, #FBBF24 100%); }
+.stat-icon.streak { background: linear-gradient(135deg, #DC2626 0%, #F87171 100%); }
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* ============================
+   LOADING / ERROR
+   ============================ */
+.loading-state, .error-state, .empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #e8efef;
+  border-radius: 20px;
+  /* Neumorfismo Hundido */
+  box-shadow: inset 6px 6px 12px rgba(163, 177, 198, 0.5), 
+              inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+  margin-top: 2rem;
+}
+
+.error-message { color: #DC2626; margin-top: 1rem; }
+.btn-retry {
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* ============================
+   MEDIA QUERIES
+   ============================ */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1.5rem; /* Menos padding en móvil */
+  }
+  .greeting { font-size: 1.8rem; }
+}

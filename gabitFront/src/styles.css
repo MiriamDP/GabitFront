@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Epilogue:ital,wght@0,100..900;1,100..900&display=swap');
 
-/* You can add global styles to this file, and also import other style files */
-/* You can add global styles to this file, and also import other style files */
+
 :root{
     
     --titles: "Caprasimo", serif;
@@ -11,7 +10,7 @@
     --primary-color-700: #043e4e;
     --primary-color-900: #021c24;
     --white-text: white;
-    --font-accent: "Caprasimo";
+    --font-accent: "Caprasimo", serif;
     --bg-color-light: #f5f5f5;
     --shadow-light-light-side: #fff;
     --shadow-light-dark-side: slategray;
