@@ -95,4 +95,5 @@ export class DashboardComponent implements OnInit {
     if (hour < 20) return 'Buenas tardes';
     return 'Buenas noches';
   }
+
 }

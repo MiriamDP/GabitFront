@@ -61,6 +61,7 @@ button{
     box-shadow: 5px 5px 5px var(--shadow-light-dark-side),-10px -10px 10px var(--shadow-light-light-side);
     cursor: pointer;
     transition: box-shadow 0.35s, background-color 0.35s;
+    font-family: var(--bodycopy);
 }
 
 button:hover{
