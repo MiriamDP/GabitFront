@@ -44,7 +44,7 @@ export class NavComponent {
   ) {
     const user = this.authService.user();
     if (user) {
-      this.userName = user.name || 'Usuario';
+      this.userName = user.nombre || 'Usuario';
       this.userEmail = user.email || '';
     }
   }

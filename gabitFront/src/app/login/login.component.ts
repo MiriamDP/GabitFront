@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginComponent {
   email: string = '';
   password: string = '';
-  isLoginCorrect: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private authService: AuthService,
@@ -19,12 +19,12 @@ export class LoginComponent {
   ) { }
 
   loginForm() {
-    this.authService.login(this.email, this.password);
+  this.errorMessage = '';
+  if (!this.email || !this.password) {
+    this.errorMessage = 'Por favor completa todos los campos';
+    return;
+  }
 
-    if (this.authService.isLoggedIn()) {
-      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-      console.log(returnUrl);
-      this.router.navigate(["/dashboard"]);
-    }
+    this.authService.login(this.email, this.password);
   }
 }

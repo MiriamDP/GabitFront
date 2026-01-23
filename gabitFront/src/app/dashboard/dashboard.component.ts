@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     const user = this.authService.user();
     if (user) {
-      this.userName = user.name || user.email || 'Usuario';
+      this.userName = user.nombreUsuario || user.nombre || 'Usuario'; 
     }
     this.loadUserHabits();
   }
