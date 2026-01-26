@@ -3,6 +3,12 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
+
+
+//PARA QUE SIRVE EL INTERCEPTOR
+// ESTE CODIGO SE EJECUTA ANTES DE CADA PETICION HTTP QUE HAGA LA APLICACION
+// SU FUNCION PRINCIPAL ES AÑADIR EL TOKEN DE AUTENTICACION A LAS PETICIONES
+// SINO, HABRIA QUE AÑADIRLO MANUALMENTE EN CADA RESPUESTA HTTP QUE HICIERAMOS EN EL API SERVICE
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   

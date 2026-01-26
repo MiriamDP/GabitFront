@@ -6,8 +6,13 @@
 
   <!-- User Info -->
   <div class="user-section">
-    <div class="user-avatar">
-      {{ userName.charAt(0).toUpperCase() }}
+    <div class="user-avatar" *ngIf="userFoto">
+      <img [src]="userFoto" alt="Foto de perfil" class="avatar-image"> 
+    </div>
+    <div>
+      <div class="user-avatar" *ngIf="!userFoto">
+        {{ userName.charAt(0).toUpperCase() }}
+      </div>
     </div>
     <div class="user-info">
       <p class="user-name">{{ userName }}</p>

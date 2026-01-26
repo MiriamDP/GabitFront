@@ -20,7 +20,7 @@ import { AppComponent } from './app.component';
 import { HeaderPublicComponent } from './layout/header-public/header-public.component';
 import { NavComponent } from './layout/nav/nav.component';
 import { LoginComponent } from './login/login.component';
-import { RegistryComponent } from './registry/registry.component';
+import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingComponent } from './landing/landing.component';
 import { HabitCreationComponent } from './habit-creation/habit-creation.component';
@@ -31,7 +31,7 @@ import { HabitCreationComponent } from './habit-creation/habit-creation.componen
     HeaderPublicComponent,
     NavComponent,
     LoginComponent,
-    RegistryComponent,
+    RegisterComponent,
     DashboardComponent,
     LandingComponent,
     HabitCreationComponent

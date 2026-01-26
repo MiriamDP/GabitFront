@@ -11,24 +11,30 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  // Método para login, este devuelve un Observable de AuthResponse, 
-  // que contiene el token y la información del usuario
+
   login(email: string, password: string): Observable<AuthResponse> {
+    //El endpoint de login
     const url = `${this.baseUrl}/login`;
+    //Hacemos la peticion POST al endpoint de login con el email y password, el interceptor se encargara de 
+    // añadir el token a la peticion y asi en cada respuesta HTTP que hagamos. 
     return this.http.post<AuthResponse>(url, { email, password });
   }
 
+  // Método para registro de usuario
   register(userData: any): Observable<AuthResponse> {
+    //El endpoint de registro
     const url = `${this.baseUrl}/register`;
     return this.http.post<AuthResponse>(url, userData);
   }
 
   logout(): Observable<any> {
+    //El endpoint de logout
     const url = `${this.baseUrl}/logout`;
     return this.http.post(url, {});
   }
 
   getUser(): Observable<any> {
+    //El endpoint para obtener la información del usuario autenticado
     const url = `${this.baseUrl}/user`;
     return this.http.get(url);
   }

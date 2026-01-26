@@ -41,7 +41,7 @@ export class AuthService {
           // Redirigimos al dashboard
           this.router.navigate(['/dashboard']);
         },
-        //Si hay un error en el login, limpiamos el estado, signals y mostramos el error en consola
+        //Si hay un error en el login, limpiamos el estado, signals y mostramos el error en consola (pa saber que esta pasando vaya)
         error: (err) => {
           this.isLoggedIn.set(false);
           this.user.set(null);
@@ -51,13 +51,14 @@ export class AuthService {
       });
   }
 
-  register(nombre: string, apellidos: string, email: string, nombreUsuario: string, password: string) {
+  register(nombre: string, apellidos: string, email: string, nombreUsuario: string, password: string, fotoPerfil: string) {
     const userData = {
       nombre,
       apellidos,
       email,
       nombreUsuario,
-      password
+      password,
+      fotoPerfil
     };
     
     this.api.register(userData)

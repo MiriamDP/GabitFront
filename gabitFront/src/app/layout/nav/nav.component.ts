@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 export class NavComponent {
   userName: string = '';
   userEmail: string = '';
+  userFoto: string = '';
 
   menuItems = [
     { 
@@ -46,6 +47,7 @@ export class NavComponent {
     if (user) {
       this.userName = user.nombre || 'Usuario';
       this.userEmail = user.email || '';
+      this.userFoto = user.fotoPerfil || '';
     }
   }
 
