@@ -36,8 +36,8 @@
 }
 
 .logo {
-  width: 100%;        /* Ajustarse al contenedor */
-  max-width: 120px;   /* Limite máximo */
+  width: 100%;        
+  max-width: 200px; 
   height: auto;
   display: block;
   margin: 0 auto;
