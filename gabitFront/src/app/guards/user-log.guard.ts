@@ -6,18 +6,18 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 
-export class PublicAccessGuard{
+export class UserLogGuard{
   private authService = inject(AuthService);
   private router = inject(Router);
 
   canActivate(): boolean {
     if (!this.authService.isLoggedIn()) {
-      // NO está logueado → puede entrar
-      return true;
-    } else {
-      // Ya está logueado → lo mandamos al dashboard
-      this.router.navigate(['/dashboard']);
+      // NO está logueado → redirigimos al login
+      this.router.navigate(['/login']);
       return false;
+    } else {
+      // Ya está logueado → le dejamos estar en las paginas de usuario
+      return true;
     }
   }
   

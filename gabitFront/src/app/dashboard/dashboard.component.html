@@ -9,14 +9,16 @@
         <p class="subtitle">¿Qué vas a mejorar hoy?</p>
       </div>
       <button class="btn-create" (click)="createNewHabit()">
-        <lucide-icon name="plus" size="18" style="margin-right: 8px;"></lucide-icon>
+        <!-- <lucide-icon name="plus" size="18" style="margin-right: 8px;"></lucide-icon> -->
         Crear hábito
       </button>
     </header>
 
     <section class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon habits"><lucide-icon name="target"></lucide-icon></div>
+        <div class="stat-icon habits">
+          <!-- <lucide-icon name="target"></lucide-icon> -->
+        </div>
         <div>
           <p class="stat-value">{{ stats.activeHabits }}</p>
           <p class="stat-label">Hábitos activos</p>
@@ -24,7 +26,9 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon missions"><lucide-icon name="circle-check-big"></lucide-icon></div>
+        <div class="stat-icon missions">
+          <!-- <lucide-icon name="circle-check-big"></lucide-icon> -->
+        </div>
         <div>
           <p class="stat-value">{{ stats.completedMissions }}</p>
           <p class="stat-label">Misiones totales</p>
@@ -32,7 +36,9 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon levels"><lucide-icon name="trophy"></lucide-icon></div>
+        <div class="stat-icon levels">
+          <!-- <lucide-icon name="trophy"></lucide-icon> -->
+        </div>
         <div>
           <p class="stat-value">{{ getTotalLevels() }}</p>
           <p class="stat-label">Niveles totales</p>
@@ -40,7 +46,9 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon streak"><lucide-icon name="flame"></lucide-icon></div>
+        <div class="stat-icon streak">
+          <!-- <lucide-icon name="flame"></lucide-icon> -->
+        </div>
         <div>
           <p class="stat-value">{{ stats.longestStreak }}</p>
           <p class="stat-label">Racha más larga</p>
@@ -53,7 +61,7 @@
     </div>
 
     <div *ngIf="error && !isLoading" class="error-state">
-      <lucide-icon name="triangle-alert" size="32" color="#DC2626"></lucide-icon>
+      <!-- <lucide-icon name="triangle-alert" size="32" color="#DC2626"></lucide-icon> -->
       <p class="error-message">{{ error }}</p>
       <button class="btn-retry" (click)="loadUserHabits()">Reintentar</button>
     </div>

@@ -24,6 +24,7 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingComponent } from './landing/landing.component';
 import { HabitCreationComponent } from './habit-creation/habit-creation.component';
+import { PruebaComponent } from './prueba/prueba.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { HabitCreationComponent } from './habit-creation/habit-creation.componen
     RegisterComponent,
     DashboardComponent,
     LandingComponent,
-    HabitCreationComponent
+    HabitCreationComponent,
+    PruebaComponent
   ],
   imports: [
     BrowserModule,

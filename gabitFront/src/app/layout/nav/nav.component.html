@@ -25,7 +25,7 @@
     <li *ngFor="let item of menuItems" 
         [class.active]="item.active"
         (click)="navigateTo(item.route)">
-      <i-lucide [name]="item.icon" [size]="20"></i-lucide>
+      <!-- <i-lucide [name]="item.icon" [size]="20"></i-lucide> -->
       <span>{{ item.label }}</span>
     </li>
   </ul>
@@ -33,7 +33,7 @@
   <!-- Logout Button -->
   <div class="sidebar-footer">
     <button class="btn-logout" (click)="logout()">
-      <i-lucide name="log-out" [size]="20"></i-lucide>
+      <!-- <i-lucide name="log-out" [size]="20"></i-lucide> -->
       <span>Cerrar sesión</span>
     </button>
   </div>

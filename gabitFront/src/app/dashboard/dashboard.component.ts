@@ -39,22 +39,22 @@ export class DashboardComponent implements OnInit {
 
   /* Ahora no funciona porque no hay api jheje */
   loadUserHabits(): void {
-    this.isLoading = true;
-    this.error = null;
+    // this.isLoading = true;
+    // this.error = null;
 
-    this.habitService.getUserHabits().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.userHabits = response.data;
-          this.stats = this.habitService.getUserStats(this.userHabits);
-        }
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.error = 'Ha ocurrido un error al cargar tus hábitos. Por favor, inténtalo de nuevo más tarde.';
-        this.isLoading = false;
-      }
-    });
+    // this.habitService.getUserHabits().subscribe({
+    //   next: (response) => {
+    //     if (response.success) {
+    //       this.userHabits = response.data;
+    //       this.stats = this.habitService.getUserStats(this.userHabits);
+    //     }
+    //     this.isLoading = false;
+    //   },
+    //   error: (error) => {
+    //     this.error = 'Ha ocurrido un error al cargar tus hábitos. Por favor, inténtalo de nuevo más tarde.';
+    //     this.isLoading = false;
+    //   }
+    // });
   }
 
   getTotalLevels(): number {
