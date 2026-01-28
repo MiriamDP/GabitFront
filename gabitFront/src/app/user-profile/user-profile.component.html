@@ -1,17 +1,17 @@
 <app-nav></app-nav>
 <main class="main-content">
-    <form class="card">
+    <form class="card" #contactForm="ngForm">
         <legend>Tu información</legend>
         <label>Nombre</label>
-        <input [(ngModel)]="user.name" type="text">
+        <input [(ngModel)]="user.name" type="text" name="name">
         <label>Apellidos</label>
-        <input [(ngModel)]="user.lastName" type="text">
+        <input [(ngModel)]="user.lastName" type="text" name="lastName">
         <label>Nombre de usuario</label>
-        <input [(ngModel)]="user.username" type="text">
+        <input [(ngModel)]="user.username" type="text" name="username">
         <label>Email</label>
-        <input [(ngModel)]="user.email" type="email">
+        <input [(ngModel)]="user.email" type="email" name="email">
         <label>Foto</label>
-        <input [(ngModel)]="user.photo" type="file">
+        <input [(ngModel)]="user.photo" type="file" name="photo">
         <div class="preview">
             <img src="assets/logoAzul.png">
         </div>

@@ -14,6 +14,7 @@ export class UserProfileComponent implements OnInit {
     lastName: '',
     username: '',
     email: '',
+    rol: '',
     password: null,
     passwordCon: null,
     photo: ''
@@ -23,8 +24,10 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     const userLogged=localStorage.getItem("userLogged");
+    console.log(userLogged);
     if (userLogged){
       this.user=JSON.parse(userLogged) as User;
+      console.log(this.user);
     }
   }
 

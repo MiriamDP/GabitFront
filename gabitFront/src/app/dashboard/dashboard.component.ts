@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HabitService } from '../services/habit.service';
 import { Habit, UserStats } from '../interfaces/habit/habit.interface';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,12 +30,26 @@ export class DashboardComponent implements OnInit {
     private router: Router
   ) {}
 
+  user: User=
+  {
+    idUser: 1,
+    name: "Julia",
+    lastName: "Ramirez",
+    username: "julita",
+    email: 'julia@mail.com',
+    rol:'user',
+    password: null,
+    passwordCon: null,
+    photo: ''
+  }
   ngOnInit(): void {
     const user = this.authService.user();
     if (user) {
       this.userName = user.nombreUsuario || user.nombre || 'Usuario'; 
     }
     this.loadUserHabits();
+    
+    localStorage.setItem('userLogged',JSON.stringify(this.user))
   }
 
   /* Ahora no funciona porque no hay api jheje */
