@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthResponse } from '../interfaces/auth/auth-response';
 import { Observable } from 'rxjs';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,11 @@ export class ApiService {
     //El endpoint para obtener la información del usuario autenticado
     const url = `${this.baseUrl}/user`;
     return this.http.get(url);
+  }
+
+  updateUser(user: User): Observable<AuthResponse> {
+    //Endpoint para actualizar al usuario logeado
+    const url = `${this.baseUrl}/user/${user.idUser}`;
+    return this.http.put<AuthResponse>(url, user);
   }
 }

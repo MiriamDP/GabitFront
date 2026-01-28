@@ -1,0 +1,92 @@
+
+:host {
+  display: flex;       /* Esto activa el modo "Lado a Lado" */
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Contenedor del contenido derecho */
+.main-content {
+  flex: 1;              /* Ocupa todo el espacio restante */
+  padding: 2rem 3rem;   /* Espacio interno generoso */
+  overflow-y: auto;     /* Permite scroll si el contenido es largo */
+  max-height: 100vh;    /* Limita la altura a la ventana */
+}
+
+h1{
+    color: var(--primary-color);
+}
+
+.card{
+    background-color: var(--bg-color-light);
+    border-radius: 2em;
+    height: fit-content;
+    padding: 2em;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    box-shadow: 5px 5px 5px var(--shadow-light-dark-side),-5px -5px 5px var(--shadow-light-light-side);
+}
+
+input{
+    color: var(--primary-color);
+    outline: none;
+    background-color: var(--bg-color-light);
+    width: 100%;
+    height: 3rem;
+    border: none;
+    border-radius: 2em;
+    padding: 0 2em;
+    box-shadow: 5px 5px 5px var(--shadow-light-dark-side) inset,-5px -5px 5px var(--shadow-light-light-side) inset;
+}
+
+button{
+    width: 50%;
+    background-color: var(--primary-color);
+    padding: 1em;
+    color: var(--white-text);
+    border-radius: 2em;
+    font-weight: bold;
+    font-size: 1.2rem;
+    align-self: center;
+    border: none;
+    box-shadow: 5px 5px 5px var(--shadow-light-dark-side),-10px -10px 10px var(--shadow-light-light-side);
+    cursor: pointer;
+    transition: box-shadow 0.35s, background-color 0.35s;
+    font-family: var(--bodycopy);
+}
+
+button:hover{
+    background-color: var(--primary-color-700);
+    box-shadow: 5px 5px 5px var(--primary-color-900) inset,-5px -5px 5px var(--primary-color) inset;
+    
+}
+
+input:focus{
+    outline: 2px solid var(--primary-color);
+}
+
+legend{
+    font-family: var(--font-accent);
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+label{
+    font-family: var(--font-accent);
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+
+.preview{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+
+    img{
+        height: 100%;
+        width: auto;
+    }
+}
