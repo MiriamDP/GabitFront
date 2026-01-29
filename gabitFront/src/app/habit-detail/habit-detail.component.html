@@ -1,0 +1,206 @@
+<app-nav></app-nav>
+
+<div class="habit-detail-wrapper">
+  <div class="habit-detail-container">
+    
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando hábito...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !isLoading" class="error-state">
+      <i-lucide name="alert-circle" [size]="64"></i-lucide>
+      <p class="error-message">{{ error }}</p>
+      <button class="btn-retry" (click)="loadHabitDetails()">Reintentar</button>
+      <button class="btn-back" (click)="goBack()">Volver al Dashboard</button>
+    </div>
+
+    <!-- Habit Content -->
+    <div *ngIf="habit && !isLoading" class="habit-content">
+      
+      <!-- Header -->
+      <header class="habit-header">
+        <button class="btn-back-icon" (click)="goBack()">
+          <i-lucide name="arrow-left" [size]="24"></i-lucide>
+        </button>
+        
+        <div class="habit-info">
+          <div class="habit-category">
+            <span class="category-icon">{{ habit.categoria_icono }}</span>
+            <span class="category-name">{{ habit.categoria_nombre }}</span>
+          </div>
+          <h1 class="habit-title" [style.color]="habit.color">{{ habit.nombre }}</h1>
+          <p class="habit-description">{{ habit.descripcion }}</p>
+        </div>
+
+        <div class="habit-badge" *ngIf="habit.es_publico">
+          <i-lucide name="globe" [size]="16"></i-lucide>
+          Público
+        </div>
+      </header>
+
+      <!-- Stats Grid -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon level-icon">
+            <i-lucide name="trophy" [size]="24" color="white"></i-lucide>
+          </div>
+          <div class="stat-content">
+            <p class="stat-value">{{ habit.nivel_actual }}/{{ habit.total_niveles }}</p>
+            <p class="stat-label">Nivel actual</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon points-icon">
+            <i-lucide name="star" [size]="24" color="white"></i-lucide>
+          </div>
+          <div class="stat-content">
+            <p class="stat-value">{{ habit.puntos_totales }}</p>
+            <p class="stat-label">Puntos totales</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon streak-icon">
+            <i-lucide name="flame" [size]="24" color="white"></i-lucide>
+          </div>
+          <div class="stat-content">
+            <p class="stat-value">{{ habit.racha_dias }}</p>
+            <p class="stat-label">Días de racha</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon date-icon">
+            <i-lucide name="calendar" [size]="24" color="white"></i-lucide>
+          </div>
+          <div class="stat-content">
+            <p class="stat-value">{{ formatDate(habit.fecha_creacion).split(' ')[0] }}</p>
+            <p class="stat-label">Iniciado</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Current Level Section -->
+      <section class="current-level-section" *ngIf="getCurrentLevel() as currentLevel">
+        <h2 class="section-title">
+          <i-lucide name="target" [size]="28"></i-lucide>
+          Nivel Actual: {{ currentLevel.nombre }}
+        </h2>
+
+        <!-- Level Progress -->
+        <div class="level-progress-card">
+          <div class="progress-header">
+            <span class="progress-label">Progreso del nivel</span>
+            <span class="progress-value">
+              {{ currentLevel.puntos_actuales }} / {{ currentLevel.puntos_requeridos }} puntos
+            </span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" 
+                 [style.width.%]="getProgressPercentage(currentLevel)"
+                 [style.background-color]="habit.color"></div>
+          </div>
+          <p class="progress-percentage">{{ getProgressPercentage(currentLevel) | number:'1.0-0' }}% completado</p>
+        </div>
+
+        <!-- Missions List -->
+        <div class="missions-section">
+          <h3 class="missions-title">Misiones disponibles</h3>
+          
+          <div class="missions-grid">
+            <div *ngFor="let mission of currentLevel.misiones" 
+                 class="mission-card"
+                 [class.completed]="mission.completada">
+              
+              <div class="mission-header">
+                <span class="mission-type">{{ getMissionTypeLabel(mission.tipo) }}</span>
+                <span class="mission-points">+{{ mission.puntos }} pts</span>
+              </div>
+
+              <p class="mission-description">{{ mission.descripcion }}</p>
+
+              <div class="mission-progress">
+                <div class="progress-info">
+                  <span>{{ mission.progreso_actual }} / {{ mission.requisito }}</span>
+                  <span>{{ getMissionProgressPercentage(mission) | number:'1.0-0' }}%</span>
+                </div>
+                <div class="progress-bar-mini">
+                  <div class="progress-fill-mini" 
+                       [style.width.%]="getMissionProgressPercentage(mission)"
+                       [style.background-color]="habit.color"></div>
+                </div>
+              </div>
+
+              <button class="btn-complete-mission" 
+                      [disabled]="mission.completada"
+                      (click)="completeMission(mission)">
+                <i-lucide *ngIf="!mission.completada" name="check" [size]="20"></i-lucide>
+                <i-lucide *ngIf="mission.completada" name="check-check" [size]="20"></i-lucide>
+                {{ mission.completada ? 'Completada' : 'Completar' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Empty Missions -->
+          <div *ngIf="currentLevel.misiones.length === 0" class="empty-missions">
+            <i-lucide name="inbox" [size]="48"></i-lucide>
+            <p>No hay misiones disponibles en este nivel</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Next Level Preview -->
+      <section class="next-level-section" *ngIf="getNextLevel() as nextLevel">
+        <h2 class="section-title">
+          <i-lucide name="arrow-up-circle" [size]="28"></i-lucide>
+          Próximo Nivel: {{ nextLevel.nombre }}
+        </h2>
+        <div class="next-level-card">
+          <p class="next-level-info">
+            Necesitas <strong>{{ nextLevel.puntos_requeridos }}</strong> puntos para alcanzar este nivel
+          </p>
+          <p class="missions-count">
+            <i-lucide name="list-checks" [size]="18"></i-lucide>
+            {{ nextLevel.misiones.length }} misiones disponibles
+          </p>
+        </div>
+      </section>
+
+      <!-- All Levels Overview -->
+      <section class="levels-overview-section">
+        <h2 class="section-title">
+          <i-lucide name="layers" [size]="28"></i-lucide>
+          Todos los niveles
+        </h2>
+        <div class="levels-list">
+          <div *ngFor="let level of habit.niveles" 
+               class="level-item"
+               [class.current]="level.numero_nivel === habit.nivel_actual"
+               [class.completed]="level.completado">
+            
+            <div class="level-number" [style.border-color]="habit.color">
+              <span *ngIf="!level.completado">{{ level.numero_nivel }}</span>
+              <i-lucide *ngIf="level.completado" name="check" [size]="20" [style.color]="habit.color"></i-lucide>
+            </div>
+            
+            <div class="level-info-item">
+              <h4 class="level-name">{{ level.nombre }}</h4>
+              <p class="level-requirement">{{ level.puntos_requeridos }} puntos</p>
+            </div>
+
+            <div class="level-status">
+              <span *ngIf="level.completado" class="status-badge completed">Completado</span>
+              <span *ngIf="level.numero_nivel === habit.nivel_actual" class="status-badge current">Actual</span>
+              <span *ngIf="!level.completado && level.numero_nivel !== habit.nivel_actual" class="status-badge locked">Bloqueado</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>

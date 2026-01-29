@@ -156,6 +156,30 @@
   cursor: pointer;
 }
 
+/* Habits Grid */
+.habits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.habit-card {
+  background: white;
+  border-radius: 1em;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(5, 87, 107, 0.1);
+}
+
+.habit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(5, 87, 107, 0.2);
+}
+
+/* ... resto del CSS de habit-card ... */
+
 /* ============================
    MEDIA QUERIES
    ============================ */

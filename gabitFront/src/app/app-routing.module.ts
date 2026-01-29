@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingComponent } from './landing/landing.component';
 import { HabitCreationComponent } from './habit-creation/habit-creation.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { HabitDetailComponent } from './habit-detail/habit-detail.component';
 
 const routes: Routes = [
   {path: '', component: LandingComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'registro', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'crear-habito', component: HabitCreationComponent },
-  { path: 'perfil', component: UserProfileComponent}
+  { path: 'perfil', component: UserProfileComponent},
+  { path: 'habito/:id', component: HabitDetailComponent }
 ];
 
 @NgModule({

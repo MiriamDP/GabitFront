@@ -70,10 +70,9 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/crear-habito']);
   }
 
-  viewHabitDetails(habitId: number): void {
-    // TODO: Navegar a la página de detalles del hábito
-    console.log('Ver detalles del hábito:', habitId);
-  }
+viewHabitDetails(habitId: number): void {
+  this.router.navigate(['/habito', habitId]);
+}
 
   getProgressPercentage(): number {
     return this.habitService.getProgressPercentage();
