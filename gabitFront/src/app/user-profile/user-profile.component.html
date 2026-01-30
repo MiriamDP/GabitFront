@@ -2,19 +2,16 @@
 <main class="main-content">
     <form class="card">
         <legend>Tu información</legend>
-        <label>Nombre</label>
-        <input [(ngModel)]="user.name" type="text">
-        <label>Apellidos</label>
-        <input [(ngModel)]="user.lastName" type="text">
         <label>Nombre de usuario</label>
-        <input [(ngModel)]="user.username" type="text">
+        <input [(ngModel)]="userNew.username" type="text" name="username">
         <label>Email</label>
-        <input [(ngModel)]="user.email" type="email">
+        <input [(ngModel)]="userNew.email" type="email" name="email">
         <label>Foto</label>
-        <input [(ngModel)]="user.photo" type="file">
-        <div class="preview">
-            <img src="assets/logoAzul.png">
+        <input type="file" name="photo" accept="image/*"
+                (change)="onFileSelected($event)">
+        <div *ngIf="this.userNew.photo!==null">
+            <img [src]="this.userNew.photo" alt="Preview" style="max-width: 150px; border-radius: 50%;">
         </div>
-        <button>Guardar cambios</button>
+        <button (click)="updateUser()">Guardar cambios</button>
     </form>
 </main>

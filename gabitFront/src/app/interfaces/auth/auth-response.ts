@@ -2,13 +2,11 @@ export interface AuthResponse {
   access_token: string;
   token_type: string;
   user: {
-    idUsuario: number;
-    nombre: string;
-    apellidos: string;
+    idUser: number;
     email: string;
-    nombreUsuario: string;
+    username: string;
     rol: string;
-    fotoPerfil: string | null;
+    photo: string | null;
     created_at: string;
     updated_at: string;
   };

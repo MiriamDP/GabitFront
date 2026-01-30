@@ -25,6 +25,8 @@ export class AuthService {
 
   // Método para iniciar sesión
   login(email: string, password: string) {
+    console.log("Estamos en el auth");
+
     // Llamada al API para login
     this.api.login(email, password)
     //Subscribirse a la respuesta dela API
@@ -51,14 +53,12 @@ export class AuthService {
       });
   }
 
-  register(nombre: string, apellidos: string, email: string, nombreUsuario: string, password: string, fotoPerfil: string) {
+  register(email: string, username: string, password: string, photo: string) {
     const userData = {
-      nombre,
-      apellidos,
       email,
-      nombreUsuario,
+      username,
       password,
-      fotoPerfil
+      photo
     };
     
     this.api.register(userData)

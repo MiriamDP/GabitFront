@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthResponse } from '../interfaces/auth/auth-response';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user';
+import { UserResponse } from '../interfaces/user-response';
 
 @Injectable({
   providedIn: 'root'
@@ -40,9 +41,9 @@ export class ApiService {
     return this.http.get(url);
   }
 
-  updateUser(user: User): Observable<AuthResponse> {
+  updateUser(newData: any, id: number): Observable<UserResponse> {
     //Endpoint para actualizar al usuario logeado
-    const url = `${this.baseUrl}/user/${user.idUser}`;
-    return this.http.put<AuthResponse>(url, user);
+    const url = `${this.baseUrl}/user/${id}`;
+    return this.http.put<UserResponse>(url, newData);
   }
 }

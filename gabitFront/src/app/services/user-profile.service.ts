@@ -7,13 +7,14 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UserProfileService {
+  
 
   constructor(private api: ApiService, private router:Router) { }
 
-  update(user: User) {
-    this.api.updateUser(user).subscribe({
+  update(newData: any, id: number) {
+
+    this.api.updateUser(newData, id).subscribe({
       next: (response)=>{
-        localStorage.setItem('token', response.access_token);
         localStorage.setItem('userLogged', JSON.stringify(response.user));
 
         this.router.navigate(['/dashboard']);

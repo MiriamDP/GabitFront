@@ -25,6 +25,7 @@ export class LoginComponent {
     return;
   }
 
+    console.log("Se ha enviado al authService");
     this.authService.login(this.email, this.password);
   }
 }

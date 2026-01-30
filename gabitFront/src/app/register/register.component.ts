@@ -10,10 +10,8 @@ export class RegisterComponent {
   email: string = '';
   pass: string = '';
   passCon: string = '';
-  nombreUsuario: string = '';
-  nombre: string = '';
-  apellidos: string = '';
-  fotoPerfil: string = ''; 
+  username: string = '';
+  photo: string = ''; 
   
   constructor(private authService: AuthService) { }
 
@@ -37,7 +35,7 @@ export class RegisterComponent {
       // Convertir a base64
       const reader = new FileReader();
       reader.onload = () => {
-        this.fotoPerfil = reader.result as string;
+        this.photo = reader.result as string;
       };
       reader.readAsDataURL(file);
     }
@@ -50,12 +48,10 @@ export class RegisterComponent {
       return;
     }
     this.authService.register(
-      this.nombre, 
-      this.apellidos, 
       this.email, 
-      this.nombreUsuario, 
+      this.username, 
       this.pass, 
-      this.fotoPerfil
+      this.photo
     );
   }
 }

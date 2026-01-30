@@ -17,17 +17,16 @@
     <div class="user-info">
       <p class="user-name">{{ userName }}</p>
       <p class="user-email">{{ userEmail }}</p> <!--Yo quitaria este campo porque no le aportada nada al usuario verlo todo el tiempo-->
-      <a routerLink="/perfil">Editar perfil</a>
     </div>
   </div>
 
   <!-- Navigation Menu -->
   <ul class="nav-menu">
     <li *ngFor="let item of menuItems" 
-        [class.active]="item.active"
-        (click)="navigateTo(item.route)">
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
       <!-- <i-lucide [name]="item.icon" [size]="20"></i-lucide> -->
-      <span>{{ item.label }}</span>
+      <span [routerLink]="item.route">{{ item.label }}</span>
     </li>
   </ul>
 

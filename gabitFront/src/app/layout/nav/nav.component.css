@@ -160,6 +160,11 @@
   transition: all 0.3s;
 }
 
+/*Para que no halla que hacer click solo en el texto*/
+span{
+  width: 100%;
+}
+
 .btn-logout:hover {
   background: rgba(220, 38, 38, 0.05);
   color: #DC2626;
