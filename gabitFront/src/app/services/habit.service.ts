@@ -1,56 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Habit, HabitProgress, Category, UserStats } from '../interfaces/habit/habit.interface';
+import { Habit, HabitProgress, Category, UserStats, Level, Mission, Achievement } from '../interfaces/habit/habit.interface';
 
 // Interfaces adicionales para creación de hábitos
-export interface HabitCreation {
-  name: string;
-  description: string;
-  category: number;
-  color: string;
-  isPublic: boolean;
-  levels: Level[];
-  achievements: Achievement[];
-}
 
-export interface Level {
-  name: string;
-  pointsRequired: number;
-  missions: Mission[];
-}
-
-export interface Mission {
-  description: string;
-  points: number;
-  type: 'diaria' | 'semanal' | 'unica';
-  requirement: number;
-}
-
-export interface Achievement {
-  name: string;
-  description: string;
-  icon: string;
-  pointsReward: number;
-  requirement: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class HabitService {
-  private apiUrl = 'aun no hay api';
+   private apiUrl = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) { }
-
-  // ============================
-  // CREAR Y OBTENER HÁBITOS
-  // ============================
 
   /**
    * Crear un nuevo hábito
    */
-  createHabit(habit: HabitCreation | any): Observable<any> {
+  createHabit(habit: Habit | any): Observable<any> {
     return this.http.post(`${this.apiUrl}/habits/crear`, habit);
   }
 
@@ -58,7 +25,7 @@ export class HabitService {
    * Obtener hábitos del usuario
    */
   getUserHabits(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits/leer`);
+    return this.http.get(`${this.apiUrl}/habits`);
   }
 
   /**

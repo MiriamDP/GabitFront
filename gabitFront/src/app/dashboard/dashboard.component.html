@@ -2,7 +2,7 @@
 
 <main class="main-content">
   <div class="dashboard-container">
-    
+
     <header class="dashboard-header">
       <div class="greeting-section">
         <h1 class="greeting">{{ getGreeting() }}, {{ userName }}</h1>
@@ -13,11 +13,10 @@
         Crear hábito
       </button>
     </header>
-
     <section class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon habits">
-          <!-- <lucide-icon name="target"></lucide-icon> -->
+          <lucide-icon name="target"></lucide-icon>
         </div>
         <div>
           <p class="stat-value">{{ stats.activeHabits }}</p>
@@ -27,7 +26,7 @@
 
       <div class="stat-card">
         <div class="stat-icon missions">
-          <!-- <lucide-icon name="circle-check-big"></lucide-icon> -->
+          <lucide-icon name="circle-check-big"></lucide-icon>
         </div>
         <div>
           <p class="stat-value">{{ stats.completedMissions }}</p>
@@ -37,7 +36,7 @@
 
       <div class="stat-card">
         <div class="stat-icon levels">
-          <!-- <lucide-icon name="trophy"></lucide-icon> -->
+          <lucide-icon name="trophy"></lucide-icon>
         </div>
         <div>
           <p class="stat-value">{{ getTotalLevels() }}</p>
@@ -47,7 +46,7 @@
 
       <div class="stat-card">
         <div class="stat-icon streak">
-          <!-- <lucide-icon name="flame"></lucide-icon> -->
+          <lucide-icon name="flame"></lucide-icon>
         </div>
         <div>
           <p class="stat-value">{{ stats.longestStreak }}</p>
@@ -55,24 +54,81 @@
         </div>
       </div>
     </section>
-
     <div *ngIf="isLoading" class="loading-state">
-      <p>Cargando...</p>
+      <div class="spinner"></div>
+      <p>Cargando tus caminos...</p>
     </div>
-
     <div *ngIf="error && !isLoading" class="error-state">
-      <!-- <lucide-icon name="triangle-alert" size="32" color="#DC2626"></lucide-icon> -->
+      <lucide-icon name="triangle-alert" size="64" color="#DC2626"></lucide-icon>
       <p class="error-message">{{ error }}</p>
       <button class="btn-retry" (click)="loadUserHabits()">Reintentar</button>
     </div>
-
-    <section *ngIf="!isLoading && !error">
+    <section *ngIf="!isLoading && !error" class="habits-section">
       <div *ngIf="userHabits.length === 0" class="empty-state">
-        <h3>No tienes hábitos aún</h3>
-        <button class="btn-create" (click)="createNewHabit()">Crear mi primer hábito</button>
+        <lucide-icon name="layout-template" size="80" color="#05576B" style="opacity: 0.5;"></lucide-icon>
+        <h3>No tienes caminos aún</h3>
+        <p>Crea tu primer camino y comienza tu viaje de crecimiento personal</p>
+        <button class="btn-create-empty" (click)="createNewHabit()">
+          <lucide-icon name="plus" size="20"></lucide-icon>
+          Crear mi primer camino
+        </button>
       </div>
-      
-      </section>
+      <div *ngIf="userHabits.length > 0" class="habits-content">
+        <div class="section-header">
+          <h2 class="section-title">Mis Caminos</h2>
+          <p class="section-subtitle">{{ getHabitsCountText() }}</p>
+        </div>
+        <div class="habits-grid">
+          <div *ngFor="let habit of userHabits" class="habit-card" (click)="viewHabitDetails(habit.id)"
+            [style.border-left]="'4px solid ' + habit.color">
+            <div class="habit-header">
+              <div class="habit-category">
+                <lucide-icon [name]="habit.categoria_icono"></lucide-icon>
+                <span class="category-name">{{ habit.categoria_nombre }}</span>
+              </div>
+              <div class="habit-badge" *ngIf="habit.es_publico">
+                <lucide-icon name="earth" size="14"></lucide-icon>
+                Público
+              </div>
+              <div class="habit-badge" *ngIf="!habit.es_publico">
+                <lucide-icon name="lock" size="14"></lucide-icon>
+                Privado
+              </div>
+            </div>
+            <div class="habit-body">
+              <h3 class="habit-name">{{ habit.nombre }}</h3>
+              <p class="habit-description">{{ habit.descripcion }}</p>
+            </div>
+            <div class="habit-stats">
+              <div class="stat-item">
+                <lucide-icon name="chart-column-big" size="16"></lucide-icon>
+                <span class="stat-text">{{ habit.total_niveles }} niveles</span>
+              </div>
+              <div class="stat-item">
+                <lucide-icon name="circle-check-big" size="16"></lucide-icon>
+                <span class="stat-text">{{ habit.total_misiones }} misiones</span>
+              </div>
+            </div>
+            <div class="habit-progress">
+              <div class="progress-header">
+                <span class="progress-label">Progreso</span>
+                <span class="progress-percentage">{{ getProgressPercentage() }}%</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" [style.width.%]="getProgressPercentage()"
+                  [style.background-color]="habit.color"></div>
+              </div>
+            </div>
+            <div class="habit-footer">
+              <span class="creation-date">
+                <lucide-icon name="calendar-1" size="14"></lucide-icon>
+                Creado el {{ formatDate(habit.fecha_creacion) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </div>
 </main>

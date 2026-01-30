@@ -1,0 +1,543 @@
+.habit-detail-wrapper {
+  margin-left: 280px;
+  min-height: 100vh;
+  background: #e8efef;
+}
+
+.habit-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ============================
+   LOADING & ERROR STATES
+   ============================ */
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--bg-color-light);
+  border-radius: 2em;
+  box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -5px -5px 5px var(--shadow-light-light-side);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--primary-color-300);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  font-size: 1.125rem;
+  color: var(--primary-color-700);
+  margin-bottom: 1.5rem;
+}
+
+.btn-retry,
+.btn-back {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 2em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -5px -5px 5px var(--shadow-light-light-side);
+  margin: 0.5rem;
+}
+
+.btn-retry:hover,
+.btn-back:hover {
+  background-color: var(--primary-color-700);
+  box-shadow: 5px 5px 5px var(--primary-color-900) inset, -5px -5px 5px var(--primary-color) inset;
+}
+
+/* ============================
+   HEADER
+   ============================ */
+.habit-header {
+  background: var(--bg-color-light);
+  border-radius: 2em;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -5px -5px 5px var(--shadow-light-light-side);
+  position: relative;
+}
+
+.btn-back-icon {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-color-light);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 3px 3px 6px var(--shadow-light-dark-side), -3px -3px 6px var(--shadow-light-light-side);
+  color: var(--primary-color);
+}
+
+.btn-back-icon:hover {
+  box-shadow: 3px 3px 6px var(--shadow-light-dark-side) inset, -3px -3px 6px var(--shadow-light-light-side) inset;
+}
+
+.habit-info {
+  margin-left: 60px;
+}
+
+.habit-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border-radius: 1em;
+  margin-bottom: 1rem;
+  box-shadow: 3px 3px 3px var(--shadow-light-dark-side) inset, -3px -3px 3px var(--shadow-light-light-side) inset;
+}
+
+.category-icon {
+  font-size: 1.25rem;
+}
+
+.category-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.habit-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.habit-description {
+  font-size: 1.125rem;
+  color: var(--primary-color-700);
+  line-height: 1.6;
+}
+
+.habit-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, var(--primary-color-300) 0%, var(--primary-color) 100%);
+  color: white;
+  border-radius: 1em;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* ============================
+   STATS GRID
+   ============================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--bg-color-light);
+  border-radius: 1.5em;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -5px -5px 5px var(--shadow-light-light-side);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.level-icon {
+  background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+}
+
+.points-icon {
+  background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+}
+
+.streak-icon {
+  background: linear(135deg, #EF4444 0%, #F87171 100%);
+}
+
+.date-icon {
+  background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+}
+
+.stat-value {
+  font-family: var(--titles);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--primary-color-700);
+}
+
+/* ============================
+   SECTIONS
+   ============================ */
+.current-level-section,
+.next-level-section,
+.levels-overview-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.75rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+/* ============================
+   LEVEL PROGRESS
+   ============================ */
+.level-progress-card {
+  background: var(--bg-color-light);
+  border-radius: 2em;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -5px -5px 5px var(--shadow-light-light-side);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.progress-label {
+  font-size: 1rem;
+  color: var(--primary-color-700);
+}
+
+.progress-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.progress-bar-container {
+  height: 20px;
+  background: white;
+  border-radius: 1em;
+  overflow: hidden;
+  box-shadow: 3px 3px 3px var(--shadow-light-dark-side) inset, -3px -3px 3px var(--shadow-light-light-side) inset;
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 1em;
+}
+
+.progress-percentage {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* ============================
+   MISSIONS
+   ============================ */
+.missions-section {
+  margin-top: 2rem;
+}
+
+.missions-title {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.missions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.mission-card {
+  background: var(--bg-color-light);
+  border-radius: 1.5em;
+  padding: 1.5rem;
+  box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -5px -5px 5px var(--shadow-light-light-side);
+  transition: all 0.3s ease;
+}
+
+.mission-card.completed {
+  opacity: 0.7;
+}
+
+.mission-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 8px var(--shadow-light-dark-side), -8px -8px 8px var(--shadow-light-light-side);
+}
+
+.mission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.mission-type {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+  background: white;
+  border-radius: 0.5em;
+  box-shadow: 2px 2px 4px var(--shadow-light-dark-side) inset, -2px -2px 4px var(--shadow-light-light-side) inset;
+}
+
+.mission-points {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.mission-description {
+  font-size: 1rem;
+  color: var(--primary-color-700);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.mission-progress {
+  margin-bottom: 1rem;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--primary-color-700);
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar-mini {
+  height: 8px;
+  background: white;
+  border-radius: 0.5em;
+  overflow: hidden;
+  box-shadow: 2px 2px 4px var(--shadow-light-dark-side) inset, -2px -2px 4px var(--shadow-light-light-side) inset;
+}
+
+.progress-fill-mini {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 0.5em;
+}
+
+.btn-complete-mission {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 3px 3px 6px var(--shadow-light-dark-side), -3px -3px 6px var(--shadow-light-light-side);
+}
+
+.btn-complete-mission:hover:not(:disabled) {
+  background: var(--primary-color-700);
+  box-shadow: 3px 3px 6px var(--primary-color-900) inset, -3px -3px 6px var(--primary-color) inset;
+}
+
+.btn-complete-mission:disabled {
+  background: var(--primary-color-300);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.empty-missions {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--bg-color-light);
+  border-radius: 2em;
+  border: 2px dashed var(--primary-color-300);
+  color: var(--primary-color-700);
+}
+
+/* ============================
+   NEXT LEVEL
+   ============================ */
+.next-level-card {
+  background: var(--bg-color-light);
+  border-radius: 2em;
+  padding: 2rem;
+  box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -5px -5px 5px var(--shadow-light-light-side);
+}
+
+.next-level-info {
+  font-size: 1.125rem;
+  color: var(--primary-color-700);
+  margin-bottom: 1rem;
+}
+
+.missions-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* ============================
+   LEVELS OVERVIEW
+   ============================ */
+.levels-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.level-item {
+  background: var(--bg-color-light);
+  border-radius: 1.5em;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -5px -5px 5px var(--shadow-light-light-side);
+  transition: all 0.3s ease;
+}
+
+.level-item.current {
+  border: 2px solid var(--primary-color);
+}
+
+.level-item.completed {
+  opacity: 0.8;
+}
+
+.level-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--titles);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.level-info-item {
+  flex: 1;
+}
+
+.level-name {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+  margin-bottom: 0.25rem;
+}
+
+.level-requirement {
+  font-size: 0.875rem;
+  color: var(--primary-color-700);
+}
+
+.level-status {
+  flex-shrink: 0;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 1em;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.status-badge.completed {
+  background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  color: white;
+}
+
+.status-badge.current {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-300) 100%);
+  color: white;
+}
+
+.status-badge.locked {
+  background: var(--bg-color-light);
+  color: var(--primary-color-700);
+  border: 2px solid var(--primary-color-300);
+  box-shadow: 3px 3px 3px var(--shadow-light-dark-side) inset, -3px -3px 3px var(--shadow-light-light-side) inset;
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 768px) {
+  .habit-detail-wrapper {
+    margin-left: 70px;
+  }
+
+  .habit-detail-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .habit-title {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .missions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .level-item {
+    flex-direction: column;
+    text-align: center;
+  }
+}
