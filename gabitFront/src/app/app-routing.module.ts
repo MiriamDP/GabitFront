@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate:[UserLogGuard]  },
   { path: 'crear-habito', component: HabitCreationComponent , canActivate:[UserLogGuard]},
   { path: 'perfil', component: UserProfileComponent , canActivate:[UserLogGuard]},
-  { path: 'habito/:id', component: HabitDetailComponent }
+  { path: 'habito/:id', component: HabitDetailComponent, canActivate:[UserLogGuard] }
 ];
 
 @NgModule({
