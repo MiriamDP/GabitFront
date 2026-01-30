@@ -5,6 +5,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS   } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor';
 
+//esto es una prueba
+
 // Importación de iconos de Lucide
 import { 
   LucideAngularModule, 
