@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
     this.loadUserHabits();
   }
 
-  /* Ahora no funciona porque no hay api jheje */
+
   loadUserHabits(): void {
     this.isLoading = true;
     this.error = null;
@@ -70,9 +70,9 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/crear-habito']);
   }
 
-viewHabitDetails(habitId: number): void {
-  this.router.navigate(['/habito', habitId]);
-}
+  viewHabitDetails(habitId: number): void {
+    this.router.navigate(['/habito', habitId]);
+  }
 
   getProgressPercentage(): number {
     return this.habitService.getProgressPercentage();

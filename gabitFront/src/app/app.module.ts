@@ -13,7 +13,7 @@ import {
   Earth, ChartColumnBig, Calendar1, Users, LogOut,
   // Nuevos iconos añadidos para la creación de hábitos
   Heart, Dumbbell, BookOpen, Palette, Brain, X, 
-  ArrowLeft, Star, Check, CheckCheck, Inbox, ListChecks, Layers  
+  ArrowLeft, Star, Check, CheckCheck, Inbox, ListChecks, Layers, Book, PersonStanding, Lock
 } from 'lucide-angular';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -55,7 +55,7 @@ import { HabitDetailComponent } from './habit-detail/habit-detail.component';
       Earth, ChartColumnBig, Calendar1, Users, LogOut,
       // Iconos para Habits (Categorías y UI)
       Heart, Dumbbell, BookOpen, Palette, Brain, Star, Check, X,
-      ArrowLeft, CheckCheck, Inbox, ListChecks, Layers 
+      ArrowLeft, CheckCheck, Inbox, ListChecks, Layers, Book, PersonStanding, Lock
     })
   ],
   providers: [

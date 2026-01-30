@@ -2,7 +2,7 @@
 
 <main class="main-content">
   <div class="dashboard-container">
-    
+
     <header class="dashboard-header">
       <div class="greeting-section">
         <h1 class="greeting">{{ getGreeting() }}, {{ userName }}</h1>
@@ -13,8 +13,6 @@
         Crear hábito
       </button>
     </header>
-
-    <!-- Stats Cards -->
     <section class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon habits">
@@ -56,24 +54,16 @@
         </div>
       </div>
     </section>
-
-    <!-- Loading State -->
     <div *ngIf="isLoading" class="loading-state">
       <div class="spinner"></div>
       <p>Cargando tus caminos...</p>
     </div>
-
-    <!-- Error State -->
     <div *ngIf="error && !isLoading" class="error-state">
       <lucide-icon name="triangle-alert" size="64" color="#DC2626"></lucide-icon>
       <p class="error-message">{{ error }}</p>
       <button class="btn-retry" (click)="loadUserHabits()">Reintentar</button>
     </div>
-
-    <!-- Habits Section -->
     <section *ngIf="!isLoading && !error" class="habits-section">
-      
-      <!-- Empty State -->
       <div *ngIf="userHabits.length === 0" class="empty-state">
         <lucide-icon name="layout-template" size="80" color="#05576B" style="opacity: 0.5;"></lucide-icon>
         <h3>No tienes caminos aún</h3>
@@ -83,39 +73,32 @@
           Crear mi primer camino
         </button>
       </div>
-
-      <!-- Habits Grid -->
       <div *ngIf="userHabits.length > 0" class="habits-content">
         <div class="section-header">
           <h2 class="section-title">Mis Caminos</h2>
           <p class="section-subtitle">{{ getHabitsCountText() }}</p>
         </div>
-
         <div class="habits-grid">
-          <div *ngFor="let habit of userHabits" 
-               class="habit-card"
-               (click)="viewHabitDetails(habit.id)"
-               [style.border-left]="'4px solid ' + habit.color">
-            
-            <!-- Card Header -->
+          <div *ngFor="let habit of userHabits" class="habit-card" (click)="viewHabitDetails(habit.id)"
+            [style.border-left]="'4px solid ' + habit.color">
             <div class="habit-header">
               <div class="habit-category">
-                <span class="category-icon">{{ habit.categoria_icono }}</span>
+                <lucide-icon [name]="habit.categoria_icono"></lucide-icon>
                 <span class="category-name">{{ habit.categoria_nombre }}</span>
               </div>
               <div class="habit-badge" *ngIf="habit.es_publico">
                 <lucide-icon name="earth" size="14"></lucide-icon>
                 Público
               </div>
+              <div class="habit-badge" *ngIf="!habit.es_publico">
+                <lucide-icon name="lock" size="14"></lucide-icon>
+                Privado
+              </div>
             </div>
-
-            <!-- Card Body -->
             <div class="habit-body">
               <h3 class="habit-name">{{ habit.nombre }}</h3>
               <p class="habit-description">{{ habit.descripcion }}</p>
             </div>
-
-            <!-- Card Stats -->
             <div class="habit-stats">
               <div class="stat-item">
                 <lucide-icon name="chart-column-big" size="16"></lucide-icon>
@@ -126,21 +109,16 @@
                 <span class="stat-text">{{ habit.total_misiones }} misiones</span>
               </div>
             </div>
-
-            <!-- Progress Bar -->
             <div class="habit-progress">
               <div class="progress-header">
                 <span class="progress-label">Progreso</span>
                 <span class="progress-percentage">{{ getProgressPercentage() }}%</span>
               </div>
               <div class="progress-bar-container">
-                <div class="progress-bar-fill" 
-                     [style.width.%]="getProgressPercentage()"
-                     [style.background-color]="habit.color"></div>
+                <div class="progress-bar-fill" [style.width.%]="getProgressPercentage()"
+                  [style.background-color]="habit.color"></div>
               </div>
             </div>
-
-            <!-- Card Footer -->
             <div class="habit-footer">
               <span class="creation-date">
                 <lucide-icon name="calendar-1" size="14"></lucide-icon>
