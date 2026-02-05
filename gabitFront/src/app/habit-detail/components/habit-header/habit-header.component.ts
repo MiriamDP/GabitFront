@@ -15,28 +15,30 @@ export class HabitHeaderComponent {
     this.backClick.emit();
   }
 
-  get overallProgress(): number {
-    if (!this.progress) return 0;
-    return this.progress.progreso_porcentaje;
-  }
+  get progressPercentage(): number {
+  return this.progress?.overall_percentage || 0;
+}
 
-  get streakDays(): number {
-    return this.habit?.racha_dias || 0;
-  }
+get currentStreak(): number {
+  return this.progress?.current_streak || 0;
+}
 
-  get bestStreak(): number {
-    return this.habit?.mejor_racha || 0;
-  }
+get bestStreak(): number {
+  // Este dato no existe en HabitDetail, necesitas otro endpoint
+  return 0;
+}
 
-  get totalPoints(): number {
-    return this.habit?.puntos_totales || 0;
-  }
+get totalPoints(): number {
+  // Este dato no existe en HabitDetail, necesitas otro endpoint
+  return 0;
+}
 
-  get currentLevel(): number {
-    return this.habit?.nivel_actual || 1;
-  }
+get totalLevels(): number {
+  return this.habit?.total_levels || 0;
+}
 
-  get totalLevels(): number {
-    return this.habit?.total_niveles || 0;
-  }
+get categoryIcon(): string {
+  return this.habit?.category_icon || 'circle';
+}
+
 }

@@ -1,8 +1,7 @@
 <div class="mission-card" [class.completed]="isCompleted">
-  <!-- Header con tipo de misión -->
   <div class="mission-header">
     <span class="mission-type">
-      <span class="type-icon">{{ missionTypeIcon }}</span>
+    <lucide-icon [name]="missionTypeIcon" size="20" class="type-icon"></lucide-icon>
       <span class="type-text">{{ missionTypeLabel }}</span>
     </span>
     
@@ -10,15 +9,13 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
-      {{ mission.puntos }} pts
+      {{ mission.points }} pts
     </span>
   </div>
 
-  <!-- Descripción de la misión -->
   <div class="mission-body">
-    <p class="mission-description">{{ mission.descripcion }}</p>
+    <p class="mission-description">{{ mission.description }}</p>
 
-    <!-- Progreso -->
     <div class="mission-progress">
       <div class="progress-info">
         <span class="progress-label">Progreso</span>
@@ -35,9 +32,7 @@
     </div>
   </div>
 
-  <!-- Acciones -->
   <div class="mission-actions">
-    <!-- Botón de incrementar progreso (solo si no está completada) -->
     <button 
       *ngIf="!isCompleted && progress < 100"
       class="btn-progress"
@@ -49,7 +44,6 @@
       Avanzar
     </button>
 
-    <!-- Botón de completar (solo si alcanzó el requisito) -->
     <button 
       *ngIf="canComplete"
       class="btn-complete"
@@ -61,15 +55,14 @@
       Completar
     </button>
 
-    <!-- Mensaje de completada -->
     <div *ngIf="isCompleted" class="completed-badge">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
         <polyline points="22 4 12 14.01 9 11.01"></polyline>
       </svg>
       <span>Completada</span>
-      <span class="completion-date" *ngIf="mission.fecha_completada">
-        {{ mission.fecha_completada | date:'short' }}
+      <span class="completion-date" *ngIf="mission.completed_at">
+        {{ mission.completed_at | date:'short' }}
       </span>
     </div>
   </div>

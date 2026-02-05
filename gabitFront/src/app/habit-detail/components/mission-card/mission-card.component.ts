@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Mission } from '../../../interfaces/habit/habit.interface';
+import { Mission } from '../../../interfaces/habit/habit.interface'; // Ajusta la ruta si es necesario
 
 @Component({
   selector: 'app-mission-card',
@@ -13,44 +13,58 @@ export class MissionCardComponent {
   @Output() missionComplete = new EventEmitter<number>();
 
   get isCompleted(): boolean {
-    return this.mission.completada;
+    return this.mission.completed ?? false;
   }
 
   get progress(): number {
-    if (this.mission.requisito === 0) return 0;
-    return Math.min((this.mission.progreso_actual / this.mission.requisito) * 100, 100);
+    const requirement = this.mission.requirement || 1; // Evitar división por 0
+    const current = this.mission.current_progress || 0;
+    
+    return Math.min((current / requirement) * 100, 100);
   }
 
   get progressText(): string {
-    return `${this.mission.progreso_actual} / ${this.mission.requisito}`;
+    const requirement = this.mission.requirement || 0;
+    const current = this.mission.current_progress || 0;
+    return `${current} / ${requirement}`;
   }
 
   get missionTypeLabel(): string {
-    const labels = {
-      'diaria': 'Diaria',
-      'semanal': 'Semanal',
-      'unica': 'Única'
+    // Valor por defecto si type es undefined
+    const type = this.mission.type || 'unique';
+    
+    const labels: Record<string, string> = {
+      'daily': 'Diaria',
+      'weekly': 'Semanal',
+      'unique': 'Única'
     };
-    return labels[this.mission.tipo];
+    return labels[type] || 'Misión';
   }
 
   get missionTypeIcon(): string {
-    const icons = {
-      'diaria': '☀️',
-      'semanal': '📅',
-      'unica': '⭐'
+    // Valor por defecto si type es undefined
+    const type = this.mission.type || 'unique';
+
+    const icons: Record<string, string> = {
+      'daily': 'Sun',
+      'weekly': 'Calendar',
+      'unique': 'Star'
     };
-    return icons[this.mission.tipo];
+    return icons[type] || 'Star';
   }
 
   get canComplete(): boolean {
-    return this.mission.progreso_actual >= this.mission.requisito && !this.isCompleted;
+    const requirement = this.mission.requirement || 0;
+    const current = this.mission.current_progress || 0;
+
+    // Solo se puede completar si hay un requisito definido (> 0) y se alcanzó
+    return requirement > 0 && current >= requirement && !this.isCompleted;
   }
 
   onIncrementProgress(): void {
     if (!this.isCompleted) {
       this.missionProgress.emit({ 
-        missionId: this.mission.id, 
+        missionId: this.mission.idMission, 
         increment: 1 
       });
     }
@@ -58,7 +72,7 @@ export class MissionCardComponent {
 
   onCompleteMission(): void {
     if (this.canComplete) {
-      this.missionComplete.emit(this.mission.id);
+      this.missionComplete.emit(this.mission.idMission);
     }
   }
 }

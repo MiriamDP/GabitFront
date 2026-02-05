@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { HabitService } from '../services/habit.service'; 
-import { Category } from '../interfaces/habit/habit.interface'; 
+import { HabitService } from '../services/habit.service';
+import { Category } from '../interfaces/habit/habit.interface';
 
 @Component({
   selector: 'app-habit-creation',
@@ -27,7 +27,7 @@ export class HabitCreationComponent implements OnInit {
   isSubmitting = false;
 
   availableColors = [
-    '#3B82F6', '#1D4ED8', '#6366F1', '#A855F7', 
+    '#3B82F6', '#1D4ED8', '#6366F1', '#A855F7',
     '#10B981', '#14B8A6', '#84CC16', '#EC4899',
     '#F97316', '#F59E0B', '#EF4444', '#64748B'
   ];
@@ -68,14 +68,14 @@ export class HabitCreationComponent implements OnInit {
         this.isLoading = false;
         // Categorías por defecto en caso de error y ahora que no hay backend
         this.categories = [
-          { id: 1, nombre: 'Salud', icono: 'heart', descripcion: '', color: '', orden: 1, activa: true },
-          { id: 2, nombre: 'Deporte', icono: 'dumbbell', descripcion: '', color: '', orden: 2, activa: true },
-          { id: 3, nombre: 'Productividad', icono: 'bar-chart-2', descripcion: '', color: '', orden: 3, activa: true },
-          { id: 4, nombre: 'Lectura', icono: 'book-open', descripcion: '', color: '', orden: 4, activa: true },
-          { id: 5, nombre: 'Creatividad', icono: 'palette', descripcion: '', color: '', orden: 5, activa: true },
-          { id: 6, nombre: 'Mindfulness', icono: 'brain', descripcion: '', color: '', orden: 6, activa: true },
-          { id: 7, nombre: 'Social', icono: 'users', descripcion: '', color: '', orden: 7, activa: true },
-          { id: 8, nombre: 'Otro', icono: 'star', descripcion: '', color: '', orden: 8, activa: true }
+          { id: 1, name: 'Salud', icon: 'heart', color: '#10B981', order: 1 },
+          { id: 2, name: 'Deporte', icon: 'dumbbell', color: '#3B82F6', order: 2 },
+          { id: 3, name: 'Productividad', icon: 'bar-chart-2', color: '#8B5CF6', order: 3 },
+          { id: 4, name: 'Lectura', icon: 'book-open', color: '#F59E0B', order: 4 },
+          { id: 5, name: 'Creatividad', icon: 'palette', color: '#EC4899', order: 5 },
+          { id: 6, name: 'Mindfulness', icon: 'brain', color: '#14B8A6', order: 6 },
+          { id: 7, name: 'Social', icon: 'users', color: '#6366F1', order: 7 },
+          { id: 8, name: 'Otro', icon: 'star', color: '#64748B', order: 8 }
         ];
       }
     });
@@ -245,7 +245,7 @@ export class HabitCreationComponent implements OnInit {
     return this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      icon: ['trophy'], 
+      icon: ['trophy'],
       pointsReward: [50, [Validators.required, Validators.min(1)]],
       requirement: ['', Validators.required]
     });
@@ -266,7 +266,7 @@ export class HabitCreationComponent implements OnInit {
       this.habitService.createHabit(habitData).subscribe({
         next: (response: any) => {
           this.isSubmitting = false;
-          
+
           if (response.success) {
             this.router.navigate(['/dashboard']);
           } else {
@@ -304,21 +304,21 @@ export class HabitCreationComponent implements OnInit {
   }
 
   // Este método prepara los datos para enviar al backend y que se vean así
-      /*   {
-        name: "Ejercicio diario",
-        description: "...",
-        category: "Deporte",
-        color: "#3B82F6",
-        isPublic: false,
-        levels: [
-          {
-            name: "Principiante",
-            pointsRequired: 100,
-            missions: [
-              { description: "...", points: 10, type: "diaria", requirement: 1 }
-            ]
-          }
-        ],
-        achievements: [...]
-      } */
+  /*   {
+    name: "Ejercicio diario",
+    description: "...",
+    category: "Deporte",
+    color: "#3B82F6",
+    isPublic: false,
+    levels: [
+      {
+        name: "Principiante",
+        pointsRequired: 100,
+        missions: [
+          { description: "...", points: 10, type: "diaria", requirement: 1 }
+        ]
+      }
+    ],
+    achievements: [...]
+  } */
 }

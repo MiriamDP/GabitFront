@@ -50,15 +50,15 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Cargar detalle del hábito (incluye niveles y misiones)
+    // Cargar detalle del hábito
     this.habitService.getHabitDetail(habitId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (habitDetail) => {
           this.habitDetail = habitDetail;
           
-          // Seleccionar el nivel actual o el primero disponible
-          this.selectedLevel = this.findCurrentLevel(habitDetail.niveles, habitDetail.nivel_actual);
+          // CORRECCIÓN: levels y current_level
+          this.selectedLevel = this.findCurrentLevel(habitDetail.levels, habitDetail.current_level);
           
           // Cargar progreso
           this.loadProgress(habitId);
@@ -97,19 +97,21 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
   }
 
   private findCurrentLevel(levels: Level[], currentLevelNumber: number): Level | null {
-    return levels.find(l => l.numero_nivel === currentLevelNumber) || levels[0] || null;
+    // CORRECCIÓN: l.levelNumber
+    return levels.find(l => l.levelNumber === currentLevelNumber) || levels[0] || null;
   }
 
   onLevelSelected(level: Level): void {
     // Verificar si el nivel está desbloqueado
-    const previousLevel = this.habitDetail?.niveles.find(
-      l => l.numero_nivel === level.numero_nivel - 1
+    // CORRECCIÓN: habitDetail.levels y l.levelNumber
+    const previousLevel = this.habitDetail?.levels.find(
+      l => l.levelNumber === level.levelNumber - 1
     );
     
     const isUnlocked = this.habitService.isLevelUnlocked(level, previousLevel);
     
     if (!isUnlocked) {
-      // Mostrar mensaje de nivel bloqueado
+      // Opcional: Mostrar mensaje de nivel bloqueado
       return;
     }
 
@@ -152,7 +154,8 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
 
           // Recargar el hábito para actualizar los niveles
           if (this.habitDetail) {
-            this.reloadHabitLevels(this.habitDetail.id);
+            // CORRECCIÓN: Usar idHabit
+            this.reloadHabitLevels(this.habitDetail.idHabit);
           }
         },
         error: (err) => {
@@ -164,12 +167,13 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
   private updateMissionInList(updatedMission: Mission): void {
     if (!this.selectedLevel) return;
 
-    const missionIndex = this.selectedLevel.misiones.findIndex(
-      m => m.id === updatedMission.id
+    // CORRECCIÓN: missions y idMission
+    const missionIndex = this.selectedLevel.missions.findIndex(
+      m => m.idMission === updatedMission.idMission
     );
 
     if (missionIndex !== -1) {
-      this.selectedLevel.misiones[missionIndex] = updatedMission;
+      this.selectedLevel.missions[missionIndex] = updatedMission;
     }
   }
 
@@ -188,12 +192,14 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (habitDetail) => {
           if (this.habitDetail) {
-            this.habitDetail.niveles = habitDetail.niveles;
-            this.habitDetail.nivel_actual = habitDetail.nivel_actual;
+            // CORRECCIÓN: levels y current_level
+            this.habitDetail.levels = habitDetail.levels;
+            this.habitDetail.current_level = habitDetail.current_level;
             
             // Actualizar nivel seleccionado si es necesario
-            const updatedLevel = habitDetail.niveles.find(
-              l => l.id === this.selectedLevel?.id
+            // CORRECCIÓN: levels y idLevel
+            const updatedLevel = habitDetail.levels.find(
+              l => l.idLevel === this.selectedLevel?.idLevel
             );
             if (updatedLevel) {
               this.selectedLevel = updatedLevel;
@@ -219,14 +225,16 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard']);
   }
 
-  // Getters para el template
+  // Getters para el template (aunque el HTML ya no usa algunos, es bueno mantenerlos actualizados)
   get completedMissionsCount(): number {
     if (!this.selectedLevel) return 0;
-    return this.habitService.getCompletedMissionsCount(this.selectedLevel.misiones);
+    // CORRECCIÓN: missions
+    return this.habitService.getCompletedMissionsCount(this.selectedLevel.missions);
   }
 
   get totalMissionsCount(): number {
-    return this.selectedLevel?.misiones.length || 0;
+    // CORRECCIÓN: missions
+    return this.selectedLevel?.missions.length || 0;
   }
 
   get levelProgress(): number {

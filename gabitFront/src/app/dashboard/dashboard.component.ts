@@ -15,6 +15,9 @@ export class DashboardComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
+  // Mapa para guardar progresos fijos y evitar el error NG0100
+  habitProgress: { [key: number]: number } = {};
+
   stats: UserStats = {
     totalHabits: 0,
     activeHabits: 0,
@@ -42,43 +45,64 @@ export class DashboardComponent implements OnInit {
     this.error = null;
 
     this.habitService.getUserHabits().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.userHabits = response.data;
-          this.stats = this.habitService.getUserStats(this.userHabits);
+      next: (habitsData: any) => {
+        // CORRECCIÓN IMPORTANTE:
+        // Como el servicio ya hizo el 'map', 'habitsData' ES DIRECTAMENTE el array.
+        // Ya no existe .success ni .data aquí.
+        
+        console.log('Datos recibidos en Dashboard:', habitsData); // Para depurar
+
+        if (Array.isArray(habitsData)) {
+            this.userHabits = habitsData;
+            
+            // Calculamos estadísticas
+            this.stats = this.habitService.getUserStats(this.userHabits);
+
+            // Generamos progresos aleatorios SOLO UNA VEZ al cargar
+            this.userHabits.forEach(h => {
+                // Usamos 0 por defecto o un random fijo
+                this.habitProgress[h.idHabit!] = Math.floor(Math.random() * 100);
+            });
+        } else {
+            // Fallback por si acaso llega el objeto antiguo
+            this.userHabits = habitsData.data || [];
         }
+
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Error al cargar hábitos:', error);
-        this.error = 'Ha ocurrido un error al cargar tus hábitos. Por favor, inténtalo de nuevo más tarde.';
+        this.error = 'No se pudieron cargar tus caminos. Intenta recargar la página.';
         this.isLoading = false;
       }
     });
   }
 
-  getTotalLevels(): number {
-    return this.userHabits.reduce((sum, h) => sum + h.total_niveles, 0);
-  }
-
   getHabitsCountText(): string {
     const count = this.userHabits.length;
-    return count === 1 ? '1 hábito' : `${count} hábitos`;
+    return count === 1 ? '1 camino' : `${count} caminos`;
   }
 
   createNewHabit(): void {
     this.router.navigate(['/crear-habito']);
   }
 
-  viewHabitDetails(habitId: number): void {
-    this.router.navigate(['/habito', habitId]);
+  viewHabitDetails(habitId: number | undefined): void {
+    if (habitId) {
+        // Asegúrate de que la ruta en app-routing.module.ts sea 'habits/:id'
+        this.router.navigate(['/habits', habitId]); 
+    }
   }
 
-  getProgressPercentage(): number {
-    return this.habitService.getProgressPercentage();
+  // CORRECCIÓN NG0100:
+  // Ya no llamamos al servicio random cada vez, sino que devolvemos el valor guardado
+  getProgressPercentage(habitId: number | undefined): number {
+    if (!habitId) return 0;
+    return this.habitProgress[habitId] || 0;
   }
 
   formatDate(dateString: string): string {
+    if (!dateString) return '';
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = { 
       year: 'numeric', 

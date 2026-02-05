@@ -1,8 +1,7 @@
-<div class="level-detail-card">
-  <!-- Header del nivel -->
+<div class="level-detail-card" *ngIf="level">
   <div class="level-header">
     <div class="level-badge" [class.completed]="isLevelCompleted">
-      <span class="badge-text">Nivel {{ level.numero_nivel }}</span>
+      <span class="badge-text">Nivel {{ level.levelNumber }}</span>
       <svg 
         *ngIf="isLevelCompleted" 
         class="check-icon" 
@@ -16,12 +15,10 @@
       </svg>
     </div>
 
-    <h2 class="level-title">{{ level.nombre }}</h2>
+    <h2 class="level-title">{{ level.name || 'Nivel ' + level.levelNumber }}</h2>
   </div>
 
-  <!-- Estadísticas del nivel -->
   <div class="level-stats">
-    <!-- Progreso de puntos -->
     <div class="stat-item">
       <div class="stat-icon points">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -41,7 +38,6 @@
       </div>
     </div>
 
-    <!-- Progreso de misiones -->
     <div class="stat-item">
       <div class="stat-icon missions">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -63,11 +59,10 @@
     </div>
   </div>
 
-  <!-- Barra de progreso principal -->
   <div class="progress-section">
     <div class="progress-header">
       <span class="progress-title">Progreso del nivel</span>
-      <span class="progress-percentage">{{ completionPercentage }}%</span>
+      <span class="progress-percentage">{{ completionPercentage | number:'1.0-0' }}%</span>
     </div>
     
     <div class="progress-bar-container">
@@ -79,7 +74,6 @@
       </div>
     </div>
 
-    <!-- Mensaje de estado -->
     <div class="status-message" *ngIf="isLevelCompleted">
       <svg class="status-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>

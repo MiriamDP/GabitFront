@@ -1,95 +1,11 @@
-<header class="habit-header">
-  <!-- Botón volver -->
-  <button 
-    class="back-button" 
-    (click)="onBackClick()"
-    aria-label="Volver al dashboard">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M19 12H5M12 19l-7-7 7-7"/>
-    </svg>
-    <span>Volver</span>
-  </button>
+<div class="habit-icon">
+  <lucide-icon [name]="habit.category?.icon || 'Circle'" size="32" class="category-icon"></lucide-icon>
+</div>
+<div class="habit-info">
+  <h1 class="habit-name">{{ habit.name }}</h1>
+  <p class="habit-description">{{ habit.description }}</p>
+  <span class="habit-category" *ngIf="habit.category">
+    {{ habit.category.name }}
+  </span>
 
-  <!-- Información principal del hábito -->
-  <div class="habit-info">
-    <div class="habit-title-section">
-      <!-- Icono del hábito con color personalizado -->
-      <div 
-        class="habit-icon" 
-        [style.background-color]="habit.color">
-        <span class="icon-text">{{ habit.categoria_icono || '🎯' }}</span>
-      </div>
-
-      <div class="title-content">
-        <h1 class="habit-name">{{ habit.nombre }}</h1>
-        <p class="habit-description">{{ habit.descripcion }}</p>
-        <span class="habit-category" *ngIf="habit.categoria_nombre">
-          {{ habit.categoria_nombre }}
-        </span>
-      </div>
-    </div>
-
-    <!-- Estadísticas principales -->
-    <div class="stats-grid">
-      <!-- Nivel actual -->
-      <div class="stat-card">
-        <div class="stat-icon level-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <span class="stat-label">Nivel</span>
-          <span class="stat-value">{{ currentLevel }} / {{ totalLevels }}</span>
-        </div>
-      </div>
-
-      <!-- Racha -->
-      <div class="stat-card">
-        <div class="stat-icon streak-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <span class="stat-label">Racha</span>
-          <span class="stat-value">
-            {{ streakDays }} días
-            <span class="stat-sublabel" *ngIf="bestStreak > streakDays">
-              (mejor: {{ bestStreak }})
-            </span>
-          </span>
-        </div>
-      </div>
-
-      <!-- Puntos totales -->
-      <div class="stat-card">
-        <div class="stat-icon points-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <span class="stat-label">Puntos</span>
-          <span class="stat-value">{{ totalPoints }}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Barra de progreso general -->
-    <div class="progress-section">
-      <div class="progress-header">
-        <span class="progress-label">Progreso general</span>
-        <span class="progress-percentage">{{ overallProgress }}%</span>
-      </div>
-      <div class="progress-bar-container">
-        <div 
-          class="progress-bar-fill" 
-          [style.width.%]="overallProgress"
-          [style.background-color]="habit.color">
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
+</div>

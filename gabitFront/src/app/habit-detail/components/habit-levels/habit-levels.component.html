@@ -1,69 +1,28 @@
 <div class="levels-container">
-  <div class="levels-header">
-    <h2 class="levels-title">Niveles</h2>
-    <span class="levels-count">{{ levels.length }} niveles</span>
-  </div>
+  <div class="level-card" 
+       *ngFor="let level of levels"
+       [class.locked]="!isLevelUnlocked(level)"
+       [class.active]="isCurrentLevel(level)"
+       [class.completed]="level.completed"
+       (click)="onLevelClick(level)">
+    
+    <div class="level-header">
+      <label for="nivel">Nivel </label>
+      <span class="number-text">{{ level.levelNumber }}</span>
+      <lucide-icon [name]="getLevelStatusIcon(level)" size="8" class="status-icon"></lucide-icon>
+    </div>
 
-  <div class="levels-list">
-    <div 
-      *ngFor="let level of levels; let i = index"
-      class="level-item"
-      [class.selected]="isLevelSelected(level)"
-      [class.locked]="!isLevelUnlocked(level)"
-      [class.completed]="level.completado"
-      [class.current]="isCurrentLevel(level)"
-      (click)="onLevelClick(level)">
+    <div class="level-info">
+      <h3 class="level-name">{{ level.name || 'Nivel ' + level.levelNumber }}</h3>
       
-      <!-- Número del nivel -->
-      <div class="level-number">
-        <span class="number-text">{{ level.numero_nivel }}</span>
-        <span 
-          class="status-icon" 
-          [class]="getLevelStatusClass(level)">
-          {{ getLevelStatusIcon(level) }}
-        </span>
+      <div class="level-points">
+        <span class="points-text">Progreso</span>
+        <span class="percentage">{{ getLevelProgress(level) | number:'1.0-0' }}%</span>
       </div>
 
-      <!-- Info del nivel -->
-      <div class="level-info">
-        <h3 class="level-name">{{ level.nombre }}</h3>
-        
-        <div class="level-points">
-          <span class="points-current">{{ level.puntos_actuales }}</span>
-          <span class="points-separator">/</span>
-          <span class="points-required">{{ level.puntos_requeridos }}</span>
-          <span class="points-label">pts</span>
-        </div>
-
-        <!-- Barra de progreso pequeña -->
-        <div class="level-progress-bar">
-          <div 
-            class="level-progress-fill" 
-            [style.width.%]="getLevelProgress(level)">
-          </div>
-        </div>
+      <div class="progress-bar">
+        <div class="fill" [style.width.%]="getLevelProgress(level)"></div>
       </div>
-
-      <!-- Indicador de nivel actual -->
-      <div class="current-badge" *ngIf="isCurrentLevel(level)">
-        Actual
-      </div>
-    </div>
-  </div>
-
-  <!-- Info adicional -->
-  <div class="levels-footer">
-    <div class="legend-item">
-      <span class="legend-icon completed">✓</span>
-      <span class="legend-text">Completado</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-icon current">▶</span>
-      <span class="legend-text">En progreso</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-icon locked">🔒</span>
-      <span class="legend-text">Bloqueado</span>
     </div>
   </div>
 </div>

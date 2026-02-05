@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators'; // Importamos map
 import { 
   Habit, 
   HabitDetail, 
   HabitProgress, 
-  Category, 
   UserStats, 
   Level, 
   Mission, 
@@ -22,239 +21,151 @@ export class HabitService {
 
   constructor(private http: HttpClient) { }
 
-  // ============================
-  // HÁBITOS BÁSICOS
-  // ============================
+  // ==========================================
+  // 1. ENDPOINTS DE HÁBITOS (API)
+  // ==========================================
 
-  /**
-   * Crear un nuevo hábito
-   */
-  createHabit(habit: Habit | any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/habits/crear`, habit);
-  }
-
-  /**
-   * Obtener hábitos del usuario
-   */
   getUserHabits(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits`);
+    return this.http.get(`${this.apiUrl}/habits`).pipe(
+      // Desempaquetamos 'data' para que el Dashboard reciba el array directamente
+      map((res: any) => res.data) 
+    );
   }
 
-  /**
-   * Obtener un hábito específico
-   */
-  getHabitById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits/leer/${id}`);
+  createHabit(habit: Habit | any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/habits`, habit).pipe(
+      map((res: any) => res.data)
+    );
   }
 
-  /**
-   * Obtener detalle completo de un hábito con niveles y misiones
-   * TODO: Crear endpoint en Laravel: GET /api/habits/detalle/{id}
-   */
   getHabitDetail(habitId: number): Observable<HabitDetail> {
-    return this.http.get<HabitDetail>(`${this.apiUrl}/habits/detalle/${habitId}`);
+    return this.http.get<any>(`${this.apiUrl}/habits/${habitId}/detail`).pipe(
+      // Desempaquetamos 'data' para arreglar el error del 'find' en el componente
+      map(res => res.data) 
+    );
   }
 
-  /**
-   * Obtener hábitos públicos
-   */
-  getPublicHabits(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/public/leer`);
+  getHabitById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/habits/${id}`).pipe(
+      map((res: any) => res.data)
+    );
   }
 
-  /**
-   * Actualizar un hábito
-   */
   updateHabit(id: number, habit: Partial<Habit>): Observable<any> {
-    return this.http.put(`${this.apiUrl}/habits/actualizar/${id}`, habit);
+    return this.http.put(`${this.apiUrl}/habits/${id}`, habit).pipe(
+      map((res: any) => res.data)
+    );
   }
 
-  // ============================
-  // PROGRESO
-  // ============================
+  getPublicHabits(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/public/habits`).pipe(
+      map((res: any) => res.data)
+    );
+  }
 
-  /**
-   * Obtener progreso del usuario en un hábito
-   * TODO: Crear endpoint en Laravel: GET /api/habits/{id}/progreso
-   */
+  // ==========================================
+  // 2. ENDPOINTS DE CATEGORÍAS (API)
+  // ==========================================
+
+  getCategories(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/categories`).pipe(
+      // Si categories devuelve wrapper, descomenta la siguiente línea:
+      // map((res: any) => res.data) 
+    );
+  }
+
+  // ==========================================
+  // 3. ENDPOINTS DE PROGRESO Y MISIONES (API)
+  // ==========================================
+
   getHabitProgress(habitId: number): Observable<HabitProgress> {
-    return this.http.get<HabitProgress>(
-      `${this.apiUrl}/habits/${habitId}/progreso`
+    return this.http.get<any>(
+      `${this.apiUrl}/habits/${habitId}/progress`
     ).pipe(
+      map(res => res.data), // Desempaquetamos
       tap(progress => this.currentHabitProgress$.next(progress))
     );
   }
 
-  /**
-   * Observable del progreso actual
-   */
   getCurrentProgress(): Observable<HabitProgress | null> {
     return this.currentHabitProgress$.asObservable();
   }
 
-  // ============================
-  // MISIONES
-  // ============================
-
-  /**
-   * Actualizar progreso de una misión
-   * TODO: Crear endpoint en Laravel: POST /api/misiones/{id}/actualizar-progreso
-   */
-  updateMissionProgress(
-    misionId: number, 
-    incremento: number = 1
-  ): Observable<{ mission: Mission, progress: HabitProgress, levelUp?: boolean }> {
-    return this.http.post<{ mission: Mission, progress: HabitProgress, levelUp?: boolean }>(
-      `${this.apiUrl}/misiones/${misionId}/actualizar-progreso`,
+  updateMissionProgress(misionId: number, incremento: number = 1): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/missions/${misionId}/progress`,
       { incremento }
     ).pipe(
-      tap(response => {
-        this.currentHabitProgress$.next(response.progress);
-      })
+      map((res: any) => res.data), // Desempaquetamos antes de usarlo
+      tap(data => this.currentHabitProgress$.next(data.progress))
     );
   }
 
-  /**
-   * Completar una misión
-   * TODO: Crear endpoint en Laravel: POST /api/misiones/{id}/completar
-   */
-  completeMission(
-    misionId: number
-  ): Observable<{ 
-    mission: Mission, 
-    progress: HabitProgress, 
-    levelUp?: boolean, 
-    achievements?: Achievement[] 
-  }> {
-    return this.http.post<{
-      mission: Mission,
-      progress: HabitProgress,
-      levelUp?: boolean,
-      achievements?: Achievement[]
-    }>(
-      `${this.apiUrl}/misiones/${misionId}/completar`,
+  completeMission(misionId: number): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/missions/${misionId}/complete`,
       {}
     ).pipe(
-      tap(response => {
-        this.currentHabitProgress$.next(response.progress);
-      })
+      map((res: any) => res.data), // Desempaquetamos
+      tap(data => this.currentHabitProgress$.next(data.progress))
     );
   }
 
-  /**
-   * Reiniciar progreso de una misión (solo para diarias/semanales)
-   * TODO: Crear endpoint en Laravel: POST /api/misiones/{id}/reiniciar
-   */
-  resetMission(misionId: number): Observable<Mission> {
-    return this.http.post<Mission>(
-      `${this.apiUrl}/misiones/${misionId}/reiniciar`,
-      {}
-    );
-  }
-
-  // ============================
-  // LOGROS
-  // ============================
-
-  /**
-   * Obtener logros desbloqueados de un hábito
-   * TODO: Crear endpoint en Laravel: GET /api/habits/{id}/logros
-   */
   getHabitAchievements(habitId: number): Observable<Achievement[]> {
-    return this.http.get<Achievement[]>(
-      `${this.apiUrl}/habits/${habitId}/logros`
+    return this.http.get<any>(`${this.apiUrl}/habits/${habitId}/achievements`).pipe(
+      map(res => res.data)
     );
   }
 
-  // ============================
-  // CATEGORÍAS
-  // ============================
+  // ==========================================
+  // 4. MÉTODOS AUXILIARES (Lógica Frontend)
+  // ==========================================
 
-  /**
-   * Obtener categorías
-   */
-  getCategories(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/categories/leer`);
-  }
-
-  // ============================
-  // ESTADÍSTICAS Y HELPERS
-  // ============================
-
-  /**
-   * Calcular estadísticas del usuario
-   */
   getUserStats(habits: Habit[]): UserStats {
+    if (!habits) return { totalHabits: 0, activeHabits: 0, completedMissions: 0, totalPoints: 0, longestStreak: 0 };
+    
     return {
       totalHabits: habits.length,
-      activeHabits: habits.filter(h => h.activo).length,
-      completedMissions: habits.reduce((sum, h) => sum + (h.total_misiones || 0), 0),
-      totalPoints: 0, // TODO: Obtener del backend
-      longestStreak: 0 // TODO: Obtener del backend
+      activeHabits: habits.filter(h => h.visibility).length,
+      completedMissions: habits.reduce((sum, h) => sum + (h.total_missions || 0), 0),
+      totalPoints: 0,
+      longestStreak: 0
     };
   }
 
-  /**
-   * Helper: Calcular progreso de un nivel
-   */
-  calculateLevelProgress(level: Level): number {
-    if (level.completado) return 100;
-    if (level.puntos_requeridos === 0) return 0;
-    
-    return Math.min(
-      (level.puntos_actuales / level.puntos_requeridos) * 100,
-      100
-    );
-  }
-
-  /**
-   * Helper: Verificar si un nivel está desbloqueado
-   */
-  isLevelUnlocked(level: Level, previousLevel?: Level): boolean {
-    // El nivel 1 siempre está desbloqueado
-    if (level.numero_nivel === 1) return true;
-    
-    // Los demás niveles requieren que el anterior esté completado
-    return previousLevel?.completado ?? false;
-  }
-
-  /**
-   * Helper: Obtener siguiente misión disponible en un nivel
-   */
-  getNextAvailableMission(missions: Mission[]): Mission | null {
-    return missions.find(m => !m.completada) || null;
-  }
-
-  /**
-   * Helper: Calcular total de misiones completadas en un nivel
-   */
-  getCompletedMissionsCount(missions: Mission[]): number {
-    return missions.filter(m => m.completada).length;
-  }
-
-  /**
-   * Helper: Formatear tipo de misión para mostrar
-   */
-  getMissionTypeLabel(tipo: Mission['tipo']): string {
-    const labels = {
-      'diaria': 'Misión diaria',
-      'semanal': 'Misión semanal',
-      'unica': 'Misión única'
-    };
-    return labels[tipo];
-  }
-
-  /**
-   * Helper: Verificar si una misión puede reiniciarse
-   */
-  canResetMission(mission: Mission): boolean {
-    return (mission.tipo === 'diaria' || mission.tipo === 'semanal') && mission.completada;
-  }
-
-  /**
-   * Generar progreso mock para demostración
-   */
   getProgressPercentage(): number {
     return Math.floor(Math.random() * 100);
+  }
+
+  getCompletedMissionsCount(missions: Mission[]): number {
+    if (!missions) return 0;
+    return missions.filter(m => m.completed ?? false).length;
+  }
+
+  calculateLevelProgress(level: Level): number {
+    const missions = level.missions || [];
+    if (missions.length === 0) return 0;
+    
+    const completed = missions.filter(m => m.completed ?? false).length;
+    return Math.round((completed / missions.length) * 100);
+  }
+
+  isLevelUnlocked(level: Level, previousLevel?: Level): boolean {
+    if (level.levelNumber === 1) return true;
+    if (!previousLevel) return false;
+    
+    const missions = previousLevel.missions || [];
+    if (missions.length === 0) return false; 
+    
+    return missions.every(m => m.completed ?? false);
+  }
+
+  getMissionTypeLabel(type: Mission['type']): string {
+    const labels: Record<string, string> = {
+      'daily': 'Diaria',
+      'weekly': 'Semanal',
+      'unique': 'Única'
+    };
+    return labels[type || 'unique'] || 'Estándar';
   }
 }

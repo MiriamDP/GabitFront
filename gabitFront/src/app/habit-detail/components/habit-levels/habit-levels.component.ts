@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Level } from 'src/app/interfaces/habit/habit.interface';
+import { Level, Mission } from 'src/app/interfaces/habit/habit.interface';
 
 @Component({
   selector: 'app-habit-levels',
@@ -12,54 +12,79 @@ export class HabitLevelsComponent {
   @Input() selectedLevel: Level | null = null;
   @Output() levelSelected = new EventEmitter<Level>();
 
+  // --- MÉTODO QUE FALTABA Y CAUSABA EL ERROR ---
   onLevelClick(level: Level): void {
-    // Verificar si el nivel está desbloqueado
+    // Si el nivel está bloqueado, no hacemos nada
     if (!this.isLevelUnlocked(level)) {
       return;
     }
-    
+    // Emitimos el evento al padre
     this.levelSelected.emit(level);
   }
 
   isLevelUnlocked(level: Level): boolean {
-    // El nivel 1 siempre está desbloqueado
-    if (level.numero_nivel === 1) return true;
+    // CORRECCIÓN: levelNumber (inglés)
+    if (level.levelNumber === 1) return true;
     
-    // Verificar si el nivel anterior está completado
-    const previousLevel = this.levels.find(
-      l => l.numero_nivel === level.numero_nivel - 1
-    );
+    // CORRECCIÓN: levelNumber (inglés)
+    const previousLevel = this.levels.find(l => l.levelNumber === level.levelNumber - 1);
     
-    return previousLevel?.completado ?? false;
+    // CORRECCIÓN: completed (inglés)
+    return previousLevel?.completed ?? false;
   }
 
   isLevelSelected(level: Level): boolean {
-    return this.selectedLevel?.id === level.id;
+    // CORRECCIÓN: idLevel (inglés - Primary Key)
+    return this.selectedLevel?.idLevel === level.idLevel;
   }
 
   isCurrentLevel(level: Level): boolean {
-    return level.numero_nivel === this.currentLevel;
+    // CORRECCIÓN: levelNumber (inglés)
+    return level.levelNumber === this.currentLevel;
   }
 
+  // --- CÁLCULO DE PROGRESO (Basado en Misiones) ---
   getLevelProgress(level: Level): number {
-    if (level.completado) return 100;
-    if (level.puntos_requeridos === 0) return 0;
+    if (level.completed) return 100;
     
-    return Math.min(
-      (level.puntos_actuales / level.puntos_requeridos) * 100,
-      100
-    );
+    // Si no hay misiones, no hay progreso (o es 0%)
+    if (!level.missions || level.missions.length === 0) return 0;
+
+    // 1. Calcular Puntos Totales del Nivel (Suma de los puntos de todas las misiones)
+    const totalPoints = level.missions.reduce((sum, mission) => sum + (mission.points || 0), 0);
+
+    // Evitar división por cero
+    if (totalPoints === 0) return 0;
+
+    // 2. Calcular Puntos Obtenidos (Suma de puntos de misiones completadas)
+    const earnedPoints = level.missions
+      .filter(mission => mission.completed) 
+      .reduce((sum, mission) => sum + (mission.points || 0), 0);
+    
+    return Math.min((earnedPoints / totalPoints) * 100, 100);
+  }
+
+  // Helper para mostrar texto en el HTML (ej: "50 / 100")
+  getLevelPointsText(level: Level): string {
+    if (!level.missions) return '0 / 0';
+    
+    const totalPoints = level.missions.reduce((sum, m) => sum + (m.points || 0), 0);
+    const earnedPoints = level.missions
+      .filter(m => m.completed)
+      .reduce((sum, m) => sum + (m.points || 0), 0);
+
+    return `${earnedPoints} / ${totalPoints}`;
   }
 
   getLevelStatusIcon(level: Level): string {
-    if (level.completado) return '✓';
-    if (!this.isLevelUnlocked(level)) return '🔒';
-    if (this.isCurrentLevel(level)) return '▶';
+    if (level.completed) return '✓';
+    if (!this.isLevelUnlocked(level)) return 'Lock';
+    if (this.isCurrentLevel(level)) return 'Play';
     return '';
   }
 
   getLevelStatusClass(level: Level): string {
-    if (level.completado) return 'completed';
+    if (level.completed) return 'completed';
     if (!this.isLevelUnlocked(level)) return 'locked';
     if (this.isCurrentLevel(level)) return 'current';
     return 'unlocked';

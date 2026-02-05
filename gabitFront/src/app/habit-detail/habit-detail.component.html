@@ -1,52 +1,40 @@
 <div class="habit-detail-container">
-  <!-- Loading State -->
   <div *ngIf="loading" class="loading-state">
     <div class="spinner"></div>
     <p>Cargando hábito...</p>
   </div>
 
-  <!-- Error State -->
   <div *ngIf="error && !loading" class="error-state">
     <p>{{ error }}</p>
     <button (click)="goBack()" class="btn-secondary">Volver al inicio</button>
   </div>
 
-  <!-- Content -->
   <ng-container *ngIf="!loading && !error && habitDetail">
-    <!-- Header del hábito -->
     <app-habit-header
       [habit]="habitDetail"
       [progress]="progress"
       (backClick)="goBack()">
     </app-habit-header>
 
-    <!-- Niveles y Misiones -->
     <div class="content-grid">
-      <!-- Sidebar con niveles -->
       <aside class="levels-sidebar">
         <app-habit-levels
-          [levels]="habitDetail.niveles"
-          [currentLevel]="habitDetail.nivel_actual"
+          [levels]="habitDetail.levels"
+          [currentLevel]="habitDetail.current_level"
           [selectedLevel]="selectedLevel"
           (levelSelected)="onLevelSelected($event)">
         </app-habit-levels>
       </aside>
 
-      <!-- Contenido principal -->
       <main class="main-content">
-        <!-- Detalle del nivel seleccionado -->
         <app-level-detail
           *ngIf="selectedLevel"
-          [level]="selectedLevel"
-          [completedMissions]="completedMissionsCount"
-          [totalMissions]="totalMissionsCount"
-          [progressPercentage]="levelProgress">
+          [level]="selectedLevel">
         </app-level-detail>
 
-        <!-- Lista de misiones -->
         <app-mission-list
           *ngIf="selectedLevel"
-          [missions]="selectedLevel.misiones"
+          [missions]="selectedLevel.missions" 
           [habitColor]="habitDetail.color"
           (missionProgress)="onMissionProgress($event)"
           (missionComplete)="onMissionComplete($event)">
@@ -55,14 +43,12 @@
     </div>
   </ng-container>
 
-  <!-- Modal Level Up -->
   <app-level-up-modal
     *ngIf="showLevelUpModal"
-    [newLevel]="habitDetail?.nivel_actual || 0"
+    [newLevel]="habitDetail?.current_level || 0"
     (close)="onCloseLevelUpModal()">
   </app-level-up-modal>
 
-  <!-- Modal Achievement -->
   <app-achievement-modal
     *ngIf="showAchievementModal"
     [achievements]="newAchievements"
