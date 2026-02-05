@@ -1,0 +1,308 @@
+.level-detail-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(5, 87, 107, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header */
+.level-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #F0F6F6;
+}
+
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #05576B;
+  color: #ffffff;
+  border-radius: 8px;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.level-badge.completed {
+  background-color: #056B3B;
+}
+
+.badge-text {
+  line-height: 1;
+}
+
+.check-icon {
+  flex-shrink: 0;
+}
+
+.level-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #021D24;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Estadísticas */
+.level-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background-color: #F0F6F6;
+  border-radius: 10px;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon.points {
+  background-color: #F2D639;
+  color: #021D24;
+}
+
+.stat-icon.missions {
+  background-color: #05576B;
+  color: #ffffff;
+}
+
+.stat-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.875rem;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #021D24;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.stat-value .current {
+  color: #05576B;
+}
+
+.stat-value .separator {
+  color: #94A3B8;
+  font-size: 1.25rem;
+}
+
+.stat-value .total {
+  color: #64748B;
+}
+
+.stat-sublabel {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.8125rem;
+  color: #94A3B8;
+  font-weight: 400;
+}
+
+/* Progreso */
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #021D24;
+}
+
+.progress-percentage {
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #05576B;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 16px;
+  background-color: #E2E8F0;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #05576B;
+  border-radius: 8px;
+  transition: width 0.6s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-fill.completed {
+  background-color: #056B3B;
+}
+
+.progress-shimmer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Mensaje de estado */
+.status-message {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background-color: #E8F5E9;
+  border-left: 4px solid #056B3B;
+  border-radius: 8px;
+  animation: fadeIn 0.3s ease;
+}
+
+.status-message.in-progress {
+  background-color: #FFF4E6;
+  border-left-color: #FA914F;
+}
+
+.status-message.in-progress .status-icon {
+  color: #FA914F;
+}
+
+.status-message.not-started {
+  background-color: #F0F6F6;
+  border-left-color: #05576B;
+}
+
+.status-message.not-started .status-icon {
+  color: #05576B;
+}
+
+.status-icon {
+  flex-shrink: 0;
+  color: #056B3B;
+}
+
+.status-text {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #021D24;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .level-detail-card {
+    padding: 1.5rem;
+  }
+
+  .level-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .level-title {
+    font-size: 1.5rem;
+  }
+
+  .level-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+
+  .progress-percentage {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .level-badge {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .stat-item {
+    padding: 1rem;
+  }
+
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .progress-bar-container {
+    height: 12px;
+  }
+}

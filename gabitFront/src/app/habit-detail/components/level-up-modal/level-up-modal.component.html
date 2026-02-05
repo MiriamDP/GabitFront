@@ -1,0 +1,8 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-icon">🎉</div>
+    <h2>¡Nivel completado!</h2>
+    <p>Has alcanzado el <strong>Nivel {{ newLevel }}</strong></p>
+    <button class="btn-close" (click)="onClose()">Continuar</button>
+  </div>
+</div>

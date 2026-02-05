@@ -29,6 +29,13 @@ import { LandingComponent } from './landing/landing.component';
 import { HabitCreationComponent } from './habit-creation/habit-creation.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HabitDetailComponent } from './habit-detail/habit-detail.component';
+import { HabitHeaderComponent } from './habit-detail/components/habit-header/habit-header.component';
+import { HabitLevelsComponent } from './habit-detail/components/habit-levels/habit-levels.component';
+import { MissionListComponent } from './habit-detail/components/mission-list/mission-list.component';
+import { MissionCardComponent } from './habit-detail/components/mission-card/mission-card.component';
+import { LevelUpModalComponent } from './habit-detail/components/level-up-modal/level-up-modal.component';
+import { AchievementModalComponent } from './habit-detail/components/achievement-modal/achievement-modal.component';
+import { LevelDetailComponent } from './habit-detail/components/level-detail/level-detail.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +48,14 @@ import { HabitDetailComponent } from './habit-detail/habit-detail.component';
     LandingComponent,
     HabitCreationComponent,
     UserProfileComponent,
-    HabitDetailComponent
+    HabitDetailComponent,
+    HabitHeaderComponent,
+    HabitLevelsComponent,
+    MissionListComponent,
+    MissionCardComponent,
+    LevelUpModalComponent,
+    AchievementModalComponent,
+    LevelDetailComponent
   ],
   imports: [
     BrowserModule,

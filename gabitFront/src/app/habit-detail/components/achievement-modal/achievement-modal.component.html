@@ -1,0 +1,16 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-icon">🏆</div>
+    <h2>¡Logro desbloqueado!</h2>
+    <div class="achievements-list">
+      <div *ngFor="let achievement of achievements" class="achievement-item">
+        <span class="achievement-icon">{{ achievement.icono }}</span>
+        <div>
+          <h3>{{ achievement.nombre }}</h3>
+          <p>{{ achievement.descripcion }}</p>
+        </div>
+      </div>
+    </div>
+    <button class="btn-close" (click)="onClose()">Genial</button>
+  </div>
+</div>
