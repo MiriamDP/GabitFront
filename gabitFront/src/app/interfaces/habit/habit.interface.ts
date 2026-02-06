@@ -45,43 +45,35 @@ export interface Level {
 }
 
 export interface Mission {
-  idMission: number;            // Laravel mapea idMission -> 'id'
+  idMission: number;          
   name: string;
   description: string;
   icon?: string;
-  points: number;        // Laravel envía 'points'
+  points: number;        
   type: 'daily' | 'weekly' | 'unique' | string;
   
-  requirement: number;      // Laravel envía 'requirement'
-  current_progress: number; // Laravel envía 'current_progress' (snake_case)
-  completed: boolean;       // Laravel envía 'completed'
+  requirement: number;    
+  current_progress: number; 
+  completed: boolean;       
   
-  completed_at?: string;    // Laravel envía 'completed_at' o similar
+  completed_at?: string;
   tips?: string;
   links?: string;
   order?: number;
-  
-  // Alias por si algún componente antiguo busca 'title'
   title?: string;
 }
 
 export interface Achievement {
-  id: number;            // Laravel envía 'id'
+  id: number;           
   name: string;
   description: string;
   icon: string;
 }
 
-// ==========================================
-// 2. Interfaces Compuestas / Respuestas API
-// ==========================================
-
 export interface HabitDetail extends Habit {
-  // Laravel envía 'current_level' (snake_case) en getHabitDetail
   current_level: number; 
   levels: Level[];
-  
-  // Datos de suscripción si vienen
+
   subscription?: {
     started_at: string;
     days_active: number;
@@ -94,6 +86,7 @@ export interface HabitProgress {
   overall_percentage: number;
   current_streak?: number;
   by_level?: LevelProgress[];
+  total_points?: number;
 }
 
 export interface LevelProgress {
@@ -109,9 +102,6 @@ export interface UserAchievement extends Achievement {
   date: string;
 }
 
-// ==========================================
-// 3. Respuestas de Acciones (Post/Put)
-// ==========================================
 
 export interface CompleteMissionResponse {
   success: boolean;

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap, map } from 'rxjs/operators'; // Importamos map
-import { 
-  Habit, 
-  HabitDetail, 
-  HabitProgress, 
-  UserStats, 
-  Level, 
-  Mission, 
-  Achievement 
+import {
+  Habit,
+  HabitDetail,
+  HabitProgress,
+  UserStats,
+  Level,
+  Mission,
+  Achievement
 } from '../interfaces/habit/habit.interface';
 
 @Injectable({
@@ -17,112 +17,71 @@ import {
 })
 export class HabitService {
   private apiUrl = 'http://localhost:8000/api';
+
+  // Para mantener el progreso actualizado en tiempo real en el detalle del hábito
   private currentHabitProgress$ = new BehaviorSubject<HabitProgress | null>(null);
 
   constructor(private http: HttpClient) { }
 
-  // ==========================================
-  // 1. ENDPOINTS DE HÁBITOS (API)
-  // ==========================================
-
   getUserHabits(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits`).pipe(
-      // Desempaquetamos 'data' para que el Dashboard reciba el array directamente
-      map((res: any) => res.data) 
-    );
+    return this.http.get(`${this.apiUrl}/habits`);
   }
 
   createHabit(habit: Habit | any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/habits`, habit).pipe(
-      map((res: any) => res.data)
-    );
+    return this.http.post(`${this.apiUrl}/habits`, habit);
   }
 
-  getHabitDetail(habitId: number): Observable<HabitDetail> {
-    return this.http.get<any>(`${this.apiUrl}/habits/${habitId}/detail`).pipe(
-      // Desempaquetamos 'data' para arreglar el error del 'find' en el componente
-      map(res => res.data) 
-    );
+
+  getHabitDetail(habitId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/habits/${habitId}/detail`);
   }
 
   getHabitById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits/${id}`).pipe(
-      map((res: any) => res.data)
-    );
+    return this.http.get(`${this.apiUrl}/habits/${id}`);
   }
 
   updateHabit(id: number, habit: Partial<Habit>): Observable<any> {
-    return this.http.put(`${this.apiUrl}/habits/${id}`, habit).pipe(
-      map((res: any) => res.data)
-    );
+    return this.http.put(`${this.apiUrl}/habits/${id}`, habit);
   }
 
   getPublicHabits(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/public/habits`).pipe(
-      map((res: any) => res.data)
-    );
+    return this.http.get(`${this.apiUrl}/public/habits`);
   }
-
-  // ==========================================
-  // 2. ENDPOINTS DE CATEGORÍAS (API)
-  // ==========================================
 
   getCategories(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/categories`).pipe(
-      // Si categories devuelve wrapper, descomenta la siguiente línea:
-      // map((res: any) => res.data) 
-    );
+    return this.http.get(`${this.apiUrl}/categories`);
   }
 
-  // ==========================================
-  // 3. ENDPOINTS DE PROGRESO Y MISIONES (API)
-  // ==========================================
-
-  getHabitProgress(habitId: number): Observable<HabitProgress> {
-    return this.http.get<any>(
-      `${this.apiUrl}/habits/${habitId}/progress`
-    ).pipe(
-      map(res => res.data), // Desempaquetamos
-      tap(progress => this.currentHabitProgress$.next(progress))
-    );
+  getHabitProgress(habitId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/habits/${habitId}/progress`);
   }
+
 
   getCurrentProgress(): Observable<HabitProgress | null> {
     return this.currentHabitProgress$.asObservable();
   }
 
   updateMissionProgress(misionId: number, incremento: number = 1): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/missions/${misionId}/progress`,
-      { incremento }
-    ).pipe(
-      map((res: any) => res.data), // Desempaquetamos antes de usarlo
-      tap(data => this.currentHabitProgress$.next(data.progress))
-    );
+    return this.http.post(`${this.apiUrl}/missions/${misionId}/progress`, { incremento });
   }
 
   completeMission(misionId: number): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/missions/${misionId}/complete`,
-      {}
-    ).pipe(
-      map((res: any) => res.data), // Desempaquetamos
-      tap(data => this.currentHabitProgress$.next(data.progress))
-    );
+    return this.http.post(`${this.apiUrl}/missions/${misionId}/complete`, {});
   }
 
-  getHabitAchievements(habitId: number): Observable<Achievement[]> {
-    return this.http.get<any>(`${this.apiUrl}/habits/${habitId}/achievements`).pipe(
-      map(res => res.data)
-    );
+  getHabitAchievements(habitId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/habits/${habitId}/achievements`);
   }
 
-  // ==========================================
-  // 4. MÉTODOS AUXILIARES (Lógica Frontend)
-  // ==========================================
 
   getUserStats(habits: Habit[]): UserStats {
-    if (!habits) return { totalHabits: 0, activeHabits: 0, completedMissions: 0, totalPoints: 0, longestStreak: 0 };
+    if (!habits) return { 
+      totalHabits: 0, 
+      activeHabits: 0, 
+      completedMissions: 0, 
+      totalPoints: 0, 
+      longestStreak: 0 
+    };
     
     return {
       totalHabits: habits.length,
@@ -168,4 +127,5 @@ export class HabitService {
     };
     return labels[type || 'unique'] || 'Estándar';
   }
+
 }

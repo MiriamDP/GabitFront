@@ -1,33 +1,35 @@
 .mission-list-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .missions-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(163, 177, 198, 0.2);
 }
 
 .missions-title {
-  font-family: 'Fraunces', serif;
+  font-family: 'Epilogue', sans-serif;
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #021D24;
+  font-weight: 800;
+  color: var(--primary-color);
   margin: 0;
 }
 
 .missions-count {
   font-family: 'Epilogue', sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  color: #05576B;
-  background-color: #F0F6F6;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  color: #64748B;
+  background: #E8EFEF;
+  padding: 0.4rem 0.85rem;
+  border-radius: 14px;
+  box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.4), 
+              inset -4px -4px 8px rgba(255, 255, 255, 0.7);
 }
 
 .missions-grid {
@@ -43,16 +45,23 @@
   justify-content: center;
   padding: 4rem 2rem;
   text-align: center;
+  background: #E8EFEF;
+  border-radius: 24px;
+  box-shadow: inset 8px 8px 16px rgba(163, 177, 198, 0.5), 
+              inset -8px -8px 16px rgba(255, 255, 255, 0.8);
   color: #94A3B8;
 }
 
 .empty-state svg {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.6;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .empty-state p {
   font-family: 'Epilogue', sans-serif;
   font-size: 1rem;
+  font-weight: 600;
   margin: 0;
 }
 
@@ -64,5 +73,25 @@
 
   .missions-title {
     font-size: 1.25rem;
+  }
+
+  .empty-state {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mission-list-container {
+    gap: 1.5rem;
+  }
+
+  .missions-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .empty-state {
+    padding: 2.5rem 1rem;
   }
 }

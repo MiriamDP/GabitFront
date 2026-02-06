@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  // Mapa para guardar progresos fijos y evitar el error NG0100
+  // Progreso de cada hábito, con habitId como clave y porcentaje como valor
   habitProgress: { [key: number]: number } = {};
 
   stats: UserStats = {
@@ -45,27 +45,23 @@ export class DashboardComponent implements OnInit {
     this.error = null;
 
     this.habitService.getUserHabits().subscribe({
-      next: (habitsData: any) => {
-        // CORRECCIÓN IMPORTANTE:
-        // Como el servicio ya hizo el 'map', 'habitsData' ES DIRECTAMENTE el array.
-        // Ya no existe .success ni .data aquí.
-        
-        console.log('Datos recibidos en Dashboard:', habitsData); // Para depurar
-
+      next: (response: any) => {
+        const habitsData = response.data;
         if (Array.isArray(habitsData)) {
-            this.userHabits = habitsData;
-            
-            // Calculamos estadísticas
-            this.stats = this.habitService.getUserStats(this.userHabits);
+          this.userHabits = habitsData;
+          
+          // Calculamos estadísticas
+          this.stats = this.habitService.getUserStats(this.userHabits);
 
-            // Generamos progresos aleatorios SOLO UNA VEZ al cargar
-            this.userHabits.forEach(h => {
-                // Usamos 0 por defecto o un random fijo
-                this.habitProgress[h.idHabit!] = Math.floor(Math.random() * 100);
-            });
+          // Generamos progresos aleatorios mockeados
+          this.userHabits.forEach(h => {
+            if (h.idHabit) {
+              this.habitProgress[h.idHabit] = Math.floor(Math.random() * 100);
+            }
+          });
         } else {
-            // Fallback por si acaso llega el objeto antiguo
-            this.userHabits = habitsData.data || [];
+          console.error('La respuesta no contiene un array de hábitos:', habitsData);
+          this.userHabits = [];
         }
 
         this.isLoading = false;
@@ -89,13 +85,10 @@ export class DashboardComponent implements OnInit {
 
   viewHabitDetails(habitId: number | undefined): void {
     if (habitId) {
-        // Asegúrate de que la ruta en app-routing.module.ts sea 'habits/:id'
-        this.router.navigate(['/habits', habitId]); 
+      this.router.navigate(['/habits', habitId]); 
     }
   }
 
-  // CORRECCIÓN NG0100:
-  // Ya no llamamos al servicio random cada vez, sino que devolvemos el valor guardado
   getProgressPercentage(habitId: number | undefined): number {
     if (!habitId) return 0;
     return this.habitProgress[habitId] || 0;

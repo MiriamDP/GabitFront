@@ -1,70 +1,50 @@
 <div class="level-detail-card" *ngIf="level">
+
   <div class="level-header">
-    <div class="level-badge" [class.completed]="isLevelCompleted">
+    <span class="level-badge" [class.completed]="isLevelCompleted">
+      <lucide-icon 
+        [name]="isLevelCompleted ? 'CheckCircle' : 'Target'" 
+        [size]="18">
+      </lucide-icon>
       <span class="badge-text">Nivel {{ level.levelNumber }}</span>
-      <svg 
-        *ngIf="isLevelCompleted" 
-        class="check-icon" 
-        width="16" 
-        height="16" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        stroke-width="3">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-    </div>
-
-    <h2 class="level-title">{{ level.name || 'Nivel ' + level.levelNumber }}</h2>
+    </span>
+    
+    <h2 class="level-title">{{ level.name }}</h2>
   </div>
-
   <div class="level-stats">
     <div class="stat-item">
       <div class="stat-icon points">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-        </svg>
+        <lucide-icon name="Star" [size]="24"></lucide-icon>
       </div>
       <div class="stat-content">
-        <div class="stat-label">Puntos</div>
+        <span class="stat-label">Puntos ganados</span>
         <div class="stat-value">
           <span class="current">{{ currentPoints }}</span>
           <span class="separator">/</span>
-          <span class="total">{{ requiredPoints }}</span>
-        </div>
-        <div class="stat-sublabel" *ngIf="!isLevelCompleted">
-          {{ remainingPoints }} puntos restantes
+          <span class="total">{{ totalPoints }}</span>
+          <span class="stat-sublabel">XP</span>
         </div>
       </div>
     </div>
-
     <div class="stat-item">
       <div class="stat-icon missions">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
+        <lucide-icon name="ListChecks" [size]="24"></lucide-icon>
       </div>
       <div class="stat-content">
-        <div class="stat-label">Misiones</div>
+        <span class="stat-label">Misiones</span>
         <div class="stat-value">
           <span class="current">{{ completedMissions }}</span>
           <span class="separator">/</span>
           <span class="total">{{ totalMissions }}</span>
         </div>
-        <div class="stat-sublabel">
-          {{ missionsCompletionText }}
-        </div>
       </div>
     </div>
   </div>
-
   <div class="progress-section">
     <div class="progress-header">
       <span class="progress-title">Progreso del nivel</span>
-      <span class="progress-percentage">{{ completionPercentage | number:'1.0-0' }}%</span>
+      <span class="progress-percentage">{{ completionPercentage }}%</span>
     </div>
-    
     <div class="progress-bar-container">
       <div 
         class="progress-bar-fill" 
@@ -73,28 +53,15 @@
         <div class="progress-shimmer"></div>
       </div>
     </div>
-
-    <div class="status-message" *ngIf="isLevelCompleted">
-      <svg class="status-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-      </svg>
-      <span class="status-text">¡Nivel completado! 🎉</span>
-    </div>
-
-    <div class="status-message in-progress" *ngIf="!isLevelCompleted && completedMissions > 0">
-      <svg class="status-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"></circle>
-        <polyline points="12 6 12 12 16 14"></polyline>
-      </svg>
-      <span class="status-text">Sigue avanzando, ¡vas muy bien!</span>
-    </div>
-
-    <div class="status-message not-started" *ngIf="!isLevelCompleted && completedMissions === 0">
-      <svg class="status-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-      </svg>
-      <span class="status-text">Comienza completando las misiones</span>
-    </div>
+  </div>
+  <div 
+    class="status-message" 
+    [class]="levelStatus">
+    <lucide-icon 
+      [name]="statusIcon" 
+      [size]="20" 
+      class="status-icon">
+    </lucide-icon>
+    <span class="status-text">{{ statusMessage }}</span>
   </div>
 </div>

@@ -1,68 +1,32 @@
 <div class="mission-card" [class.completed]="isCompleted">
   <div class="mission-header">
     <span class="mission-type">
-    <lucide-icon [name]="missionTypeIcon" size="20" class="type-icon"></lucide-icon>
+      <lucide-icon [name]="missionTypeIcon" [size]="16" class="type-icon"></lucide-icon>
       <span class="type-text">{{ missionTypeLabel }}</span>
     </span>
     
     <span class="mission-points">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-      </svg>
-      {{ mission.points }} pts
+      <lucide-icon name="Star" [size]="16"></lucide-icon>
+      {{ mission.points }} XP
     </span>
   </div>
-
   <div class="mission-body">
     <p class="mission-description">{{ mission.description }}</p>
-
-    <div class="mission-progress">
-      <div class="progress-info">
-        <span class="progress-label">Progreso</span>
-        <span class="progress-text">{{ progressText }}</span>
-      </div>
-      
-      <div class="progress-bar-container">
-        <div 
-          class="progress-bar-fill" 
-          [style.width.%]="progress"
-          [style.background-color]="habitColor">
-        </div>
-      </div>
-    </div>
   </div>
-
   <div class="mission-actions">
     <button 
-      *ngIf="!isCompleted && progress < 100"
-      class="btn-progress"
-      (click)="onIncrementProgress()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-      Avanzar
-    </button>
-
-    <button 
-      *ngIf="canComplete"
+      *ngIf="!isCompleted" 
       class="btn-complete"
-      [style.background-color]="habitColor"
       (click)="onCompleteMission()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-      Completar
+      <lucide-icon name="Check" [size]="18"></lucide-icon>
+      Marcar como completada
     </button>
 
     <div *ngIf="isCompleted" class="completed-badge">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-      </svg>
-      <span>Completada</span>
+      <lucide-icon name="CheckCircle" [size]="20"></lucide-icon>
+      <span>¡Completada!</span>
       <span class="completion-date" *ngIf="mission.completed_at">
-        {{ mission.completed_at | date:'short' }}
+        {{ formatDate(mission.completed_at) }}
       </span>
     </div>
   </div>

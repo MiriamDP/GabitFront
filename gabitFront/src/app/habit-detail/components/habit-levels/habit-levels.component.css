@@ -1,8 +1,10 @@
 .levels-container {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(5, 87, 107, 0.08);
+  background: #E8EFEF;
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 12px 12px 24px rgba(163, 177, 198, 0.6), 
+              -12px -12px 24px rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   height: fit-content;
   position: sticky;
   top: 2rem;
@@ -14,14 +16,14 @@
   align-items: center;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #F0F6F6;
+  border-bottom: 2px solid rgba(163, 177, 198, 0.2);
 }
 
 .levels-title {
-  font-family: 'Fraunces', serif;
+  font-family: 'Epilogue', sans-serif;
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #021D24;
+  font-weight: 800;
+  color: var(--primary-color);
   margin: 0;
 }
 
@@ -29,67 +31,68 @@
   font-family: 'Epilogue', sans-serif;
   font-size: 0.875rem;
   color: #64748B;
-  font-weight: 500;
-  background-color: #F0F6F6;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  font-weight: 600;
+  background: #E8EFEF;
+  padding: 0.4rem 0.85rem;
+  border-radius: 14px;
+  box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.4), 
+              inset -4px -4px 8px rgba(255, 255, 255, 0.7);
 }
 
 .levels-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   margin-bottom: 1.5rem;
-  max-height: 600px;
-  overflow-y: auto;
-  padding-right: 0.5rem;
 }
 
 /* Scrollbar personalizado */
 .levels-list::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 .levels-list::-webkit-scrollbar-track {
-  background: #F0F6F6;
-  border-radius: 3px;
+  background: #E8EFEF;
+  border-radius: 4px;
 }
 
 .levels-list::-webkit-scrollbar-thumb {
-  background: #05576B;
-  border-radius: 3px;
-}
-
-.levels-list::-webkit-scrollbar-thumb:hover {
-  background: #0E3B47;
+  background: var(--primary-color);
+  border-radius: 4px;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .level-item {
   position: relative;
   display: flex;
   gap: 1rem;
-  padding: 1rem;
-  background-color: #F0F6F6;
-  border-radius: 10px;
+  padding: 1.25rem;
+  background: #E8EFEF;
+  border-radius: 18px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.4), 
+              -6px -6px 12px rgba(255, 255, 255, 0.8);
   border: 2px solid transparent;
 }
 
 .level-item:hover:not(.locked) {
-  background-color: #E1ECED;
-  transform: translateX(4px);
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.5), 
+              -8px -8px 16px rgba(255, 255, 255, 0.9);
 }
 
 .level-item.selected {
-  background-color: #D4E6EB;
-  border-color: #05576B;
-  box-shadow: 0 2px 8px rgba(5, 87, 107, 0.15);
+  border-color: var(--primary-color);
+  box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.5), 
+              -8px -8px 16px rgba(255, 255, 255, 0.9);
 }
 
 .level-item.locked {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.3), 
+              inset -4px -4px 8px rgba(255, 255, 255, 0.6);
 }
 
 .level-item.locked:hover {
@@ -97,59 +100,62 @@
 }
 
 .level-item.completed {
-  background-color: #E8F5E9;
-  border-color: #056B3B;
+  border-color: #059669;
 }
 
 .level-item.current {
-  border-color: #FA914F;
+  border-color: #C2185B; /* Rosa/burdeos */
 }
 
 .level-number {
   position: relative;
-  width: 48px;
-  height: 48px;
-  background-color: #05576B;
-  border-radius: 8px;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-700) 100%);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  font-family: 'Fraunces', serif;
+  font-family: 'Epilogue', sans-serif;
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #ffffff;
+  box-shadow: 4px 4px 8px rgba(5, 87, 107, 0.3);
 }
 
 .level-item.completed .level-number {
-  background-color: #056B3B;
+  background: linear-gradient(135deg, #059669 0%, #34D399 100%);
+  box-shadow: 4px 4px 8px rgba(5, 150, 105, 0.3);
 }
 
 .level-item.locked .level-number {
-  background-color: #94A3B8;
+  background: #94A3B8;
+  box-shadow: 4px 4px 8px rgba(148, 163, 184, 0.2);
 }
 
 .level-item.current .level-number {
-  background-color: #FA914F;
+  background: linear-gradient(135deg, #C2185B 0%, #AD1457 100%); /* Rosa/burdeos */
+  box-shadow: 4px 4px 8px rgba(194, 24, 91, 0.3);
 }
 
 .status-icon {
   position: absolute;
   top: -6px;
   right: -6px;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   background-color: #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .status-icon.completed {
-  background-color: #056B3B;
+  background-color: #059669;
   color: #ffffff;
 }
 
@@ -159,7 +165,7 @@
 }
 
 .status-icon.current {
-  background-color: #FA914F;
+  background-color: #C2185B; /* Rosa/burdeos */
   color: #ffffff;
 }
 
@@ -174,8 +180,8 @@
 .level-name {
   font-family: 'Epilogue', sans-serif;
   font-size: 1rem;
-  font-weight: 600;
-  color: #021D24;
+  font-weight: 700;
+  color: var(--primary-color-900);
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -193,7 +199,7 @@
 
 .points-current {
   font-weight: 700;
-  color: #05576B;
+  color: var(--primary-color);
 }
 
 .points-separator {
@@ -201,97 +207,104 @@
 }
 
 .points-required {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .points-label {
   font-size: 0.75rem;
   color: #94A3B8;
+  font-weight: 500;
 }
 
 .level-progress-bar {
   width: 100%;
-  height: 4px;
-  background-color: #E2E8F0;
-  border-radius: 2px;
+  height: 6px;
+  background: #E8EFEF;
+  border-radius: 3px;
   overflow: hidden;
+  box-shadow: inset 2px 2px 4px rgba(163, 177, 198, 0.3), 
+              inset -2px -2px 4px rgba(255, 255, 255, 0.6);
 }
 
 .level-progress-fill {
   height: 100%;
-  background-color: #05576B;
-  border-radius: 2px;
+  background: var(--primary-color);
+  border-radius: 3px;
   transition: width 0.3s ease;
 }
 
 .level-item.completed .level-progress-fill {
-  background-color: #056B3B;
+  background: #059669;
 }
 
 .level-item.current .level-progress-fill {
-  background-color: #FA914F;
+  background: #C2185B; /* Rosa/burdeos */
 }
 
 .current-badge {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background-color: #FA914F;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: linear-gradient(135deg, #C2185B 0%, #AD1457 100%); /* Rosa/burdeos */
   color: #ffffff;
   font-family: 'Epilogue', sans-serif;
   font-size: 0.625rem;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
   letter-spacing: 0.5px;
+  box-shadow: 2px 2px 6px rgba(194, 24, 91, 0.3);
 }
 
 .levels-footer {
-  padding-top: 1rem;
-  border-top: 1px solid #E2E8F0;
+  padding-top: 1.5rem;
+  border-top: 2px solid rgba(163, 177, 198, 0.2);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   font-family: 'Epilogue', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: #64748B;
+  font-weight: 500;
 }
 
 .legend-icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.625rem;
-  background-color: #F0F6F6;
+  background: #E8EFEF;
+  box-shadow: 4px 4px 8px rgba(163, 177, 198, 0.3);
+  font-weight: 700;
 }
 
 .legend-icon.completed {
-  background-color: #056B3B;
+  background: linear-gradient(135deg, #059669 0%, #34D399 100%);
   color: #ffffff;
 }
 
 .legend-icon.current {
-  background-color: #FA914F;
+  background: linear-gradient(135deg, #C2185B 0%, #AD1457 100%); /* Rosa/burdeos */
   color: #ffffff;
 }
 
 .legend-icon.locked {
-  background-color: #64748B;
+  background: #94A3B8;
   color: #ffffff;
 }
 
 .legend-text {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Responsive */
@@ -299,6 +312,7 @@
   .levels-container {
     position: static;
     margin-top: 1rem;
+    padding: 1.5rem;
   }
 
   .levels-list {
@@ -306,16 +320,28 @@
   }
 
   .level-item {
-    padding: 0.875rem;
+    padding: 1rem;
+  }
+
+  .level-number {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+
+  .level-name {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .levels-container {
+    padding: 1.25rem;
   }
 
   .level-number {
     width: 40px;
     height: 40px;
     font-size: 1rem;
-  }
-
-  .level-name {
-    font-size: 0.9375rem;
   }
 }

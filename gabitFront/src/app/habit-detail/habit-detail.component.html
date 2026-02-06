@@ -10,47 +10,44 @@
   </div>
 
   <ng-container *ngIf="!loading && !error && habitDetail">
-    <app-habit-header
-      [habit]="habitDetail"
-      [progress]="progress"
-      (backClick)="goBack()">
+    <app-habit-header 
+      [habitDetail]="habitDetail" 
+      (back)="goBack()">
     </app-habit-header>
 
     <div class="content-grid">
       <aside class="levels-sidebar">
-        <app-habit-levels
-          [levels]="habitDetail.levels"
+        <app-habit-levels 
+          [levels]="habitDetail.levels" 
           [currentLevel]="habitDetail.current_level"
-          [selectedLevel]="selectedLevel"
+          [selectedLevel]="selectedLevel" 
           (levelSelected)="onLevelSelected($event)">
         </app-habit-levels>
       </aside>
 
       <main class="main-content">
-        <app-level-detail
-          *ngIf="selectedLevel"
+        <app-level-detail 
+          *ngIf="selectedLevel" 
           [level]="selectedLevel">
         </app-level-detail>
 
-        <app-mission-list
-          *ngIf="selectedLevel"
-          [missions]="selectedLevel.missions" 
-          [habitColor]="habitDetail.color"
-          (missionProgress)="onMissionProgress($event)"
+        <app-mission-list 
+          *ngIf="selectedLevel" 
+          [missions]="selectedLevel.missions"
           (missionComplete)="onMissionComplete($event)">
         </app-mission-list>
       </main>
     </div>
   </ng-container>
 
-  <app-level-up-modal
-    *ngIf="showLevelUpModal"
+  <app-level-up-modal 
+    *ngIf="showLevelUpModal" 
     [newLevel]="habitDetail?.current_level || 0"
     (close)="onCloseLevelUpModal()">
   </app-level-up-modal>
 
-  <app-achievement-modal
-    *ngIf="showAchievementModal"
+  <app-achievement-modal 
+    *ngIf="showAchievementModal" 
     [achievements]="newAchievements"
     (close)="onCloseAchievementModal()">
   </app-achievement-modal>

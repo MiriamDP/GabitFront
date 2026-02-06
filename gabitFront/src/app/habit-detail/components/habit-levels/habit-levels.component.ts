@@ -12,38 +12,34 @@ export class HabitLevelsComponent {
   @Input() selectedLevel: Level | null = null;
   @Output() levelSelected = new EventEmitter<Level>();
 
-  // --- MÉTODO QUE FALTABA Y CAUSABA EL ERROR ---
+
   onLevelClick(level: Level): void {
     // Si el nivel está bloqueado, no hacemos nada
     if (!this.isLevelUnlocked(level)) {
       return;
     }
-    // Emitimos el evento al padre
     this.levelSelected.emit(level);
   }
 
+  //Comprobamos si el nivel está desbloqueado (si es el primer nivel o si el nivel anterior está completado)
   isLevelUnlocked(level: Level): boolean {
-    // CORRECCIÓN: levelNumber (inglés)
+
     if (level.levelNumber === 1) return true;
-    
-    // CORRECCIÓN: levelNumber (inglés)
     const previousLevel = this.levels.find(l => l.levelNumber === level.levelNumber - 1);
-    
-    // CORRECCIÓN: completed (inglés)
     return previousLevel?.completed ?? false;
   }
 
+  // Comprobamos si el nivel es el seleccionado actualmente para la interfaz
   isLevelSelected(level: Level): boolean {
-    // CORRECCIÓN: idLevel (inglés - Primary Key)
     return this.selectedLevel?.idLevel === level.idLevel;
   }
 
+  // Comprobamos si el nivel es el nivel actual del usuario (para interfaz)
   isCurrentLevel(level: Level): boolean {
-    // CORRECCIÓN: levelNumber (inglés)
     return level.levelNumber === this.currentLevel;
   }
 
-  // --- CÁLCULO DE PROGRESO (Basado en Misiones) ---
+  // --- CÁLCULO DE PROGRESO ---
   getLevelProgress(level: Level): number {
     if (level.completed) return 100;
     
@@ -56,7 +52,7 @@ export class HabitLevelsComponent {
     // Evitar división por cero
     if (totalPoints === 0) return 0;
 
-    // 2. Calcular Puntos Obtenidos (Suma de puntos de misiones completadas)
+    // 2. Calcular Puntos Obtenidos 
     const earnedPoints = level.missions
       .filter(mission => mission.completed) 
       .reduce((sum, mission) => sum + (mission.points || 0), 0);
@@ -75,11 +71,11 @@ export class HabitLevelsComponent {
 
     return `${earnedPoints} / ${totalPoints}`;
   }
-
+  
   getLevelStatusIcon(level: Level): string {
     if (level.completed) return '✓';
     if (!this.isLevelUnlocked(level)) return 'Lock';
-    if (this.isCurrentLevel(level)) return 'Play';
+    if (this.isCurrentLevel(level)) return 'Zap';
     return '';
   }
 

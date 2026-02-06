@@ -1,11 +1,24 @@
-<div class="habit-icon">
-  <lucide-icon [name]="habit.category?.icon || 'Circle'" size="32" class="category-icon"></lucide-icon>
-</div>
-<div class="habit-info">
-  <h1 class="habit-name">{{ habit.name }}</h1>
-  <p class="habit-description">{{ habit.description }}</p>
-  <span class="habit-category" *ngIf="habit.category">
-    {{ habit.category.name }}
-  </span>
-
+<div class="habit-header">
+  <!-- Botón de volver -->
+  <button class="back-button" (click)="goBack()">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+    Volver al Dashboard
+  </button>
+  <div class="habit-info">
+    <div class="habit-icon" [style.background-color]="categoryColor">
+      <lucide-icon [name]="habitDetail?.category?.icon || 'circle'"></lucide-icon>
+    </div>
+    
+    <div class="title-content">
+      <h1 class="habit-name">{{ habitDetail?.name }}</h1>
+      <p class="habit-description" *ngIf="habitDetail?.description">
+        {{ habitDetail?.description }}
+      </p>
+      <span class="habit-category" *ngIf="habitDetail?.category">
+        {{ habitDetail?.category?.name }}
+      </span>
+    </div>
+  </div>
 </div>

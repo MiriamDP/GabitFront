@@ -1,25 +1,18 @@
 <div class="mission-list-container">
   <div class="missions-header">
-    <h3 class="missions-title">Misiones del nivel</h3>
+    <h2 class="missions-title">Misiones</h2>
     <span class="missions-count">{{ completedCount }} / {{ totalCount }}</span>
   </div>
-
   <div class="missions-grid" *ngIf="hasMissions">
-    <app-mission-card
-      *ngFor="let mission of missions"
+    <app-mission-card 
+      *ngFor="let mission of missions; trackBy: trackByMissionId" 
       [mission]="mission"
-      [habitColor]="habitColor"
-      (missionProgress)="onMissionProgress($event)"
       (missionComplete)="onMissionComplete($event)">
     </app-mission-card>
   </div>
 
   <div class="empty-state" *ngIf="!hasMissions">
-    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="12" y1="8" x2="12" y2="12"></line>
-      <line x1="12" y1="16" x2="12.01" y2="16"></line>
-    </svg>
-    <p>No hay misiones disponibles en este nivel</p>
+    <lucide-icon name="ListTodo" [size]="48"></lucide-icon>
+    <p>No hay misiones disponibles para este nivel</p>
   </div>
 </div>
