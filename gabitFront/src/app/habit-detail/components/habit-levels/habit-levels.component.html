@@ -1,0 +1,67 @@
+<div class="levels-container">
+  <!-- Header -->
+  <div class="levels-header">
+    <h2 class="levels-title">Niveles</h2>
+    <span class="levels-count">{{ levels?.length || 0 }} niveles</span>
+  </div>
+
+  <div class="levels-list">
+    <div class="level-item" 
+         *ngFor="let level of levels"
+         [class.locked]="!isLevelUnlocked(level)"
+         [class.selected]="isCurrentLevel(level)"
+         [class.current]="isCurrentLevel(level)"
+         [class.completed]="level.completed"
+         (click)="onLevelClick(level)">
+      
+      <div class="level-number">
+        {{ level.levelNumber }}
+        
+        <span class="status-icon" 
+              [class.completed]="level.completed"
+              [class.locked]="!isLevelUnlocked(level)"
+              [class.current]="isCurrentLevel(level)">
+          <lucide-icon 
+            [name]="getLevelStatusIcon(level)" 
+            [size]="12">
+          </lucide-icon>
+        </span>
+      </div>
+
+      <div class="level-info">
+        <h3 class="level-name">{{ level.name || 'Nivel ' + level.levelNumber }}</h3>
+        <div class="level-points">
+          <span class="points-current">{{ getLevelProgress(level) | number:'1.0-0' }}%</span>
+          <span class="points-separator">•</span>
+          <span class="points-label">Completado</span>
+        </div>
+        <div class="level-progress-bar">
+          <div class="level-progress-fill" [style.width.%]="getLevelProgress(level)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="levels-footer">
+    <div class="legend-item">
+      <span class="legend-icon completed">
+        <lucide-icon name="Check" [size]="12"></lucide-icon>
+      </span>
+      <span class="legend-text">Completado</span>
+    </div>
+
+    <div class="legend-item">
+      <span class="legend-icon current">
+        <lucide-icon name="Zap" [size]="12"></lucide-icon>
+      </span>
+      <span class="legend-text">Nivel actual</span>
+    </div>
+
+    <div class="legend-item">
+      <span class="legend-icon locked">
+        <lucide-icon name="Lock" [size]="12"></lucide-icon>
+      </span>
+      <span class="legend-text">Bloqueado</span>
+    </div>
+  </div>
+</div>

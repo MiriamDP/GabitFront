@@ -1,0 +1,67 @@
+<div class="level-detail-card" *ngIf="level">
+
+  <div class="level-header">
+    <span class="level-badge" [class.completed]="isLevelCompleted">
+      <lucide-icon 
+        [name]="isLevelCompleted ? 'CheckCircle' : 'Target'" 
+        [size]="18">
+      </lucide-icon>
+      <span class="badge-text">Nivel {{ level.levelNumber }}</span>
+    </span>
+    
+    <h2 class="level-title">{{ level.name }}</h2>
+  </div>
+  <div class="level-stats">
+    <div class="stat-item">
+      <div class="stat-icon points">
+        <lucide-icon name="Star" [size]="24"></lucide-icon>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Puntos ganados</span>
+        <div class="stat-value">
+          <span class="current">{{ currentPoints }}</span>
+          <span class="separator">/</span>
+          <span class="total">{{ totalPoints }}</span>
+          <span class="stat-sublabel">XP</span>
+        </div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon missions">
+        <lucide-icon name="ListChecks" [size]="24"></lucide-icon>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Misiones</span>
+        <div class="stat-value">
+          <span class="current">{{ completedMissions }}</span>
+          <span class="separator">/</span>
+          <span class="total">{{ totalMissions }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="progress-section">
+    <div class="progress-header">
+      <span class="progress-title">Progreso del nivel</span>
+      <span class="progress-percentage">{{ completionPercentage }}%</span>
+    </div>
+    <div class="progress-bar-container">
+      <div 
+        class="progress-bar-fill" 
+        [class.completed]="isLevelCompleted"
+        [style.width.%]="completionPercentage">
+        <div class="progress-shimmer"></div>
+      </div>
+    </div>
+  </div>
+  <div 
+    class="status-message" 
+    [class]="levelStatus">
+    <lucide-icon 
+      [name]="statusIcon" 
+      [size]="20" 
+      class="status-icon">
+    </lucide-icon>
+    <span class="status-text">{{ statusMessage }}</span>
+  </div>
+</div>

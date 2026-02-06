@@ -1,94 +1,139 @@
+
 export interface Category {
-  id: number;
-  nombre: string;
-  icono: string;
-  descripcion: string;
+  id: number;          
+  name: string;
+  icon: string;
   color: string;
-  orden: number;
-  activa: boolean;
+  order?: number;
+  
+
+  idCategory?: number; 
 }
 
 export interface Habit {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  categoria_id: number;
-  categoria_nombre?: string;
-  categoria_icono?: string;
+  idHabit: number;          
+  name: string;         
+  description: string;
   color: string;
-  es_publico: boolean;
-  total_niveles: number;
-  total_misiones?: number;
-  fecha_creacion: string;
-  fecha_modificacion?: string;
-  activo: boolean;
-  veces_copiado?: number;
+  visibility: boolean;
+
+
+  category_id?: number;
+  category_name?: string;
+  category_icon?: string;
+
+
+  category?: Category;
+
+
+  total_levels?: number;
+  total_missions?: number;
+  created_at?: string;
+  updated_at?: string;
+
+  title?: string; 
 }
-
-export interface HabitDetail extends Habit {
-  nivel_actual: number;
-  puntos_totales: number;
-  racha_dias: number;
-  mejor_racha?: number;
-  niveles: Level[];
-  logros?: Achievement[];
-}
-
-
-
-export interface HabitProgress {
-  id: number;
-  habito_id: number;  
-  nivel_actual: number;
-  puntos_totales: number;
-  racha_dias: number;
-  mejor_racha: number;
-  fecha_inicio: string;
-  fecha_ultima_actividad: string;
-  progreso_porcentaje: number;
-}
-
 
 export interface Level {
-  id: number;
-  numero_nivel: number;
-  nombre: string;
-  puntos_requeridos: number;
-  puntos_actuales: number;
-  completado: boolean;
-  misiones: Mission[];
+  idLevel: number;          
+  levelNumber: number;  
+  name: string;
+  description?: string;
+  order?: number;
+  missions: Mission[];
+  completed?: boolean;
 }
 
 export interface Mission {
-  id: number;
-  descripcion: string;
-  puntos: number;
-  tipo: 'diaria' | 'semanal' | 'unica';
-  requisito: number;
-  progreso_actual: number;
-  completada: boolean;
-  fecha_completada?: string;
+  idMission: number;          
+  name: string;
+  description: string;
+  icon?: string;
+  points: number;        
+  type: 'daily' | 'weekly' | 'unique' | string;
+  
+  requirement: number;    
+  current_progress: number; 
+  completed: boolean;       
+  
+  completed_at?: string;
+  tips?: string;
+  links?: string;
+  order?: number;
+  title?: string;
 }
-
 
 export interface Achievement {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  icono: string;
-  puntos_recompensa: number;
-  requisito: string;
-  desbloqueado: boolean;
-  fecha_desbloqueo?: string;
+  id: number;           
+  name: string;
+  description: string;
+  icon: string;
 }
 
+export interface HabitDetail extends Habit {
+  current_level: number; 
+  levels: Level[];
+
+  subscription?: {
+    started_at: string;
+    days_active: number;
+  };
+}
+
+export interface HabitProgress {
+  total_missions: number;
+  completed_missions: number;
+  overall_percentage: number;
+  current_streak?: number;
+  by_level?: LevelProgress[];
+  total_points?: number;
+}
+
+export interface LevelProgress {
+  level_id: number;
+  level_number: number;
+  total_missions: number;
+  completed_missions: number;
+  percentage: number;
+  is_completed: boolean;
+}
+
+export interface UserAchievement extends Achievement {
+  date: string;
+}
+
+
+export interface CompleteMissionResponse {
+  success: boolean;
+  data: {
+    mission: Mission;
+    progress: HabitProgress;
+    level_up: boolean;
+    unlocked_achievements: Achievement[];
+  };
+}
+
+export interface UpdateMissionProgressResponse {
+  success: boolean;
+  data: {
+    mission: Mission;
+    progress: HabitProgress;
+    level_up: boolean;
+  };
+}
 
 export interface UserStats {
   totalHabits: number;
   activeHabits: number;
   completedMissions: number;
-  totalPoints: number;
-  longestStreak: number;
+  totalPoints?: number;
+  longestStreak?: number;
   totalAchievements?: number;
 }
 
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  message?: string;
+  errors?: any;
+}
