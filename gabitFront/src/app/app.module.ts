@@ -29,6 +29,7 @@ import { LandingComponent } from './landing/landing.component';
 import { HabitCreationComponent } from './habit-creation/habit-creation.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HabitDetailComponent } from './habit-detail/habit-detail.component';
+import { AchievementComponent } from './achievement/achievement.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { HabitDetailComponent } from './habit-detail/habit-detail.component';
     LandingComponent,
     HabitCreationComponent,
     UserProfileComponent,
-    HabitDetailComponent
+    HabitDetailComponent,
+    AchievementComponent
   ],
   imports: [
     BrowserModule,

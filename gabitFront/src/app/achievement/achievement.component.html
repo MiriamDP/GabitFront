@@ -1,0 +1,22 @@
+<app-nav></app-nav>
+<main class="main-content">
+    <div class="flex">
+        <div class="achievement" *ngFor="let achievement of achievements(); let i=index" (click)="toggleFlip(i)" [class.flipped]="flippedIndex===i">
+            <div class="achievement-content">
+                <div class="front">
+                    <h1><span>{{achievement.nombre}}</span></h1>
+                    <div class="icon-achi"><img src="assets/checked_green.png"></div>
+                    <div class="content">
+                        <h2>Fecha</h2>
+                        <p>Camino</p>
+                        <p>Nivel</p>
+                    </div>
+                </div>
+                <div class="back">
+                    <h2>Descripción</h2>
+                    <p>{{ achievement.descripcion }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
