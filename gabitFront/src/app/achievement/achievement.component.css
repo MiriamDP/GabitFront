@@ -27,18 +27,53 @@ h1{
     gap: 2em;
 }
 
+section>h1{
+    text-align: center;
+}
+
+section{
+    margin-bottom: 2rem;
+}
+
 .achievement{
     box-shadow: 5px 5px 5px var(--shadow-light-dark-side),-5px -5px 5px var(--shadow-light-light-side);
     cursor: default;
     background-color: var(--bg-color-light);
     border-radius: 2em;
-    height: 260px;
-    width: calc(33% - 2em); /*2em es el gap de flex*/
+    height: 200px;
+    width: calc(25% - 2em); /*2em es el gap de flex*/
     perspective: 1200px;
     position: relative;
     transition: transform 1s ease;
     transform-style: preserve-3d;
 }
+
+.achievement-pending{
+    box-shadow: inset 6px 6px 12px rgba(163, 177, 198, 0.5), 
+                inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+    cursor: default;
+    background: var(--bg-color-light);
+    border-radius: 2em;
+    text-align: center;
+    height: 200px;
+    width: calc(25% - 2em); /*2em es el gap de flex*/
+
+    .achievement-pending-content{
+        padding: 1.25em;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        height: 100%;
+        justify-content: center;
+    }
+
+    h2{
+        color: var(--primary-color);
+    }
+
+
+}
+
 
 .front{
     padding: 2em;

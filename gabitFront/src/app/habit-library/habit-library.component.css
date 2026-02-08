@@ -1,0 +1,42 @@
+
+:host {
+  display: flex;       /* Esto activa el modo "Lado a Lado" */
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Contenedor del contenido derecho */
+.main-content {
+  flex: 1;              /* Ocupa todo el espacio restante */
+  padding: 2rem 3rem;   /* Espacio interno generoso */
+  overflow-y: auto;     /* Permite scroll si el contenido es largo */
+  max-height: 100vh;    /* Limita la altura a la ventana */
+}
+
+ul{
+    display: flex;
+    gap: 2rem;
+}
+
+button {
+    font-weight: 600;
+    background-color: var(--primary-color);
+    padding: 1em;
+    color: var(--white-text);
+    border-radius: 2em;
+    font-size: 1rem;
+    border: none;
+    box-shadow: 5px 5px 5px var(--shadow-light-dark-side),-10px -10px 10px var(--shadow-light-light-side);
+    cursor: pointer;
+    transition: box-shadow 0.35s, background-color 0.35s;
+    font-family: var(--bodycopy);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 16px rgba(163, 177, 198, 0.6), 
+              -8px -8px 16px rgba(255, 255, 255, 0.9);
+
+    background-color: var(--primary-color-700);
+    /* box-shadow: 5px 5px 5px var(--primary-color-900) inset,-5px -5px 5px var(--primary-color) inset; */
+}

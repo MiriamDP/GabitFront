@@ -10,6 +10,7 @@ import { UserLogGuard } from './guards/user-log.guard';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HabitDetailComponent } from './habit-detail/habit-detail.component';
 import { AchievementComponent } from './achievement/achievement.component';
+import { HabitLibraryComponent } from './habit-library/habit-library.component';
 
 const routes: Routes = [
   {path: '', component: LandingComponent, canActivate:[PublicAccessGuard]},
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'perfil', component: UserProfileComponent , canActivate:[UserLogGuard]},
   { path: 'habito/:id', component: HabitDetailComponent, canActivate:[UserLogGuard] },
   { path: 'logros', component: AchievementComponent, canActivate:[UserLogGuard] },
+  { path: 'biblioteca', component: HabitLibraryComponent, canActivate:[UserLogGuard] },
 ];
 
 @NgModule({
