@@ -15,7 +15,7 @@ import {
   Earth, ChartColumnBig, Calendar1, Users, LogOut,
   // Nuevos iconos añadidos para la creación de hábitos
   Heart, Dumbbell, BookOpen, Palette, Brain, X, 
-  ArrowLeft, Star, Check, CheckCheck, Inbox, ListChecks, Layers, Book, PersonStanding, Lock
+  ArrowLeft, Star, Check, CheckCheck, Inbox, ListChecks, Layers, Book, PersonStanding, Lock, Zap
 } from 'lucide-angular';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +30,13 @@ import { HabitCreationComponent } from './habit-creation/habit-creation.componen
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HabitDetailComponent } from './habit-detail/habit-detail.component';
 import { AchievementComponent } from './achievement/achievement.component';
+import { HabitHeaderComponent } from './habit-detail/components/habit-header/habit-header.component';
+import { HabitLevelsComponent } from './habit-detail/components/habit-levels/habit-levels.component';
+import { MissionListComponent } from './habit-detail/components/mission-list/mission-list.component';
+import { MissionCardComponent } from './habit-detail/components/mission-card/mission-card.component';
+import { LevelUpModalComponent } from './habit-detail/components/level-up-modal/level-up-modal.component';
+import { AchievementModalComponent } from './habit-detail/components/achievement-modal/achievement-modal.component';
+import { LevelDetailComponent } from './habit-detail/components/level-detail/level-detail.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +50,14 @@ import { AchievementComponent } from './achievement/achievement.component';
     HabitCreationComponent,
     UserProfileComponent,
     HabitDetailComponent,
-    AchievementComponent
+    AchievementComponent,
+    HabitHeaderComponent,
+    HabitLevelsComponent,
+    MissionListComponent,
+    MissionCardComponent,
+    LevelUpModalComponent,
+    AchievementModalComponent,
+    LevelDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +73,7 @@ import { AchievementComponent } from './achievement/achievement.component';
       Earth, ChartColumnBig, Calendar1, Users, LogOut,
       // Iconos para Habits (Categorías y UI)
       Heart, Dumbbell, BookOpen, Palette, Brain, Star, Check, X,
-      ArrowLeft, CheckCheck, Inbox, ListChecks, Layers, Book, PersonStanding, Lock
+      ArrowLeft, CheckCheck, Inbox, ListChecks, Layers, Book, PersonStanding, Lock, Zap
     })
   ],
   providers: [

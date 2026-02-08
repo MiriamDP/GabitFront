@@ -1,0 +1,18 @@
+<div class="mission-list-container">
+  <div class="missions-header">
+    <h2 class="missions-title">Misiones</h2>
+    <span class="missions-count">{{ completedCount }} / {{ totalCount }}</span>
+  </div>
+  <div class="missions-grid" *ngIf="hasMissions">
+    <app-mission-card 
+      *ngFor="let mission of missions; trackBy: trackByMissionId" 
+      [mission]="mission"
+      (missionComplete)="onMissionComplete($event)">
+    </app-mission-card>
+  </div>
+
+  <div class="empty-state" *ngIf="!hasMissions">
+    <lucide-icon name="ListTodo" [size]="48"></lucide-icon>
+    <p>No hay misiones disponibles para este nivel</p>
+  </div>
+</div>

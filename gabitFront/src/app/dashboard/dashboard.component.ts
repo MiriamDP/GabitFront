@@ -15,6 +15,9 @@ export class DashboardComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
+  // Progreso de cada hábito, con habitId como clave y porcentaje como valor
+  habitProgress: { [key: number]: number } = {};
+
   stats: UserStats = {
     totalHabits: 0,
     activeHabits: 0,
@@ -37,48 +40,62 @@ export class DashboardComponent implements OnInit {
     this.loadUserHabits();
   }
 
-
   loadUserHabits(): void {
-    // this.isLoading = true;
-    // this.error = null;
+    this.isLoading = true;
+    this.error = null;
 
-    // this.habitService.getUserHabits().subscribe({
-    //   next: (response) => {
-    //     if (response.success) {
-    //       this.userHabits = response.data;
-    //       this.stats = this.habitService.getUserStats(this.userHabits);
-    //     }
-    //     this.isLoading = false;
-    //   },
-    //   error: (error) => {
-    //     this.error = 'Ha ocurrido un error al cargar tus hábitos. Por favor, inténtalo de nuevo más tarde.';
-    //     this.isLoading = false;
-    //   }
-    // });
-  }
+    this.habitService.getUserHabits().subscribe({
+      next: (response: any) => {
+        const habitsData = response.data;
+        if (Array.isArray(habitsData)) {
+          this.userHabits = habitsData;
+          
+          // Calculamos estadísticas
+          this.stats = this.habitService.getUserStats(this.userHabits);
 
-  getTotalLevels(): number {
-    return this.userHabits.reduce((sum, h) => sum + h.total_niveles, 0);
+          // Generamos progresos aleatorios mockeados
+          this.userHabits.forEach(h => {
+            if (h.idHabit) {
+              this.habitProgress[h.idHabit] = Math.floor(Math.random() * 100);
+            }
+          });
+        } else {
+          console.error('La respuesta no contiene un array de hábitos:', habitsData);
+          this.userHabits = [];
+        }
+
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar hábitos:', error);
+        this.error = 'No se pudieron cargar tus caminos. Intenta recargar la página.';
+        this.isLoading = false;
+      }
+    });
   }
 
   getHabitsCountText(): string {
     const count = this.userHabits.length;
-    return count === 1 ? '1 hábito' : `${count} hábitos`;
+    return count === 1 ? '1 camino' : `${count} caminos`;
   }
 
   createNewHabit(): void {
     this.router.navigate(['/crear-habito']);
   }
 
-  viewHabitDetails(habitId: number): void {
-    this.router.navigate(['/habito', habitId]);
+  viewHabitDetails(habitId: number | undefined): void {
+    if (habitId) {
+      this.router.navigate(['/habits', habitId]); 
+    }
   }
 
-  getProgressPercentage(): number {
-    return this.habitService.getProgressPercentage();
+  getProgressPercentage(habitId: number | undefined): number {
+    if (!habitId) return 0;
+    return this.habitProgress[habitId] || 0;
   }
 
   formatDate(dateString: string): string {
+    if (!dateString) return '';
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = { 
       year: 'numeric', 
@@ -94,5 +111,4 @@ export class DashboardComponent implements OnInit {
     if (hour < 20) return 'Buenas tardes';
     return 'Buenas noches';
   }
-
 }

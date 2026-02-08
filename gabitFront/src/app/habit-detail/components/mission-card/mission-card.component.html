@@ -1,0 +1,33 @@
+<div class="mission-card" [class.completed]="isCompleted">
+  <div class="mission-header">
+    <span class="mission-type">
+      <lucide-icon [name]="missionTypeIcon" [size]="16" class="type-icon"></lucide-icon>
+      <span class="type-text">{{ missionTypeLabel }}</span>
+    </span>
+    
+    <span class="mission-points">
+      <lucide-icon name="Star" [size]="16"></lucide-icon>
+      {{ mission.points }} XP
+    </span>
+  </div>
+  <div class="mission-body">
+    <p class="mission-description">{{ mission.description }}</p>
+  </div>
+  <div class="mission-actions">
+    <button 
+      *ngIf="!isCompleted" 
+      class="btn-complete"
+      (click)="onCompleteMission()">
+      <lucide-icon name="Check" [size]="18"></lucide-icon>
+      Marcar como completada
+    </button>
+
+    <div *ngIf="isCompleted" class="completed-badge">
+      <lucide-icon name="CheckCircle" [size]="20"></lucide-icon>
+      <span>¡Completada!</span>
+      <span class="completion-date" *ngIf="mission.completed_at">
+        {{ formatDate(mission.completed_at) }}
+      </span>
+    </div>
+  </div>
+</div>
