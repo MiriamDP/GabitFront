@@ -36,6 +36,7 @@ import { MissionCardComponent } from './habit-detail/components/mission-card/mis
 import { LevelUpModalComponent } from './habit-detail/components/level-up-modal/level-up-modal.component';
 import { AchievementModalComponent } from './habit-detail/components/achievement-modal/achievement-modal.component';
 import { LevelDetailComponent } from './habit-detail/components/level-detail/level-detail.component';
+import { ConfirmModalComponent } from './shared/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { LevelDetailComponent } from './habit-detail/components/level-detail/lev
     MissionCardComponent,
     LevelUpModalComponent,
     AchievementModalComponent,
-    LevelDetailComponent
+    LevelDetailComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,

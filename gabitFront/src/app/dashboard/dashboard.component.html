@@ -13,7 +13,7 @@
         Crear hábito
       </button>
     </header>
-    
+
     <section class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon habits">
@@ -35,19 +35,19 @@
         </div>
       </div>
 
-      </section>
-    
+    </section>
+
     <div *ngIf="isLoading" class="loading-state">
       <div class="spinner"></div>
       <p>Cargando tus caminos...</p>
     </div>
-    
+
     <div *ngIf="error && !isLoading" class="error-state">
       <lucide-icon name="triangle-alert" size="64" color="#DC2626"></lucide-icon>
       <p class="error-message">{{ error }}</p>
       <button class="btn-retry" (click)="loadUserHabits()">Reintentar</button>
     </div>
-    
+
     <section *ngIf="!isLoading && !error" class="habits-section">
       <div *ngIf="userHabits.length === 0" class="empty-state">
         <lucide-icon name="layout-template" size="80" color="#05576B" style="opacity: 0.5;"></lucide-icon>
@@ -57,22 +57,20 @@
           Crear mi primer camino
         </button>
       </div>
-      
+
       <div *ngIf="userHabits.length > 0" class="habits-content">
         <div class="section-header">
           <h2 class="section-title">Mis Caminos</h2>
           <p class="section-subtitle">{{ getHabitsCountText() }}</p>
         </div>
-        
+
         <div class="habits-grid">
-          <div *ngFor="let habit of userHabits" 
-               class="habit-card" 
-               (click)="viewHabitDetails(habit.idHabit)" 
-               [style.border-left]="'4px solid ' + habit.color">
-            
+          <div *ngFor="let habit of userHabits" class="habit-card" (click)="viewHabitDetails(habit.idHabit)"
+            [style.border-left]="'4px solid ' + habit.color">
+
             <div class="habit-header">
               <div class="habit-category">
-                 <lucide-icon [name]="habit.category_icon || 'circle'"></lucide-icon>
+                <lucide-icon [name]="habit.category_icon || 'circle'"></lucide-icon>
                 <span class="category-name">{{ habit.category_name || 'General' }}</span>
               </div>
               <div class="habit-badge" *ngIf="habit.visibility">
@@ -82,12 +80,12 @@
                 Privado
               </div>
             </div>
-            
+
             <div class="habit-body">
               <h3 class="habit-name">{{ habit.name }}</h3>
               <p class="habit-description">{{ habit.description }}</p>
             </div>
-            
+
             <div class="habit-stats">
               <div class="stat-item">
                 <lucide-icon name="chart-column-big" size="16"></lucide-icon>
@@ -98,23 +96,26 @@
                 <span class="stat-text">{{ habit.total_missions || 0 }} misiones</span>
               </div>
             </div>
-            
+
             <div class="habit-progress">
               <div class="progress-header">
                 <span class="progress-label">Progreso</span>
-                <span class="progress-percentage">0%</span>
+                <span class="progress-percentage">{{ getProgressPercentage(habit.idHabit) }}%</span>
               </div>
               <div class="progress-bar-container">
-                <div class="progress-bar-fill" 
-                     [style.width.%]="0"
-                     [style.background-color]="habit.color"></div>
+                <div class="progress-bar-fill" [style.width.%]="getProgressPercentage(habit.idHabit)"
+                  [style.background-color]="habit.color"></div>
               </div>
             </div>
-            
+
             <div class="habit-footer">
               <span class="creation-date">
                 <lucide-icon name="calendar-1" size="14"></lucide-icon>
                 Creado el {{ formatDate(habit.created_at || '') }}
+              </span>
+              <span class="creation-date">
+                <lucide-icon name="user" size="14"></lucide-icon>
+                Creado por: {{ habit.author?.username }}
               </span>
             </div>
           </div>

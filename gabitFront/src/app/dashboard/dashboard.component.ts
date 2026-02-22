@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HabitService } from '../services/habit.service';
 import { Habit, UserStats } from '../interfaces/habit/habit.interface';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,21 +47,28 @@ export class DashboardComponent implements OnInit {
 
     this.habitService.getUserHabits().subscribe({
       next: (response: any) => {
-        const habitsData = response.data;
-        if (Array.isArray(habitsData)) {
-          this.userHabits = habitsData;
+        console.log("Respuesta del backend:", response);
+        
+        if (response.success && response.data) {
+          const habitsData = response.data;
           
-          // Calculamos estadísticas
-          this.stats = this.habitService.getUserStats(this.userHabits);
+          if (Array.isArray(habitsData)) {
+            this.userHabits = habitsData;
+            
+            // Calculamos estadísticas
+            this.stats = this.habitService.getUserStats(this.userHabits);
 
-          // Generamos progresos aleatorios mockeados
-          this.userHabits.forEach(h => {
-            if (h.idHabit) {
-              this.habitProgress[h.idHabit] = Math.floor(Math.random() * 100);
-            }
-          });
+            // Cargar progreso REAL de cada hábito
+            this.loadHabitsProgress();
+            
+            console.log("Hábitos cargados:", this.userHabits);
+          } else {
+            console.error('La respuesta no contiene un array de hábitos:', habitsData);
+            this.userHabits = [];
+          }
         } else {
-          console.error('La respuesta no contiene un array de hábitos:', habitsData);
+          console.error('Respuesta no exitosa del servidor:', response);
+          this.error = 'No se encontraron hábitos activos.';
           this.userHabits = [];
         }
 
@@ -68,10 +76,49 @@ export class DashboardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar hábitos:', error);
-        this.error = 'No se pudieron cargar tus caminos. Intenta recargar la página.';
+        
+        if (error.status === 401) {
+          this.error = 'Sesión expirada. Por favor, inicia sesión nuevamente.';
+        } else if (error.status === 0) {
+          this.error = 'No se pudo conectar con el servidor. Verifica tu conexión.';
+        } else {
+          this.error = 'No se pudieron cargar tus caminos. Intenta recargar la página.';
+        }
+        
         this.isLoading = false;
       }
     });
+  }
+
+  loadHabitsProgress(): void {
+    // Crear array de observables para cargar progreso de todos los hábitos
+    const progressRequests = this.userHabits
+      .filter(habit => habit.idHabit !== undefined)
+      .map(habit => this.habitService.getHabitProgress(habit.idHabit!));
+
+    // Ejecutar todas las peticiones en paralelo
+    if (progressRequests.length > 0) {
+      forkJoin(progressRequests).subscribe({
+        next: (responses: any[]) => {
+          responses.forEach((response, index) => {
+            const habitId = this.userHabits[index].idHabit;
+            if (habitId && response.success && response.data) {
+              this.habitProgress[habitId] = response.data.overall_percentage || 0;
+            }
+          });
+          console.log("Progreso de hábitos cargado:", this.habitProgress);
+        },
+        error: (error) => {
+          console.error("Error al cargar progreso de hábitos:", error);
+          // Si falla, ponemos 0 en todos
+          this.userHabits.forEach(habit => {
+            if (habit.idHabit) {
+              this.habitProgress[habit.idHabit] = 0;
+            }
+          });
+        }
+      });
+    }
   }
 
   getHabitsCountText(): string {

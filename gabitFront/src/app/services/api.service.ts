@@ -46,4 +46,10 @@ export class ApiService {
     const url = `${this.baseUrl}/user/${id}`;
     return this.http.put<UserResponse>(url, newData);
   }
+
+  deleteUser(id: number): Observable<any> {
+    //Endpoint para eliminar al usuario logeado
+    const url = `${this.baseUrl}/user/${id}`;
+    return this.http.delete(url);
+  }
 }

@@ -26,4 +26,20 @@ export class UserProfileService {
       }
     });
   }
+
+  delete(id: number) {
+
+    this.api.deleteUser(id).subscribe({ 
+      next: (response)=>{
+        console.log('Usuario eliminado: ', response);
+        localStorage.removeItem('userLogged');
+        localStorage.removeItem('token');
+         window.location.href = '/login'; //Con el this.route no me redirigia al login, hay que revisar esto
+      },
+      error: (err)=>{
+        console.error('Error al eliminar el usuario: ', err);
+        return err;
+      }
+    });
+  }
 }

@@ -34,7 +34,7 @@ export class NavComponent {
     },
     { 
       icon: 'users', 
-      label: 'Editar perfil', 
+      label: 'Perfil', 
       route: '/perfil',
     }
   ];
