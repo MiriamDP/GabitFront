@@ -79,12 +79,12 @@ section{
     padding: 2em;
     gap: 1rem;
     display: grid;
-    grid-template-columns: repeat(3,1fr);
-    grid-template-areas: "title title title" "icon info info";
+    grid-template-columns: repeat(4,1fr);
+    grid-template-areas: "title title title title" "icon info info info" "icon info info info";
 
     h1{
         grid-area: title;
-        font-size: clamp(0.75rem, 2vw, 2rem); /* mínimo 1rem, máximo 2rem, escala con ancho */
+        font-size: clamp(0.75rem, 2vw, 1.5rem); /* mínimo 1rem, máximo 2rem, escala con ancho */
         line-height: 1.2;
         font-weight: 100;
         white-space: nowrap;      /* evita que haga wrap */
@@ -92,6 +92,7 @@ section{
         text-overflow: ellipsis;  /* agrega "..." al final */
         cursor: pointer;
         position: relative;
+        max-width: 100%;
 
         span{
             display: inline-block;
@@ -115,21 +116,21 @@ section{
 
         }
     }
-}
-
-.icon-achi{
-    grid-area: icon;
-    aspect-ratio: 1/1;
-    width: 100%;
-    border-radius: 50%;
-    border: 2px solid var(--primary-color);
-
-    img{
-        height: 100%;
+    .icon-achi{
+        grid-area: icon;
+        aspect-ratio: 1/1;
         width: 100%;
-        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid var(--primary-color);
+    
+        img{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
     }
 }
+
 
 @keyframes marquee {
     0% {

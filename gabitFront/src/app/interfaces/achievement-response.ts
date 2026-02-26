@@ -3,5 +3,6 @@ import { Achievement } from "./achievement";
 export interface AchievementResponse {
     success: boolean,
     message: string,
-    logros: Achievement[],
+    completed: Achievement[],
+    uncompleted: Achievement[],
 }

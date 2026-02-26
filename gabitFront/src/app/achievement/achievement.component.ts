@@ -8,11 +8,22 @@ import { Achievement } from '../interfaces/achievement';
   styleUrls: ['./achievement.component.css']
 })
 export class AchievementComponent {
-  achievements=signal<Achievement[]>([]);
+  achievementsCompleted=signal<Achievement[]>([]);
+  achievementsIncompleted=signal<Achievement[]>([]);
+
   constructor(apiSvc: ApiService){
-    apiSvc.getAchievements().subscribe((resp)=>this.achievements.set(resp.logros));
+    apiSvc.getAchievements().subscribe((resp)=>{
+      const sortedCompleted = [...resp.completed].sort((a, b) => {
+        const dateA = a.pivot?.date ? new Date(a.pivot.date).getTime() : 0;
+        const dateB = b.pivot?.date ? new Date(b.pivot.date).getTime() : 0;
+        return dateB - dateA; // más recientes primero
+      });
+      this.achievementsCompleted.set(sortedCompleted);
+      this.achievementsIncompleted.set(resp.uncompleted);
+    });
   }
 
+  //para dale la vuelta a las tarjetas
   flippedIndex: number | null = null;
 
   toggleFlip(index: number) {

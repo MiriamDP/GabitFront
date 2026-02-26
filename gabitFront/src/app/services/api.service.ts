@@ -49,7 +49,7 @@ export class ApiService {
     return this.http.put<UserResponse>(url, newData);
   }
 
-  getAchievements():Observable<AchievementResponse>{
+  getAchievements(): Observable<AchievementResponse>{
     const url = `${this.baseUrl}/achievements`;
     return this.http.get<AchievementResponse>(url);
   }
