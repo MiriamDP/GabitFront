@@ -1,0 +1,36 @@
+<app-nav></app-nav>
+<main class="main-content">
+    <section>
+        <h1>Logros conseguidos</h1>
+        <div class="flex">
+            <div class="achievement" *ngFor="let achievement of achievementsCompleted(); let i=index" (click)="toggleFlip(i)" [class.flipped]="flippedIndex===i">
+                <div class="achievement-content">
+                    <div class="front">
+                        <h1><span>{{achievement.name}}</span></h1>
+                        <div class="icon-achi"><img src="assets/checked_green.png"></div>
+                        <div class="content">
+                            <p><b>{{achievement.pivot.date | date:'dd/MM/yyyy'}}</b></p>
+                            <p>{{achievement.level?.habit?.name ?? "Gabit"}}</p>
+                            <p>{{achievement.level?.levelNumber ?? 'Sin nivel'}}</p>
+                        </div>
+                    </div>
+                    <div class="back">
+                        <h2>Descripción</h2>
+                        <p>{{ achievement.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h1>Logros por conseguir</h1>
+        <div class="flex">
+            <div class="achievement-pending" *ngFor="let achievement of achievementsIncompleted(); let i=index" (click)="toggleFlip(i)" [class.flipped]="flippedIndex===i">
+                <div class="achievement-pending-content">
+                    <!-- <h2>Descripción</h2> -->
+                    <p>{{ achievement.description }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

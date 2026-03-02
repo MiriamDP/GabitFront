@@ -1,0 +1,184 @@
+
+:host {
+  display: flex;       /* Esto activa el modo "Lado a Lado" */
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Contenedor del contenido derecho */
+.main-content {
+  flex: 1;              /* Ocupa todo el espacio restante */
+  padding: 2rem 3rem;   /* Espacio interno generoso */
+  overflow-y: auto;     /* Permite scroll si el contenido es largo */
+  max-height: 100vh;    /* Limita la altura a la ventana */
+}
+
+h1{
+    color: var(--primary-color);
+}
+
+.flex{
+    /* background-color: var(--bg-color-light); */
+    border-radius: 2em;
+    padding: 2em;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 2em;
+}
+
+section>h1{
+    text-align: center;
+}
+
+section{
+    margin-bottom: 2rem;
+}
+
+.achievement{
+    box-shadow: 5px 5px 5px var(--shadow-light-dark-side),-5px -5px 5px var(--shadow-light-light-side);
+    cursor: default;
+    background-color: var(--bg-color-light);
+    border-radius: 2em;
+    height: 200px;
+    width: calc(25% - 2em); /*2em es el gap de flex*/
+    perspective: 1200px;
+    position: relative;
+    transition: transform 1s ease;
+    transform-style: preserve-3d;
+}
+
+.achievement-pending{
+    box-shadow: inset 6px 6px 12px rgba(163, 177, 198, 0.5), 
+                inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+    cursor: default;
+    background: var(--bg-color-light);
+    border-radius: 2em;
+    text-align: center;
+    height: 200px;
+    width: calc(25% - 2em); /*2em es el gap de flex*/
+
+    .achievement-pending-content{
+        padding: 1.25em;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        height: 100%;
+        justify-content: center;
+    }
+
+    h2{
+        color: var(--primary-color);
+    }
+
+
+}
+
+
+.front{
+    padding: 2em;
+    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-areas: "title title title title" "icon info info info" "icon info info info";
+
+    h1{
+        grid-area: title;
+        font-size: clamp(0.75rem, 2vw, 1.5rem); /* mínimo 1rem, máximo 2rem, escala con ancho */
+        line-height: 1.2;
+        font-weight: 100;
+        white-space: nowrap;      /* evita que haga wrap */
+        overflow: hidden;         /* recorta si es demasiado largo */
+        text-overflow: ellipsis;  /* agrega "..." al final */
+        cursor: pointer;
+        position: relative;
+        max-width: 100%;
+
+        span{
+            display: inline-block;
+            transition: transform 0.5s linear;
+            transform: translateX(0);
+            font-family: inherit;
+        }
+
+        &:hover span{
+            animation: marquee 5s linear infinite;
+        }
+    }
+
+    .content{
+        grid-area: info;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        h2{
+            font-weight: 100;
+
+        }
+    }
+    .icon-achi{
+        grid-area: icon;
+        aspect-ratio: 1/1;
+        width: 100%;
+        border-radius: 50%;
+        border: 2px solid var(--primary-color);
+    
+        img{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.back{
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    h2{
+        font-weight: 100;
+        color: var(--primary-color);
+    }
+}
+
+.achievement-back h2{
+    font-weight: 200;
+    color: var(--primary-color);
+}
+
+.front,
+.back{
+    position: absolute;
+    inset: 0;
+    background-color: var(--bg-color-light);
+    border-radius: 2em;
+    padding: 2em;
+    backface-visibility: hidden;
+    box-sizing: border-box;
+}
+
+.achievement.flipped{
+    transform: rotateY(180deg);
+}
+
+
+.achievement-content{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 2s ease;
+}

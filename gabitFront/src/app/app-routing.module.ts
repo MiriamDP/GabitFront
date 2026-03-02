@@ -9,15 +9,19 @@ import { PublicAccessGuard } from './guards/public-access.guard';
 import { UserLogGuard } from './guards/user-log.guard';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HabitDetailComponent } from './habit-detail/habit-detail.component';
+import { AchievementComponent } from './achievement/achievement.component';
+import { HabitLibraryComponent } from './habit-library/habit-library.component';
 
 const routes: Routes = [
-  { path: '', component: LandingComponent, canActivate: [PublicAccessGuard] },
-  { path: 'login', component: LoginComponent, canActivate: [PublicAccessGuard] },
-  { path: 'registro', component: RegisterComponent, canActivate: [PublicAccessGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [UserLogGuard] },
-  { path: 'crear-habito', component: HabitCreationComponent, canActivate: [UserLogGuard] },
-  { path: 'perfil', component: UserProfileComponent, canActivate: [UserLogGuard] },
-  { path: 'habits/:id', component: HabitDetailComponent, canActivate: [UserLogGuard] }
+  {path: '', component: LandingComponent, canActivate:[PublicAccessGuard]},
+  { path: 'login', component: LoginComponent, canActivate:[PublicAccessGuard] },
+  { path: 'registro', component: RegisterComponent, canActivate:[PublicAccessGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate:[UserLogGuard]  },
+  { path: 'crear-habito', component: HabitCreationComponent , canActivate:[UserLogGuard]},
+  { path: 'perfil', component: UserProfileComponent , canActivate:[UserLogGuard]},
+  { path: 'habito/:id', component: HabitDetailComponent, canActivate:[UserLogGuard] },
+  { path: 'logros', component: AchievementComponent, canActivate:[UserLogGuard] },
+  { path: 'biblioteca', component: HabitLibraryComponent, canActivate:[UserLogGuard] },
 ];
 
 @NgModule({

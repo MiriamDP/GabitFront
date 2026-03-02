@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS   } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor';
 
-//prueba para las pull request
+//esto es una prueba
 
 // Importación de iconos de Lucide
 import { 
@@ -29,6 +29,7 @@ import { LandingComponent } from './landing/landing.component';
 import { HabitCreationComponent } from './habit-creation/habit-creation.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HabitDetailComponent } from './habit-detail/habit-detail.component';
+import { AchievementComponent } from './achievement/achievement.component';
 import { HabitHeaderComponent } from './habit-detail/components/habit-header/habit-header.component';
 import { HabitLevelsComponent } from './habit-detail/components/habit-levels/habit-levels.component';
 import { MissionListComponent } from './habit-detail/components/mission-list/mission-list.component';
@@ -36,6 +37,8 @@ import { MissionCardComponent } from './habit-detail/components/mission-card/mis
 import { LevelUpModalComponent } from './habit-detail/components/level-up-modal/level-up-modal.component';
 import { AchievementModalComponent } from './habit-detail/components/achievement-modal/achievement-modal.component';
 import { LevelDetailComponent } from './habit-detail/components/level-detail/level-detail.component';
+import { HabitLibraryComponent } from './habit-library/habit-library.component';
+import { InProgressHabitComponent } from './habit-library/in-progress-habit/in-progress-habit.component';
 
 @NgModule({
   declarations: [
@@ -49,13 +52,16 @@ import { LevelDetailComponent } from './habit-detail/components/level-detail/lev
     HabitCreationComponent,
     UserProfileComponent,
     HabitDetailComponent,
+    AchievementComponent,
     HabitHeaderComponent,
     HabitLevelsComponent,
     MissionListComponent,
     MissionCardComponent,
     LevelUpModalComponent,
     AchievementModalComponent,
-    LevelDetailComponent
+    LevelDetailComponent,
+    HabitLibraryComponent,
+    InProgressHabitComponent
   ],
   imports: [
     BrowserModule,
