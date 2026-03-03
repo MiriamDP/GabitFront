@@ -38,7 +38,6 @@ import { LevelUpModalComponent } from './habit-detail/components/level-up-modal/
 import { AchievementModalComponent } from './habit-detail/components/achievement-modal/achievement-modal.component';
 import { LevelDetailComponent } from './habit-detail/components/level-detail/level-detail.component';
 import { HabitLibraryComponent } from './habit-library/habit-library.component';
-import { InProgressHabitComponent } from './habit-library/in-progress-habit/in-progress-habit.component';
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 
@@ -65,7 +64,6 @@ registerLocaleData(localeEs);
     AchievementModalComponent,
     LevelDetailComponent,
     HabitLibraryComponent,
-    InProgressHabitComponent
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,7 @@
         <div *ngIf="error && !isLoading" class="error-state">
             <!-- <lucide-icon name="triangle-alert" size="64" color="#DC2626"></lucide-icon> -->
             <p class="error-message">{{ error }}</p>
-            <button class="btn-retry" (click)="loadUserHabits()">Reintentar</button>
+            <button class="btn-retry" (click)="loadUserCreatedHabits()">Reintentar</button>
         </div>
 
         <section *ngIf="!isLoading && !error" class="habits-section">
@@ -31,9 +31,9 @@
                         <div class="habit-header" (click)="viewHabitDetails(habit.idHabit)">
                             <div class="habit-category">
                                 <!-- <lucide-icon [name]="habit.category_icon || 'circle'"></lucide-icon> -->
-                                <span class="category-name">{{ habit.category_name || 'General' }}</span>
+                                <span class="category-name">{{ habit.name || 'General' }}</span>
                             </div>
-                            <div class="habit-badge" *ngIf="!habit.visibility">
+                            <div class="habit-badge" *ngIf="habit.leave_date">
                                 Pausado
                             </div>
                             <div class="habit-badge" *ngIf="habit.visibility">
@@ -60,7 +60,7 @@
                             </div>
                         </div>
 
-                        <div class="habit-progress">
+                        <!-- <div class="habit-progress">
                             <div class="progress-header">
                                 <span class="progress-label">Progreso</span>
                                 <span class="progress-percentage">0%</span>
@@ -69,12 +69,16 @@
                                 <div class="progress-bar-fill" [style.width.%]="0"
                                     [style.background-color]="habit.color"></div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="habit-footer">
                             <span class="creation-date">
                                 <!-- <lucide-icon name="calendar-1" size="14"></lucide-icon> -->
                                 Creado el {{ habit.created_at | date: 'longDate':'es-ES' }}
+                            </span>
+                            <span class="creation-date" *ngIf="habit.leave_date">
+                                <!-- <lucide-icon name="calendar-1" size="14"></lucide-icon> -->
+                                Pausado el {{ habit.created_at | date: 'longDate':'es-ES' }}
                             </span>
                         </div>
                         <div class="habit-actions">

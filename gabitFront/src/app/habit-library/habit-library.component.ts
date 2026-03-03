@@ -3,6 +3,7 @@ import { Habit, UserStats } from '../interfaces/habit/habit.interface';
 import { AuthService } from '../services/auth.service';
 import { HabitService } from '../services/habit.service';
 import { Router } from '@angular/router';
+import { HabitLibrary } from './interfaces/habit-library';
 
 @Component({
   selector: 'app-habit-library',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class HabitLibraryComponent {
   userName: string = '';
-  userHabits: Habit[] = [];
+  userHabits: HabitLibrary[] = [];
   isLoading = true;
   error: string | null = null;
 
@@ -37,28 +38,29 @@ export class HabitLibraryComponent {
     if (user) {
       this.userName = user.username || 'Usuario'; 
     }
-    this.loadUserHabits();
+    this.loadUserCreatedHabits();
   }
 
-  loadUserHabits(): void {
+  loadUserCreatedHabits(): void {
     this.isLoading = true;
     this.error = null;
 
-    this.habitService.getUserHabits().subscribe({
-      next: (response: any) => {
-        const habitsData = response.data;
+    this.habitService.getUserCreatedHabits().subscribe({
+      next: (response: HabitLibrary[]) => {
+        console.log(response);
+        const habitsData = response;
         if (Array.isArray(habitsData)) {
           this.userHabits = habitsData;
           
           // Calculamos estadísticas
-          this.stats = this.habitService.getUserStats(this.userHabits);
+          // this.stats = this.habitService.getUserStats(this.userHabits);
 
-          // Generamos progresos aleatorios mockeados
-          this.userHabits.forEach(h => {
-            if (h.idHabit) {
-              this.habitProgress[h.idHabit] = Math.floor(Math.random() * 100);
-            }
-          });
+          // // Generamos progresos aleatorios mockeados
+          // this.userHabits.forEach(h => {
+          //   if (h.idHabit) {
+          //     this.habitProgress[h.idHabit] = Math.floor(Math.random() * 100);
+          //   }
+          // });
         } else {
           console.error('La respuesta no contiene un array de hábitos:', habitsData);
           this.userHabits = [];

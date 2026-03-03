@@ -11,6 +11,7 @@ import {
   Mission,
   Achievement
 } from '../interfaces/habit/habit.interface';
+import { HabitLibrary } from '../habit-library/interfaces/habit-library';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,11 @@ export class HabitService {
 
   getUserHabits(): Observable<any> {
     return this.http.get(`${this.apiUrl}/habits`);
+  }
+
+  getUserCreatedHabits():Observable<HabitLibrary[]>
+  {
+    return this.http.get<HabitLibrary[]>(`${this.apiUrl}/habits/created-by-user`)
   }
 
   createHabit(habit: Habit | any): Observable<any> {
