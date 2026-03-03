@@ -3,7 +3,7 @@ name: Deploy Frontend Gabit
 on:
   push:
     branches:
-      - main
+      - carmen
   workflow_dispatch:
 
 jobs:
