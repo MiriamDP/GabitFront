@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -39,6 +39,10 @@ import { AchievementModalComponent } from './habit-detail/components/achievement
 import { LevelDetailComponent } from './habit-detail/components/level-detail/level-detail.component';
 import { HabitLibraryComponent } from './habit-library/habit-library.component';
 import { InProgressHabitComponent } from './habit-library/in-progress-habit/in-progress-habit.component';
+import localeEs from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeEs);
 
 @NgModule({
   declarations: [
@@ -84,7 +88,10 @@ import { InProgressHabitComponent } from './habit-library/in-progress-habit/in-p
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
+      multi: true,
+    },{
+      provide: LOCALE_ID,
+      useValue:'es-ES'
     }
   ],
   bootstrap: [AppComponent]
