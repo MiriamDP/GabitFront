@@ -7,11 +7,16 @@
         <label>Email</label>
         <input [(ngModel)]="userNew.email" type="email" name="email">
         <label>Foto</label>
-        <input type="file" name="photo" accept="image/*"
-                (change)="onFileSelected($event)">
+        <input type="file" name="photo" accept="image/*" (change)="onFileSelected($event)">
         <div *ngIf="this.userNew.photo!==null">
             <img [src]="this.userNew.photo" alt="Preview" style="max-width: 150px; border-radius: 50%;">
         </div>
         <button (click)="updateUser()">Guardar cambios</button>
     </form>
+
+    <button class="btn-delete" (click)="showDeleteModal = true">Eliminar cuenta</button>
+
+    <app-confirm-modal *ngIf="showDeleteModal" title="¿Eliminar tu cuenta?"
+        message="Esta acción no se puede deshacer y se borrarán todos tus datos." confirmText="Sí, eliminar"
+        cancelText="Cancelar" (confirmed)="deleteUser()" (cancelled)="showDeleteModal = false" />
 </main>

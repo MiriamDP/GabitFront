@@ -49,6 +49,12 @@ export class ApiService {
     return this.http.put<UserResponse>(url, newData);
   }
 
+  deleteUser(id: number): Observable<any> {
+    //Endpoint para eliminar al usuario logeado
+    const url = `${this.baseUrl}/user/${id}`;
+    return this.http.delete(url);
+  }
+  
   getAchievements(): Observable<AchievementResponse>{
     const url = `${this.baseUrl}/achievements`;
     return this.http.get<AchievementResponse>(url);

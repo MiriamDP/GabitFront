@@ -5,9 +5,7 @@ export interface Category {
   icon: string;
   color: string;
   order?: number;
-  
-
-  idCategory?: number; 
+  idCategory: number; 
 }
 
 export interface Habit {
@@ -32,6 +30,8 @@ export interface Habit {
   updated_at?: string;
 
   title?: string; 
+
+  author: { username: string } | null;
 }
 
 export interface Level {

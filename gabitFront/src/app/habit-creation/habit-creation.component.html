@@ -57,8 +57,8 @@
 
           <div *ngIf="!isLoading" class="category-grid">
             <div *ngFor="let category of categories" class="category-card"
-              [class.selected]="basicInfo.get('category')?.value === category.id"
-              (click)="basicInfo.patchValue({ category: category.id })">
+              [class.selected]="basicInfo.get('category')?.value === category.idCategory"
+              (click)="basicInfo.patchValue({ category: category.idCategory })">
               <lucide-icon [name]="category.icon" class="category-icon" [size]="28"></lucide-icon>
               <span class="category-name">{{ category.name }}</span>
             </div>
@@ -88,11 +88,11 @@
       </div>
     </div>
 
+    <!-- PASO 2 - Niveles -->
     <div class="form-step" *ngIf="currentStep === 2" [@fadeIn]>
       <div class="step-content" formGroupName="levels">
         <h2 class="step-title">Configura los niveles</h2>
-        <p class="step-description">Define cuántos niveles tendrá tu hábito y cuántos puntos se necesitan para cada uno
-        </p>
+        <p class="step-description">Define cuántos niveles tendrá tu hábito</p>
 
         <div class="form-group">
           <label for="levelCount" class="form-label">Número de niveles <span class="required">*</span></label>
@@ -107,17 +107,10 @@
           <div *ngFor="let level of levelDetails.controls; let i = index" class="level-card" [formGroupName]="i">
             <div class="level-header"><span class="level-number">Nivel {{ i + 1 }}</span></div>
             <div class="level-body">
-              <div class="form-group-inline">
-                <div class="form-group flex-1">
-                  <label [for]="'levelName' + i" class="form-label-sm">Nombre del nivel</label>
-                  <input [id]="'levelName' + i" type="text" formControlName="name" class="form-input-sm"
-                    placeholder="Ej: Principiante">
-                </div>
-                <div class="form-group flex-1">
-                  <label [for]="'levelPoints' + i" class="form-label-sm">Puntos requeridos</label>
-                  <input [id]="'levelPoints' + i" type="number" formControlName="pointsRequired" class="form-input-sm"
-                    min="1" placeholder="100">
-                </div>
+              <div class="form-group">
+                <label [for]="'levelName' + i" class="form-label-sm">Nombre del nivel</label>
+                <input [id]="'levelName' + i" type="text" formControlName="name" class="form-input-sm"
+                  placeholder="Ej: Principiante">
               </div>
             </div>
           </div>
@@ -185,10 +178,11 @@
       </div>
     </div>
 
+    <!-- PASO 4 - Logros -->
     <div class="form-step" *ngIf="currentStep === 4" [@fadeIn]>
       <div class="step-content">
         <h2 class="step-title">Logros especiales (opcional)</h2>
-        <p class="step-description">Crea hitos importantes que den recompensas extra</p>
+        <p class="step-description">Crea hitos importantes que motiven a los usuarios</p>
 
         <button type="button" class="btn-add" (click)="addAchievement()">+ Añadir logro</button>
 
@@ -218,22 +212,10 @@
                 <textarea [id]="'achievementDesc' + i" formControlName="description" class="form-textarea-sm" rows="2"
                   placeholder="Describe qué significa conseguir este logro..."></textarea>
               </div>
-              <div class="form-group-inline">
-                <div class="form-group flex-1">
-                  <label [for]="'achievementIcon' + i" class="form-label-sm">Nombre Icono (Lucide)</label>
-                  <input [id]="'achievementIcon' + i" type="text" formControlName="icon" class="form-input-sm"
-                    placeholder="Ej: trophy, star, zap">
-                </div>
-                <div class="form-group flex-1">
-                  <label [for]="'achievementPoints' + i" class="form-label-sm">Puntos de recompensa</label>
-                  <input [id]="'achievementPoints' + i" type="number" formControlName="pointsReward"
-                    class="form-input-sm" min="1" placeholder="50">
-                </div>
-              </div>
               <div class="form-group">
-                <label [for]="'achievementReq' + i" class="form-label-sm">Requisito para obtenerlo</label>
-                <input [id]="'achievementReq' + i" type="text" formControlName="requirement" class="form-input-sm"
-                  placeholder="Ej: Completar el hábito 30 días seguidos">
+                <label [for]="'achievementIcon' + i" class="form-label-sm">Icono (Lucide)</label>
+                <input [id]="'achievementIcon' + i" type="text" formControlName="icon" class="form-input-sm"
+                  placeholder="Ej: trophy, star, zap">
               </div>
             </div>
           </div>

@@ -13,6 +13,14 @@ import { AchievementComponent } from './achievement/achievement.component';
 import { HabitLibraryComponent } from './habit-library/habit-library.component';
 
 const routes: Routes = [
+  { path: '', component: LandingComponent, canActivate: [PublicAccessGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [PublicAccessGuard] },
+  { path: 'registro', component: RegisterComponent, canActivate: [PublicAccessGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [UserLogGuard] },
+  { path: 'crear-habito', component: HabitCreationComponent, canActivate: [UserLogGuard] },
+  { path: 'perfil', component: UserProfileComponent, canActivate: [UserLogGuard] },
+  { path: 'habits/:id', component: HabitDetailComponent, canActivate: [UserLogGuard] },
+  {path: 'eliminar-cuenta/:id', component: UserProfileComponent, canActivate: [UserLogGuard] },
   {path: '', component: LandingComponent, canActivate:[PublicAccessGuard]},
   { path: 'login', component: LoginComponent, canActivate:[PublicAccessGuard] },
   { path: 'registro', component: RegisterComponent, canActivate:[PublicAccessGuard] },
