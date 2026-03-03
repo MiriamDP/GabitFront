@@ -24,7 +24,7 @@ export class NavComponent {
     },
     { 
       icon: 'trending-up', 
-      label: 'Biblioteca de habitos', 
+      label: 'Biblioteca de hábitos', 
       route: '/biblioteca',
     },
     { 
