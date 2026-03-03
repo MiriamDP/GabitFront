@@ -4,6 +4,8 @@ import { AuthResponse } from '../interfaces/auth/auth-response';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user';
 import { UserResponse } from '../interfaces/user-response';
+import { Achievement } from '../interfaces/habit/habit.interface';
+import { AchievementResponse } from '../interfaces/achievement-response';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +53,10 @@ export class ApiService {
     //Endpoint para eliminar al usuario logeado
     const url = `${this.baseUrl}/user/${id}`;
     return this.http.delete(url);
+  }
+  
+  getAchievements(): Observable<AchievementResponse>{
+    const url = `${this.baseUrl}/achievements`;
+    return this.http.get<AchievementResponse>(url);
   }
 }

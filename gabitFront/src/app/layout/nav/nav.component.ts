@@ -24,8 +24,8 @@ export class NavComponent {
     },
     { 
       icon: 'trending-up', 
-      label: 'Progreso', 
-      route: '/progreso',
+      label: 'Biblioteca de habitos', 
+      route: '/biblioteca',
     },
     { 
       icon: 'users', 
