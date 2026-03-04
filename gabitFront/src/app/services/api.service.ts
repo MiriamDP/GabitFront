@@ -6,7 +6,7 @@ import { User } from '../interfaces/user';
 import { UserResponse } from '../interfaces/user-response';
 import { Achievement } from '../interfaces/habit/habit.interface';
 import { AchievementResponse } from '../interfaces/achievement-response';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
