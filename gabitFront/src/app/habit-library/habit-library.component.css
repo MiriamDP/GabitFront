@@ -171,6 +171,10 @@
   .delete{
     background-color: red;
   }
+
+  .restart{
+    background-color: #059669;
+  }
 }
 
 .spinner {
@@ -590,4 +594,8 @@
   .habit-stats {
     flex-wrap: wrap;
   }
+}
+
+.restart{
+  background-color: #059669;
 }

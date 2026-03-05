@@ -134,4 +134,15 @@ export class HabitService {
     return labels[type || 'unique'] || 'Estándar';
   }
 
+  deleteHabit(habitId: number){
+    return this.http.delete(`${this.apiUrl}/habits/${habitId}/delete`);
+  }
+
+  leaveHabit(habitId: number){
+    return this.http.put(`${this.apiUrl}/habits/${habitId}/leave`,{});
+  }
+
+  restartHabit(habitId: number){
+    return this.http.put(`${this.apiUrl}/habits/${habitId}/restart`,{});
+  }
 }

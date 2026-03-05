@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { HabitService } from '../services/habit.service';
 import { Router } from '@angular/router';
 import { HabitLibrary } from './interfaces/habit-library';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-habit-library',
@@ -30,7 +31,7 @@ export class HabitLibraryComponent {
   constructor(
     public authService: AuthService,
     private habitService: HabitService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -96,11 +97,48 @@ export class HabitLibraryComponent {
     return this.habitProgress[habitId] || 0;
   }
 
-  deleteHabit(){
-    console.log("Click en borrar")
+  deleteHabit(id: number){
+    this.habitService.deleteHabit(id).subscribe({
+      next: (response: any) => {
+        console.log('Se ha eliminado correctamente el habito');
+        this.loadUserCreatedHabits();
+
+      },
+      error: (error) => {
+        console.error('Error al eliminar el hábito:', error);
+        this.isLoading = false;
+      }
+    });
+
+    
   }
 
-  pausedHabit(){
-    console.log("Pausar habito")
+  pausedHabit(id:number){
+    console.log('click pausar')
+    this.habitService.leaveHabit(id).subscribe({
+      next: (response: any) => {
+        console.log('Se ha pausado correctamente el habito');
+        this.loadUserCreatedHabits();
+
+      },
+      error: (error) => {
+        console.error('Error al pausar el hábito:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  restartHabit(id:number){
+    this.habitService.restartHabit(id).subscribe({
+      next: (response: any) => {
+        console.log('Se ha reanudado correctamente el habito');
+        this.loadUserCreatedHabits();
+
+      },
+      error: (error) => {
+        console.error('Error al reanudar el hábito:', error);
+        this.isLoading = false;
+      }
+    });
   }
 }

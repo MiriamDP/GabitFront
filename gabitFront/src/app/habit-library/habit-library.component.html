@@ -78,12 +78,13 @@
                             </span>
                             <span class="creation-date" *ngIf="habit.leave_date">
                                 <!-- <lucide-icon name="calendar-1" size="14"></lucide-icon> -->
-                                Pausado el {{ habit.created_at | date: 'longDate':'es-ES' }}
+                                Pausado el {{ habit.leave_date | date: 'longDate':'es-ES' }}
                             </span>
                         </div>
                         <div class="habit-actions">
-                            <button class="delete" (click)="deleteHabit()">Borrar</button>
-                            <button class="paused">Pausar</button>
+                            <button class="delete" (click)="deleteHabit(habit.idHabit)">Borrar</button>
+                            <button class="paused" *ngIf="!habit.leave_date" (click)="pausedHabit(habit.idHabit)">Pausar</button>
+                            <button class="restart" *ngIf="habit.leave_date" (click)="restartHabit(habit.idHabit)">Reanudar</button>
                         </div>
                     </div>
                 </div>
