@@ -6,12 +6,13 @@ import { User } from '../interfaces/user';
 import { UserResponse } from '../interfaces/user-response';
 import { Achievement } from '../interfaces/habit/habit.interface';
 import { AchievementResponse } from '../interfaces/achievement-response';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl: string = 'http://localhost:8000/api';
+  private baseUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -49,6 +50,12 @@ export class ApiService {
     return this.http.put<UserResponse>(url, newData);
   }
 
+  deleteUser(id: number): Observable<any> {
+    //Endpoint para eliminar al usuario logeado
+    const url = `${this.baseUrl}/user/${id}`;
+    return this.http.delete(url);
+  }
+  
   getAchievements(): Observable<AchievementResponse>{
     const url = `${this.baseUrl}/achievements`;
     return this.http.get<AchievementResponse>(url);

@@ -66,17 +66,6 @@ export class HabitCreationComponent implements OnInit {
       error: (error: any) => {
         console.error(' Error al cargar categorías:', error);
         this.isLoading = false;
-        // Categorías por defecto en caso de error y ahora que no hay backend
-        this.categories = [
-          { id: 1, name: 'Salud', icon: 'heart', color: '#10B981', order: 1 },
-          { id: 2, name: 'Deporte', icon: 'dumbbell', color: '#3B82F6', order: 2 },
-          { id: 3, name: 'Productividad', icon: 'bar-chart-2', color: '#8B5CF6', order: 3 },
-          { id: 4, name: 'Lectura', icon: 'book-open', color: '#F59E0B', order: 4 },
-          { id: 5, name: 'Creatividad', icon: 'palette', color: '#EC4899', order: 5 },
-          { id: 6, name: 'Mindfulness', icon: 'brain', color: '#14B8A6', order: 6 },
-          { id: 7, name: 'Social', icon: 'users', color: '#6366F1', order: 7 },
-          { id: 8, name: 'Otro', icon: 'star', color: '#64748B', order: 8 }
-        ];
       }
     });
   }
@@ -189,13 +178,13 @@ export class HabitCreationComponent implements OnInit {
 
   //Crea un grupo de formulario para un nivel específico
   createLevelFormGroup(levelNumber: number): FormGroup {
-    const levelNames = ['Principiante', 'Intermedio', 'Avanzado', 'Experto', 'Maestro'];
+    const levelNames = ["Principiante", "Intermedio", "Avanzado", "Experto", "Maestro"];
     const defaultName = levelNames[levelNumber - 1] || `Nivel ${levelNumber}`;
     return this.fb.group({
       name: [defaultName, Validators.required],
-      pointsRequired: [levelNumber * 100, [Validators.required, Validators.min(1)]]
     });
   }
+
 
   //Maneja el cambio en el número de niveles desde la interfaz
   onLevelCountChange(event: any): void {
@@ -243,13 +232,12 @@ export class HabitCreationComponent implements OnInit {
   //Crea un grupo de formulario para un logro
   createAchievementFormGroup(): FormGroup {
     return this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      icon: ['trophy'],
-      pointsReward: [50, [Validators.required, Validators.min(1)]],
-      requirement: ['', Validators.required]
+      name: ["", [Validators.required, Validators.minLength(3)]],
+      description: ["", [Validators.required, Validators.minLength(10)]],
+      icon: ["trophy"],
     });
   }
+
 
   //Selecciona un color para el hábito
   selectColor(color: string): void {
@@ -289,13 +277,28 @@ export class HabitCreationComponent implements OnInit {
   //Prepara los datos del hábito para el envío al backend
   prepareHabitData(): any {
     const formValue = this.habitForm.value;
+    const typeMap: any = { "diaria": "daily", "semanal": "weekly", "unica": "unique" };
+
     return {
-      ...formValue.basicInfo,
+      name: formValue.basicInfo.name,
+      description: formValue.basicInfo.description,
+      category: formValue.basicInfo.category,
+      color: formValue.basicInfo.color,
+      isPublic: formValue.basicInfo.isPublic,
       levels: formValue.levels.levelDetails.map((level: any, index: number) => ({
-        ...level,
-        missions: this.getMissionsForLevel(index).value
+        name: level.name,
+        missions: this.getMissionsForLevel(index).value.map((m: any) => ({
+          description: m.description,
+          points: m.points,
+          type: typeMap[m.type] || m.type,
+          requirement: m.requirement,
+        }))
       })),
-      achievements: formValue.achievements
+      achievements: formValue.achievements.map((a: any) => ({
+        name: a.name,
+        description: a.description,
+        icon: a.icon,
+      }))
     };
   }
 

@@ -15,7 +15,7 @@ import {
   Earth, ChartColumnBig, Calendar1, Users, LogOut,
   // Nuevos iconos añadidos para la creación de hábitos
   Heart, Dumbbell, BookOpen, Palette, Brain, X, 
-  ArrowLeft, Star, Check, CheckCheck, Inbox, ListChecks, Layers, Book, PersonStanding, Lock, Zap
+  ArrowLeft, Star, Check, CheckCheck, Inbox, ListChecks, Layers, Book, PersonStanding, Lock, Zap, CircleCheck, CircleAlert
 } from 'lucide-angular';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -37,6 +37,7 @@ import { MissionCardComponent } from './habit-detail/components/mission-card/mis
 import { LevelUpModalComponent } from './habit-detail/components/level-up-modal/level-up-modal.component';
 import { AchievementModalComponent } from './habit-detail/components/achievement-modal/achievement-modal.component';
 import { LevelDetailComponent } from './habit-detail/components/level-detail/level-detail.component';
+import { ConfirmModalComponent } from './shared/confirm-modal/confirm-modal.component';
 import { HabitLibraryComponent } from './habit-library/habit-library.component';
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
@@ -63,6 +64,7 @@ registerLocaleData(localeEs);
     LevelUpModalComponent,
     AchievementModalComponent,
     LevelDetailComponent,
+    ConfirmModalComponent,
     HabitLibraryComponent,
   ],
   imports: [
@@ -79,7 +81,7 @@ registerLocaleData(localeEs);
       Earth, ChartColumnBig, Calendar1, Users, LogOut,
       // Iconos para Habits (Categorías y UI)
       Heart, Dumbbell, BookOpen, Palette, Brain, Star, Check, X,
-      ArrowLeft, CheckCheck, Inbox, ListChecks, Layers, Book, PersonStanding, Lock, Zap
+      ArrowLeft, CircleCheck, CircleAlert, Inbox, ListChecks, Layers, Book, PersonStanding, Lock, Zap
     })
   ],
   providers: [

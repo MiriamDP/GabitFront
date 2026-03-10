@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  userLogged: User={
+  userLogged: User = {
     idUser: 0,
     username: '',
     email: '',
@@ -19,7 +19,7 @@ export class UserProfileComponent implements OnInit {
     updated_at: ''
   }
 
-  userNew: User={
+  userNew: User = {
     idUser: 0,
     username: '',
     email: '',
@@ -28,25 +28,25 @@ export class UserProfileComponent implements OnInit {
     created_at: '',
     updated_at: ''
   }
-  
 
-  constructor(private userSvc: UserProfileService, private authService: AuthService){}
+
+  constructor(private userSvc: UserProfileService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    const userLogged=this.authService.user();
-    if (userLogged){
-      this.userLogged=userLogged;
-      this.userNew=this.userLogged;
+    const userLogged = this.authService.user();
+    if (userLogged) {
+      this.userLogged = userLogged;
+      this.userNew = this.userLogged;
     }
   }
 
-  updateUser(){
+  updateUser() {
 
-    this.userNew.username=this.userNew.username || this.userLogged.username;
-    this.userNew.email=this.userNew.email || this.userLogged.email;
-    this.userNew.photo=this.userNew.photo || this.userLogged.photo;
+    this.userNew.username = this.userNew.username || this.userLogged.username;
+    this.userNew.email = this.userNew.email || this.userLogged.email;
+    this.userNew.photo = this.userNew.photo || this.userLogged.photo;
 
-    const newData={
+    const newData = {
       username: this.userNew.username,
       email: this.userNew.email,
       photo: this.userNew.photo,
@@ -57,10 +57,10 @@ export class UserProfileComponent implements OnInit {
     console.log("Actualizando");
     this.userSvc.update(newData, this.userLogged.idUser);
   }
-  
-    onFileSelected(event: any) {
+
+  onFileSelected(event: any) {
     const file = event.target.files[0];
-    
+
     if (file) {
       // Validar tamaño 
       if (file.size > 2 * 1024 * 1024) {
@@ -83,5 +83,12 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  
+  showDeleteModal = false;
+  deleteUser() {
+    this.showDeleteModal = false;
+    this.userSvc.delete(this.userLogged.idUser);
+  }
+
+
+
 }

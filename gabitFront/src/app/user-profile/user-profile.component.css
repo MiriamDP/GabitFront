@@ -1,23 +1,27 @@
-
 :host {
-  display: flex;       /* Esto activa el modo "Lado a Lado" */
-  width: 100%;
-  min-height: 100vh;
+    display: flex;
+    /* Esto activa el modo "Lado a Lado" */
+    width: 100%;
+    min-height: 100vh;
 }
 
 /* Contenedor del contenido derecho */
 .main-content {
-  flex: 1;              /* Ocupa todo el espacio restante */
-  padding: 2rem 3rem;   /* Espacio interno generoso */
-  overflow-y: auto;     /* Permite scroll si el contenido es largo */
-  max-height: 100vh;    /* Limita la altura a la ventana */
+    flex: 1;
+    /* Ocupa todo el espacio restante */
+    padding: 2rem 3rem;
+    /* Espacio interno generoso */
+    overflow-y: auto;
+    /* Permite scroll si el contenido es largo */
+    max-height: 100vh;
+    /* Limita la altura a la ventana */
 }
 
-h1{
+h1 {
     color: var(--primary-color);
 }
 
-.card{
+.card {
     background-color: var(--bg-color-light);
     border-radius: 2em;
     height: fit-content;
@@ -25,10 +29,10 @@ h1{
     display: flex;
     gap: 1rem;
     flex-direction: column;
-    box-shadow: 5px 5px 5px var(--shadow-light-dark-side),-5px -5px 5px var(--shadow-light-light-side);
+    box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -5px -5px 5px var(--shadow-light-light-side);
 }
 
-input{
+input {
     color: var(--primary-color);
     outline: none;
     background-color: var(--bg-color-light);
@@ -37,10 +41,10 @@ input{
     border: none;
     border-radius: 2em;
     padding: 0 2em;
-    box-shadow: 5px 5px 5px var(--shadow-light-dark-side) inset,-5px -5px 5px var(--shadow-light-light-side) inset;
+    box-shadow: 5px 5px 5px var(--shadow-light-dark-side) inset, -5px -5px 5px var(--shadow-light-light-side) inset;
 }
 
-button{
+button {
     width: 50%;
     background-color: var(--primary-color);
     padding: 1em;
@@ -50,43 +54,82 @@ button{
     font-size: 1.2rem;
     align-self: center;
     border: none;
-    box-shadow: 5px 5px 5px var(--shadow-light-dark-side),-10px -10px 10px var(--shadow-light-light-side);
+    box-shadow: 5px 5px 5px var(--shadow-light-dark-side), -10px -10px 10px var(--shadow-light-light-side);
     cursor: pointer;
     transition: box-shadow 0.35s, background-color 0.35s;
     font-family: var(--bodycopy);
 }
 
-button:hover{
+button:hover {
     background-color: var(--primary-color-700);
-    box-shadow: 5px 5px 5px var(--primary-color-900) inset,-5px -5px 5px var(--primary-color) inset;
-    
+    box-shadow: 5px 5px 5px var(--primary-color-900) inset, -5px -5px 5px var(--primary-color) inset;
+
 }
 
-input:focus{
+input:focus {
     outline: 2px solid var(--primary-color);
 }
 
-legend{
+legend {
     font-family: var(--font-accent);
     font-size: 3rem;
     color: var(--primary-color);
 }
 
-label{
+label {
     font-family: var(--font-accent);
     color: var(--primary-color);
     font-size: 1.5rem;
     margin-top: 1rem;
 }
 
-.preview{
+.preview {
     height: 100px;
     width: 100px;
     border-radius: 50%;
     border: 2px solid var(--primary-color);
 
-    img{
+    img {
         height: 100%;
         width: auto;
     }
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem 3rem;
+    overflow-y: auto;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card {
+    width: 100%;
+}
+
+.btn-delete {
+    width: 30%;
+    background-color: transparent;
+    padding: 0.6em;
+    color: #c0392b;
+    border-radius: 1rem;
+    font-weight: bold;
+    font-size: 0.85rem;
+    align-self: center;
+    border: 2px solid #c0392b;
+    font-family: var(--bodycopy);
+    cursor: pointer;
+    box-shadow:
+        4px 4px 8px var(--shadow-light-dark-side),
+        -4px -4px 8px var(--shadow-light-light-side);
+    transition: box-shadow 0.3s, background-color 0.3s, color 0.3s;
+    margin-top: 3rem;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+    color: white;
+    box-shadow: 5px 5px 5px #7b1c11 inset, -5px -5px 5px #e74c3c inset;
 }

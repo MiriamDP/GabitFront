@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap, map } from 'rxjs/operators'; // Importamos map
+import { environment } from 'src/environments/environment';
 import {
   Habit,
   HabitDetail,
@@ -17,7 +18,7 @@ import { HabitLibrary } from '../habit-library/interfaces/habit-library';
   providedIn: 'root'
 })
 export class HabitService {
-  private apiUrl = 'http://localhost:8000/api';
+  private baseUrl: string = environment.apiUrl;
 
   // Para mantener el progreso actualizado en tiempo real en el detalle del hábito
   private currentHabitProgress$ = new BehaviorSubject<HabitProgress | null>(null);
@@ -25,7 +26,7 @@ export class HabitService {
   constructor(private http: HttpClient) { }
 
   getUserHabits(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits`);
+    return this.http.get(`${this.baseUrl}/habits`);
   }
 
   getUserCreatedHabits():Observable<HabitLibrary[]>
@@ -34,32 +35,32 @@ export class HabitService {
   }
 
   createHabit(habit: Habit | any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/habits`, habit);
+    return this.http.post(`${this.baseUrl}/habits`, habit);
   }
 
 
   getHabitDetail(habitId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits/${habitId}/detail`);
+    return this.http.get(`${this.baseUrl}/habits/${habitId}/detail`);
   }
 
   getHabitById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits/${id}`);
+    return this.http.get(`${this.baseUrl}/habits/${id}`);
   }
 
   updateHabit(id: number, habit: Partial<Habit>): Observable<any> {
-    return this.http.put(`${this.apiUrl}/habits/${id}`, habit);
+    return this.http.put(`${this.baseUrl}/habits/${id}`, habit);
   }
 
   getPublicHabits(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/public/habits`);
+    return this.http.get(`${this.baseUrl}/public/habits`);
   }
 
   getCategories(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/categories`);
+    return this.http.get(`${this.baseUrl}/categories`);
   }
 
   getHabitProgress(habitId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits/${habitId}/progress`);
+    return this.http.get(`${this.baseUrl}/habits/${habitId}/progress`);
   }
 
 
@@ -68,15 +69,15 @@ export class HabitService {
   }
 
   updateMissionProgress(misionId: number, incremento: number = 1): Observable<any> {
-    return this.http.post(`${this.apiUrl}/missions/${misionId}/progress`, { incremento });
+    return this.http.post(`${this.baseUrl}/missions/${misionId}/progress`, { incremento });
   }
 
   completeMission(misionId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/missions/${misionId}/complete`, {});
+    return this.http.post(`${this.baseUrl}/missions/${misionId}/complete`, {});
   }
 
   getHabitAchievements(habitId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/habits/${habitId}/achievements`);
+    return this.http.get(`${this.baseUrl}/habits/${habitId}/achievements`);
   }
 
 
