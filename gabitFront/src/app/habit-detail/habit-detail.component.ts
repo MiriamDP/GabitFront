@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { HabitService } from 'src/app/services/habit.service';
@@ -25,15 +25,16 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public habitService: HabitService
-  ) {}
+    public habitService: HabitService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const habitId = Number(params['id']);
       this.loadHabitData(habitId);
     });
-    
+
     this.subscribeToProgress();
   }
 
@@ -44,30 +45,30 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
 
   private loadHabitData(habitId: number): void {
     this.loading = true;
-
-    if (!habitId || isNaN(habitId)) {
-      this.error = 'ID de hábito no válido';
-      this.loading = false;
-      return;
-    }
-
     this.habitService.getHabitDetail(habitId).subscribe({
       next: (response) => {
         this.habitDetail = response.data;
-        
+
         if (this.habitDetail) {
-          this.selectedLevel = this.findCurrentLevel(
-            this.habitDetail.levels, 
-            this.habitDetail.current_level
-          );
+          console.log('LEVELS:', this.habitDetail.levels.map((l: any) => ({
+            id: l.idLevel,
+            num: l.levelNumber,
+            completed: l.completed,
+            missions: l.missions.length
+          })));
+          console.log('current_level:', this.habitDetail.current_level);
+
+          const found = this.findCurrentLevel(this.habitDetail.levels, this.habitDetail.current_level);
+          this.selectedLevel = found ? { ...found } : null;
+          console.log('selectedLevel tras asignación:', this.selectedLevel?.levelNumber, this.selectedLevel?.missions?.length, 'misiones');
         }
-        
+
         this.loadProgress(habitId);
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.error = 'Error al cargar el hábito';
-        console.error(err);
         this.loading = false;
       }
     });
@@ -96,40 +97,67 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
     return levels.find(l => l.levelNumber === currentLevelNumber) || levels[0] || null;
   }
 
+
+  showContent = true;
   onLevelSelected(level: Level): void {
-    const previousLevel = this.habitDetail?.levels.find(
-      l => l.levelNumber === level.levelNumber - 1
-    );
-    
-    const isUnlocked = this.habitService.isLevelUnlocked(level, previousLevel);
-    
-    if (!isUnlocked) {
-      return;
+    // 1. Si no es el nivel 1, comprobamos que el anterior esté completado
+    //    Si no lo está, bloqueamos el acceso y salimos
+    if (level.levelNumber !== 1) {
+      const previousLevel = this.habitDetail?.levels.find(
+        l => l.levelNumber === level.levelNumber - 1
+      );
+      if (!previousLevel?.completed) return;
     }
 
-    this.selectedLevel = level;
-  }
+    // 2. Ocultamos el contenido (app-level-detail y app-mission-list desaparecen del DOM)
+    //    Esto fuerza a Angular a DESTRUIR los componentes hijo
+    this.showContent = false;
 
+    // 3. Actualizamos selectedLevel con una copia nueva del nivel clickado
+    //    El spread {...level} crea una nueva referencia de objeto
+    this.selectedLevel = { ...level };
+
+    // 4. Forzamos que Angular procese el showContent = false ahora mismo
+    this.cdr.detectChanges();
+
+    // 5. Después de 10ms (un ciclo de Angular), volvemos a mostrar el contenido
+    //    Angular ahora RECREA los componentes hijo desde cero con el nuevo nivel
+    //    y los renderiza correctamente con los datos actualizados
+    setTimeout(() => {
+      this.showContent = true;
+      this.cdr.detectChanges(); // Forzamos que Angular procese el showContent = true
+    }, 10);
+
+    // Este proceso de ocultar y mostrar es un truco para forzar a Angular a destruir y recrear los 
+    // componentes hijo (app-level-detail y app-mission-list) cada vez que se selecciona un nivel diferente.
+    // Sin esto, Angular no detecta correctamente los cambios en selectedLevel y no actualiza la vista como debería.
+  }
 
   onMissionComplete(missionId: number): void {
     this.habitService.completeMission(missionId).subscribe({
       next: (response) => {
-        const { mission, progress, levelUp, achievements } = response.data;
-        
-        this.updateMissionInList(mission);
+        const { progress, level_up, unlocked_achievements } = response.data;
+
+        // Actualizamos la misión como completada directamente en memoria,
+        // sin llamada extra al backend, para que la UI responda inmediatamente
+        this.markMissionAsCompleted(missionId);
+
+        // Actualizamos el progreso general
         this.progress = progress;
 
-        if (levelUp) {
+        // Si todas las misiones del nivel están completadas, marcamos el nivel como completado
+        // y desbloqueamos el siguiente
+        if (level_up) {
+          this.markCurrentLevelCompleted();
           this.handleLevelUp();
         }
 
-        if (achievements && achievements.length > 0) {
-          this.handleNewAchievements(achievements);
+        if (unlocked_achievements?.length > 0) {
+          this.handleNewAchievements(unlocked_achievements);
         }
 
-        if (this.habitDetail) {
-          this.reloadHabitLevels(this.habitDetail.idHabit);
-        }
+        // Forzamos detección de cambios para que Angular actualice la vista
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error al completar misión:', err);
@@ -137,16 +165,50 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  private updateMissionInList(updatedMission: Mission): void {
-    if (!this.selectedLevel) return;
+  // Marca la misión como completada en el array en memoria,
+  // reemplazando el objeto con una nueva referencia para que Angular lo detecte
+  private markMissionAsCompleted(missionId: number): void {
+    if (!this.habitDetail) return;
 
-    const missionIndex = this.selectedLevel.missions.findIndex(
-      m => m.idMission === updatedMission.idMission
-    );
+    this.habitDetail.levels = this.habitDetail.levels.map(level => {
+      const missionIndex = level.missions.findIndex(m => m.idMission === missionId);
 
-    if (missionIndex !== -1) {
-      this.selectedLevel.missions[missionIndex] = updatedMission;
-    }
+      if (missionIndex === -1) return level;
+
+      // Creamos nuevas referencias para que Angular detecte el cambio
+      const updatedMissions = [...level.missions];
+      updatedMissions[missionIndex] = { ...updatedMissions[missionIndex], completed: true };
+
+      const updatedLevel = { ...level, missions: updatedMissions };
+
+      // Si el nivel seleccionado es este, actualizamos también selectedLevel
+      if (this.selectedLevel?.idLevel === level.idLevel) {
+        this.selectedLevel = updatedLevel;
+      }
+
+      return updatedLevel;
+    });
+  }
+
+  // Marca el nivel actual como completado y avanza current_level en habitDetail
+  private markCurrentLevelCompleted(): void {
+    if (!this.habitDetail || !this.selectedLevel) return;
+
+    this.habitDetail.levels = this.habitDetail.levels.map(level => {
+      if (level.idLevel === this.selectedLevel!.idLevel) {
+        const completedLevel = { ...level, completed: true };
+        // Actualizamos también selectedLevel con la nueva referencia
+        this.selectedLevel = completedLevel;
+        return completedLevel;
+      }
+      return level;
+    });
+
+    // Avanzamos el current_level en el habitDetail
+    this.habitDetail = {
+      ...this.habitDetail,
+      current_level: this.habitDetail.current_level + 1
+    };
   }
 
   private handleLevelUp(): void {
@@ -156,30 +218,6 @@ export class HabitDetailComponent implements OnInit, OnDestroy {
   private handleNewAchievements(achievements: Achievement[]): void {
     this.newAchievements = achievements;
     this.showAchievementModal = true;
-  }
-
-  private reloadHabitLevels(habitId: number): void {
-    this.habitService.getHabitDetail(habitId).subscribe({
-      next: (response) => {
-        const habitDetail: HabitDetail = response.data;
-        
-        if (this.habitDetail && habitDetail) {
-          this.habitDetail.levels = habitDetail.levels;
-          this.habitDetail.current_level = habitDetail.current_level;
-          
-          const updatedLevel = habitDetail.levels?.find(
-            (l: Level) => l.idLevel === this.selectedLevel?.idLevel
-          );
-          
-          if (updatedLevel) {
-            this.selectedLevel = updatedLevel;
-          }
-        }
-      },
-      error: (err) => {
-        console.error('Error al recargar niveles:', err);
-      }
-    });
   }
 
   onCloseLevelUpModal(): void {

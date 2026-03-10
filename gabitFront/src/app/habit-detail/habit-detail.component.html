@@ -26,16 +26,16 @@
       </aside>
 
       <main class="main-content">
-        <app-level-detail 
-          *ngIf="selectedLevel" 
-          [level]="selectedLevel">
-        </app-level-detail>
+        <ng-container *ngIf="selectedLevel && showContent">
+          <app-level-detail 
+            [level]="selectedLevel">
+          </app-level-detail>
 
-        <app-mission-list 
-          *ngIf="selectedLevel" 
-          [missions]="selectedLevel.missions"
-          (missionComplete)="onMissionComplete($event)">
-        </app-mission-list>
+          <app-mission-list 
+            [missions]="selectedLevel.missions"
+            (missionComplete)="onMissionComplete($event)">
+          </app-mission-list>
+        </ng-container>
       </main>
     </div>
   </ng-container>
