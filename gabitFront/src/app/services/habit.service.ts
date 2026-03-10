@@ -31,7 +31,7 @@ export class HabitService {
 
   getUserCreatedHabits():Observable<HabitLibrary[]>
   {
-    return this.http.get<HabitLibrary[]>(`${this.apiUrl}/habits/created-by-user`)
+    return this.http.get<HabitLibrary[]>(`${this.baseUrl}/habits/created-by-user`)
   }
 
   createHabit(habit: Habit | any): Observable<any> {
@@ -136,14 +136,14 @@ export class HabitService {
   }
 
   deleteHabit(habitId: number){
-    return this.http.delete(`${this.apiUrl}/habits/${habitId}/delete`);
+    return this.http.delete(`${this.baseUrl}/habits/${habitId}/delete`);
   }
 
   leaveHabit(habitId: number){
-    return this.http.put(`${this.apiUrl}/habits/${habitId}/leave`,{});
+    return this.http.put(`${this.baseUrl}/habits/${habitId}/leave`,{});
   }
 
   restartHabit(habitId: number){
-    return this.http.put(`${this.apiUrl}/habits/${habitId}/restart`,{});
+    return this.http.put(`${this.baseUrl}/habits/${habitId}/restart`,{});
   }
 }
