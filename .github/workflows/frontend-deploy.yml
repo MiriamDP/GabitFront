@@ -3,12 +3,13 @@ name: Deploy Frontend Gabit
 on:
   push:
     branches:
-      - main
+      - carmen
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,25 +27,30 @@ jobs:
         run: npm run build -- --configuration production
         working-directory: gabitFront
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+      - name: Preparar zip para CodeDeploy
+        run: |
+          mkdir -p deploy-package
+          cp -r gabitFront/dist/gabit-front/* deploy-package/
+          cp appspec.yml deploy-package/
+          cp -r scripts deploy-package/
+          cd deploy-package && zip -r ../frontend-deploy.zip .
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          name: frontend-build
-          path: gabitFront/dist/gabit-front/
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
+
+      - name: Subir zip a S3
+        run: aws s3 cp frontend-deploy.zip s3://bucket-gabit/frontend-deploy.zip
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: frontend-build
-          path: gabitFront/dist/gabit-front/
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -58,4 +64,5 @@ jobs:
           aws deploy create-deployment \
             --application-name=gabit-frontend \
             --deployment-group-name=gabit-frontend-group \
-            --github-location repository=$GITHUB_REPOSITORY,commitId=$GITHUB_SHA
+            --s3-location bucket=bucket-gabit,key=frontend-deploy.zip,bundleType=zip \
+            --file-exists-behavior OVERWRITE

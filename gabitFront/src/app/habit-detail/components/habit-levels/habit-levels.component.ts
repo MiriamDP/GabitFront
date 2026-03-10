@@ -42,7 +42,7 @@ export class HabitLevelsComponent {
   // --- CÁLCULO DE PROGRESO ---
   getLevelProgress(level: Level): number {
     if (level.completed) return 100;
-    
+
     // Si no hay misiones, no hay progreso (o es 0%)
     if (!level.missions || level.missions.length === 0) return 0;
 
@@ -54,16 +54,16 @@ export class HabitLevelsComponent {
 
     // 2. Calcular Puntos Obtenidos 
     const earnedPoints = level.missions
-      .filter(mission => mission.completed) 
+      .filter(mission => mission.completed)
       .reduce((sum, mission) => sum + (mission.points || 0), 0);
-    
+
     return Math.min((earnedPoints / totalPoints) * 100, 100);
   }
 
   // Helper para mostrar texto en el HTML (ej: "50 / 100")
   getLevelPointsText(level: Level): string {
     if (!level.missions) return '0 / 0';
-    
+
     const totalPoints = level.missions.reduce((sum, m) => sum + (m.points || 0), 0);
     const earnedPoints = level.missions
       .filter(m => m.completed)
@@ -73,10 +73,10 @@ export class HabitLevelsComponent {
   }
   
   getLevelStatusIcon(level: Level): string {
-    if (level.completed) return '✓';
+    if (level.completed) return 'Check';
     if (!this.isLevelUnlocked(level)) return 'Lock';
     if (this.isCurrentLevel(level)) return 'Zap';
-    return '';
+    return 'Check';
   }
 
   getLevelStatusClass(level: Level): string {

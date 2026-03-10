@@ -18,12 +18,12 @@
       *ngIf="!isCompleted" 
       class="btn-complete"
       (click)="onCompleteMission()">
-      <lucide-icon name="Check" [size]="18"></lucide-icon>
+      <lucide-icon name="CircleCheck" [size]="20"></lucide-icon>
       Marcar como completada
     </button>
 
     <div *ngIf="isCompleted" class="completed-badge">
-      <lucide-icon name="CheckCircle" [size]="20"></lucide-icon>
+      <lucide-icon name="CircleCheck" [size]="20"></lucide-icon>
       <span>¡Completada!</span>
       <span class="completion-date" *ngIf="mission.completed_at">
         {{ formatDate(mission.completed_at) }}

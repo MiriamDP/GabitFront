@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /gabitFront/dist/gabit-front
+  - source: /
     destination: /var/www/frontend
 hooks:
   ApplicationStop:

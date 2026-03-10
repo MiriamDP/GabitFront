@@ -19,17 +19,10 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [UserLogGuard] },
   { path: 'crear-habito', component: HabitCreationComponent, canActivate: [UserLogGuard] },
   { path: 'perfil', component: UserProfileComponent, canActivate: [UserLogGuard] },
+  { path: 'eliminar-cuenta/:id', component: UserProfileComponent, canActivate: [UserLogGuard] },
   { path: 'habits/:id', component: HabitDetailComponent, canActivate: [UserLogGuard] },
-  {path: 'eliminar-cuenta/:id', component: UserProfileComponent, canActivate: [UserLogGuard] },
-  {path: '', component: LandingComponent, canActivate:[PublicAccessGuard]},
-  { path: 'login', component: LoginComponent, canActivate:[PublicAccessGuard] },
-  { path: 'registro', component: RegisterComponent, canActivate:[PublicAccessGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate:[UserLogGuard]  },
-  { path: 'crear-habito', component: HabitCreationComponent , canActivate:[UserLogGuard]},
-  { path: 'perfil', component: UserProfileComponent , canActivate:[UserLogGuard]},
-  { path: 'habito/:id', component: HabitDetailComponent, canActivate:[UserLogGuard] },
-  { path: 'logros', component: AchievementComponent, canActivate:[UserLogGuard] },
-  { path: 'biblioteca', component: HabitLibraryComponent, canActivate:[UserLogGuard] },
+  { path: 'logros', component: AchievementComponent, canActivate: [UserLogGuard] },
+  { path: 'biblioteca', component: HabitLibraryComponent, canActivate: [UserLogGuard] },
 ];
 
 @NgModule({

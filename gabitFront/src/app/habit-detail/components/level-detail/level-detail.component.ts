@@ -53,7 +53,7 @@ export class LevelDetailComponent {
   get completionPercentage(): number {
     if (this.totalMissions === 0) return 0;
     if (this.isLevelCompleted) return 100;
-    
+
     return Math.round((this.completedMissions / this.totalMissions) * 100);
   }
 
@@ -62,18 +62,18 @@ export class LevelDetailComponent {
     if (this.isLevelCompleted) {
       return 'Nivel completado';
     }
-    
+
     const remaining = this.totalMissions - this.completedMissions;
     if (remaining === 1) {
       return 'Solo falta 1 misión';
     }
-    
+
     return `Faltan ${remaining} misiones para completar`;
   }
 
-  get statusIcon(): string {
-    if (this.isLevelCompleted) return 'CheckCircle2';
-    if (this.completedMissions > 0) return 'Zap';
-    return 'Info';
-  }
+ get statusIcon(): string {
+  if (this.isLevelCompleted) return 'CircleCheck';
+  if (this.completedMissions > 0) return 'Zap';
+  return 'CircleAlert';
+}
 }
