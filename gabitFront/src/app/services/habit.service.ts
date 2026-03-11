@@ -12,6 +12,7 @@ import {
   Mission,
   Achievement
 } from '../interfaces/habit/habit.interface';
+import { HabitLibrary } from '../habit-library/interfaces/habit-library';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,11 @@ export class HabitService {
 
   getUserHabits(): Observable<any> {
     return this.http.get(`${this.baseUrl}/habits`);
+  }
+
+  getUserCreatedHabits():Observable<HabitLibrary[]>
+  {
+    return this.http.get<HabitLibrary[]>(`${this.baseUrl}/habits/created-by-user`)
   }
 
   createHabit(habit: Habit | any): Observable<any> {
@@ -129,4 +135,15 @@ export class HabitService {
     return labels[type || 'unique'] || 'Estándar';
   }
 
+  deleteHabit(habitId: number){
+    return this.http.delete(`${this.baseUrl}/habits/${habitId}/delete`);
+  }
+
+  leaveHabit(habitId: number){
+    return this.http.put(`${this.baseUrl}/habits/${habitId}/leave`,{});
+  }
+
+  restartHabit(habitId: number){
+    return this.http.put(`${this.baseUrl}/habits/${habitId}/restart`,{});
+  }
 }
