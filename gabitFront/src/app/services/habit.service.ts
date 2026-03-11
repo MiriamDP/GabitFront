@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap, map } from 'rxjs/operators'; // Importamos map
+import { tap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import {
   Habit,
@@ -29,15 +29,13 @@ export class HabitService {
     return this.http.get(`${this.baseUrl}/habits`);
   }
 
-  getUserCreatedHabits():Observable<HabitLibrary[]>
-  {
-    return this.http.get<HabitLibrary[]>(`${this.baseUrl}/habits/created-by-user`)
+  getUserCreatedHabits(): Observable<HabitLibrary[]> {
+    return this.http.get<HabitLibrary[]>(`${this.baseUrl}/habits/created-by-user`);
   }
 
   createHabit(habit: Habit | any): Observable<any> {
     return this.http.post(`${this.baseUrl}/habits`, habit);
   }
-
 
   getHabitDetail(habitId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/habits/${habitId}/detail`);
@@ -63,7 +61,6 @@ export class HabitService {
     return this.http.get(`${this.baseUrl}/habits/${habitId}/progress`);
   }
 
-
   getCurrentProgress(): Observable<HabitProgress | null> {
     return this.currentHabitProgress$.asObservable();
   }
@@ -80,20 +77,21 @@ export class HabitService {
     return this.http.get(`${this.baseUrl}/habits/${habitId}/achievements`);
   }
 
-
   getUserStats(habits: Habit[]): UserStats {
-    if (!habits) return { 
-      totalHabits: 0, 
-      activeHabits: 0, 
-      completedMissions: 0, 
-      totalPoints: 0, 
-      longestStreak: 0 
+    if (!habits) return {
+      totalHabits: 0,
+      activeHabits: 0,
+      completedMissions: 0,
+      completedLevels: 0,
+      totalPoints: 0,
+      longestStreak: 0
     };
-    
+
     return {
       totalHabits: habits.length,
-      activeHabits: habits.filter(h => h.visibility).length,
-      completedMissions: habits.reduce((sum, h) => sum + (h.total_missions || 0), 0),
+      activeHabits: habits.length,
+      completedMissions: habits.reduce((sum, h) => sum + (h.completed_missions ?? 0), 0),
+      completedLevels: habits.reduce((sum, h) => sum + (h.completed_levels ?? 0), 0),
       totalPoints: 0,
       longestStreak: 0
     };
@@ -111,7 +109,7 @@ export class HabitService {
   calculateLevelProgress(level: Level): number {
     const missions = level.missions || [];
     if (missions.length === 0) return 0;
-    
+
     const completed = missions.filter(m => m.completed ?? false).length;
     return Math.round((completed / missions.length) * 100);
   }
@@ -119,10 +117,10 @@ export class HabitService {
   isLevelUnlocked(level: Level, previousLevel?: Level): boolean {
     if (level.levelNumber === 1) return true;
     if (!previousLevel) return false;
-    
+
     const missions = previousLevel.missions || [];
-    if (missions.length === 0) return false; 
-    
+    if (missions.length === 0) return false;
+
     return missions.every(m => m.completed ?? false);
   }
 
@@ -135,15 +133,15 @@ export class HabitService {
     return labels[type || 'unique'] || 'Estándar';
   }
 
-  deleteHabit(habitId: number){
+  deleteHabit(habitId: number) {
     return this.http.delete(`${this.baseUrl}/habits/${habitId}/delete`);
   }
 
-  leaveHabit(habitId: number){
-    return this.http.put(`${this.baseUrl}/habits/${habitId}/leave`,{});
+  leaveHabit(habitId: number) {
+    return this.http.put(`${this.baseUrl}/habits/${habitId}/leave`, {});
   }
 
-  restartHabit(habitId: number){
-    return this.http.put(`${this.baseUrl}/habits/${habitId}/restart`,{});
+  restartHabit(habitId: number) {
+    return this.http.put(`${this.baseUrl}/habits/${habitId}/restart`, {});
   }
 }

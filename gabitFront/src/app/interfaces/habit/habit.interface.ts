@@ -1,4 +1,3 @@
-
 export interface Category {
   id: number;          
   name: string;
@@ -15,17 +14,25 @@ export interface Habit {
   color: string;
   visibility: boolean;
 
-
   category_id?: number;
   category_name?: string;
   category_icon?: string;
 
-
   category?: Category;
-
 
   total_levels?: number;
   total_missions?: number;
+  completed_levels?: number;
+  completed_missions?: number;
+
+  // Datos del nivel actual
+  current_level?: number;
+  current_level_missions?: number;
+  current_level_completed?: number;
+
+  // Días activo en el hábito
+  days_active?: number;
+
   created_at?: string;
   updated_at?: string;
 
@@ -102,7 +109,6 @@ export interface UserAchievement extends Achievement {
   date: string;
 }
 
-
 export interface CompleteMissionResponse {
   success: boolean;
   data: {
@@ -126,6 +132,7 @@ export interface UserStats {
   totalHabits: number;
   activeHabits: number;
   completedMissions: number;
+  completedLevels: number;
   totalPoints?: number;
   longestStreak?: number;
   totalAchievements?: number;

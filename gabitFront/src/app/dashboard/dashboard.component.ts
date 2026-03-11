@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
     totalHabits: 0,
     activeHabits: 0,
     completedMissions: 0,
+    completedLevels: 0,
     totalPoints: 0,
     longestStreak: 0
   };
@@ -31,12 +32,12 @@ export class DashboardComponent implements OnInit {
     public authService: AuthService,
     private habitService: HabitService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const user = this.authService.user();
     if (user) {
-      this.userName = user.username || 'Usuario'; 
+      this.userName = user.username || 'Usuario';
     }
     this.loadUserHabits();
   }
@@ -48,19 +49,19 @@ export class DashboardComponent implements OnInit {
     this.habitService.getUserHabits().subscribe({
       next: (response: any) => {
         console.log("Respuesta del backend:", response);
-        
+
         if (response.success && response.data) {
           const habitsData = response.data;
-          
+
           if (Array.isArray(habitsData)) {
             this.userHabits = habitsData;
-            
-            // Calculamos estadísticas
+
+            // Calculamos estadísticas a partir de los datos del backend
             this.stats = this.habitService.getUserStats(this.userHabits);
 
             // Cargar progreso REAL de cada hábito
             this.loadHabitsProgress();
-            
+
             console.log("Hábitos cargados:", this.userHabits);
           } else {
             console.error('La respuesta no contiene un array de hábitos:', habitsData);
@@ -76,7 +77,7 @@ export class DashboardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar hábitos:', error);
-        
+
         if (error.status === 401) {
           this.error = 'Sesión expirada. Por favor, inicia sesión nuevamente.';
         } else if (error.status === 0) {
@@ -84,7 +85,7 @@ export class DashboardComponent implements OnInit {
         } else {
           this.error = 'No se pudieron cargar tus caminos. Intenta recargar la página.';
         }
-        
+
         this.isLoading = false;
       }
     });
@@ -132,7 +133,7 @@ export class DashboardComponent implements OnInit {
 
   viewHabitDetails(habitId: number | undefined): void {
     if (habitId) {
-      this.router.navigate(['/habits', habitId]); 
+      this.router.navigate(['/habits', habitId]);
     }
   }
 
@@ -144,10 +145,10 @@ export class DashboardComponent implements OnInit {
   formatDate(dateString: string): string {
     if (!dateString) return '';
     const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     };
     return date.toLocaleDateString('es-ES', options);
   }
@@ -157,5 +158,18 @@ export class DashboardComponent implements OnInit {
     if (hour < 12) return 'Buenos días';
     if (hour < 20) return 'Buenas tardes';
     return 'Buenas noches';
+  }
+
+  getCurrentLevelPercentage(habit: Habit): number {
+    const total = habit.current_level_missions ?? 0;
+    const completed = habit.current_level_completed ?? 0;
+    if (total === 0) return 0;
+    return Math.round((completed / total) * 100);
+  }
+
+  getMissionsRemaining(habit: Habit): number {
+    const total = habit.current_level_missions ?? 0;
+    const completed = habit.current_level_completed ?? 0;
+    return Math.max(0, total - completed);
   }
 }
