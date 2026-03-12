@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
 
             // Calculamos estadísticas a partir de los datos del backend
             this.stats = this.habitService.getUserStats(this.userHabits);
+            console.log(this.stats);
 
             // Cargar progreso REAL de cada hábito
             this.loadHabitsProgress();
