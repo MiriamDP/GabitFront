@@ -133,3 +133,12 @@ label {
     color: white;
     box-shadow: 5px 5px 5px #7b1c11 inset, -5px -5px 5px #e74c3c inset;
 }
+
+input[type="file"]::file-selector-button {
+    display: none;
+}
+
+input[type="file"]{
+    align-content: center;
+    color: var(--primary-color);
+}
