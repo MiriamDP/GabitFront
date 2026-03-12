@@ -24,20 +24,20 @@ export class HabitLibraryComponent {
     totalHabits: 0,
     activeHabits: 0,
     completedMissions: 0,
+    completedLevels: 0,
     totalPoints: 0,
     longestStreak: 0
   };
-
   constructor(
     public authService: AuthService,
     private habitService: HabitService,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const user = this.authService.user();
     if (user) {
-      this.userName = user.username || 'Usuario'; 
+      this.userName = user.username || 'Usuario';
     }
     this.loadUserCreatedHabits();
   }
@@ -52,7 +52,7 @@ export class HabitLibraryComponent {
         const habitsData = response;
         if (Array.isArray(habitsData)) {
           this.userHabits = habitsData;
-          
+
           // Calculamos estadísticas
           // this.stats = this.habitService.getUserStats(this.userHabits);
 
@@ -88,7 +88,7 @@ export class HabitLibraryComponent {
 
   viewHabitDetails(habitId: number | undefined): void {
     if (habitId) {
-      this.router.navigate(['/habits', habitId]); 
+      this.router.navigate(['/habits', habitId]);
     }
   }
 
@@ -97,7 +97,7 @@ export class HabitLibraryComponent {
     return this.habitProgress[habitId] || 0;
   }
 
-  deleteHabit(id: number){
+  deleteHabit(id: number) {
     this.habitService.deleteHabit(id).subscribe({
       next: (response: any) => {
         console.log('Se ha eliminado correctamente el habito');
@@ -110,10 +110,10 @@ export class HabitLibraryComponent {
       }
     });
 
-    
+
   }
 
-  pausedHabit(id:number){
+  pausedHabit(id: number) {
     console.log('click pausar')
     this.habitService.leaveHabit(id).subscribe({
       next: (response: any) => {
@@ -128,7 +128,7 @@ export class HabitLibraryComponent {
     });
   }
 
-  restartHabit(id:number){
+  restartHabit(id: number) {
     this.habitService.restartHabit(id).subscribe({
       next: (response: any) => {
         console.log('Se ha reanudado correctamente el habito');
