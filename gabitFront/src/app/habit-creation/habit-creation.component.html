@@ -27,7 +27,7 @@
       </div>
     </div>
   </div>
-
+<!-- PASO 1 - Información básica -->
   <form [formGroup]="habitForm" class="creation-form">
     <div class="form-step" *ngIf="currentStep === 1" [@fadeIn]>
       <div class="step-content" formGroupName="basicInfo">
@@ -97,8 +97,8 @@
         <div class="form-group">
           <label for="levelCount" class="form-label">Número de niveles <span class="required">*</span></label>
           <div class="slider-container">
-            <input id="levelCount" type="range" min="1" max="10" formControlName="numberOfLevels"
-              (input)="onLevelCountChange($event)" class="form-slider">
+              <input id="levelCount" type="range" min="1" max="10" formControlName="numberOfLevels"
+                (input)="onLevelCountChange($event)" class="form-slider">
             <div class="slider-value">{{ levelsGroup.get('numberOfLevels')?.value }} niveles</div>
           </div>
         </div>
@@ -117,7 +117,7 @@
         </div>
       </div>
     </div>
-
+<!-- PASO 3 - Misiones -->
     <div class="form-step" *ngIf="currentStep === 3" [@fadeIn]>
       <div class="step-content">
         <h2 class="step-title">Crea las misiones</h2>
@@ -160,7 +160,7 @@
                     <div class="form-group flex-1">
                       <label [for]="'missionType' + levelIndex + missionIndex" class="form-label-sm">Tipo</label>
                       <select [id]="'missionType' + levelIndex + missionIndex" formControlName="type"
-                        class="form-select-sm">
+                              class="form-select-sm">
                         <option *ngFor="let type of missionTypes" [value]="type.value">{{ type.label }}</option>
                       </select>
                     </div>
@@ -199,7 +199,7 @@
               </span>
               <button type="button" class="btn-remove-icon" (click)="removeAchievement(i)" title="Eliminar logro">
                 <lucide-icon name="x" [size]="18"></lucide-icon>
-              </button>
+                </button>
             </div>
             <div class="achievement-body">
               <div class="form-group">

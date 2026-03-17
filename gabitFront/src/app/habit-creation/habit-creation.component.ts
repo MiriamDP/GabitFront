@@ -53,7 +53,7 @@ export class HabitCreationComponent implements OnInit {
     this.initForm();
   }
 
-  //Función para cargar categorías desde el backend que aun no funciona
+  //Función para cargar categorías desde el backend
   loadCategories(): void {
     this.isLoading = true;
     this.habitService.getCategories().subscribe({
@@ -305,23 +305,4 @@ export class HabitCreationComponent implements OnInit {
   cancelCreation(): void {
     this.router.navigate(['/dashboard']);
   }
-
-  // Este método prepara los datos para enviar al backend y que se vean así
-  /*   {
-    name: "Ejercicio diario",
-    description: "...",
-    category: "Deporte",
-    color: "#3B82F6",
-    isPublic: false,
-    levels: [
-      {
-        name: "Principiante",
-        pointsRequired: 100,
-        missions: [
-          { description: "...", points: 10, type: "diaria", requirement: 1 }
-        ]
-      }
-    ],
-    achievements: [...]
-  } */
 }
