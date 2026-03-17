@@ -74,6 +74,12 @@ section{
 
 }
 
+.achievement-origin {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-top: 0.5rem;
+}
+
 
 .front{
     padding: 2em;

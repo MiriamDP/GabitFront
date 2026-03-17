@@ -8,11 +8,11 @@ import { Achievement } from '../interfaces/achievement';
   styleUrls: ['./achievement.component.css']
 })
 export class AchievementComponent {
-  achievementsCompleted=signal<Achievement[]>([]);
-  achievementsIncompleted=signal<Achievement[]>([]);
+  achievementsCompleted = signal<Achievement[]>([]);
+  achievementsIncompleted = signal<Achievement[]>([]);
 
-  constructor(apiSvc: ApiService){
-    apiSvc.getAchievements().subscribe((resp)=>{
+  constructor(apiSvc: ApiService) {
+    apiSvc.getAchievements().subscribe((resp) => {
       const sortedCompleted = [...resp.completed].sort((a, b) => {
         const dateA = a.pivot?.date ? new Date(a.pivot.date).getTime() : 0;
         const dateB = b.pivot?.date ? new Date(b.pivot.date).getTime() : 0;
@@ -23,44 +23,48 @@ export class AchievementComponent {
     });
   }
 
-  //para dale la vuelta a las tarjetas
+  // Para darle la vuelta a las tarjetas de completados
   flippedIndex: number | null = null;
 
   toggleFlip(index: number) {
     this.flippedIndex = this.flippedIndex === index ? null : index;
   }
+
+  // Para darle la vuelta a las tarjetas de pendientes (índice separado)
+  flippedIndexPending: number | null = null;
+
+  toggleFlipPending(index: number) {
+    this.flippedIndexPending = this.flippedIndexPending === index ? null : index;
+  }
+
+  // Devuelve el nombre del hábito al que pertenece el logro
+  getAchievementOrigin(achievement: Achievement): string {
+    // Asociado directamente al hábito
+    if (achievement.habit) {
+      return achievement.habit.name;
+    }
+    // Asociado a un nivel → sacamos el hábito del nivel
+    if (achievement.level?.habit) {
+      return achievement.level.habit.name;
+    }
+    // Asociado a una misión → sacamos el hábito a través de misión > nivel
+    if (achievement.mission?.level?.habit) {
+      return achievement.mission.level.habit.name;
+    }
+    return "Gabit";
+  }
+
+  // Devuelve el detalle de asociación (nivel, misión o hábito completo)
+  getAchievementDetail(achievement: Achievement): string {
+    if (achievement.mission) {
+      return "Misión: " + achievement.mission.name;
+    }
+    if (achievement.level) {
+      return "Nivel " + achievement.level.levelNumber + ": " + achievement.level.name;
+    }
+    if (achievement.habit) {
+      return "Hábito completo";
+    }
+    return "Sin nivel";
+  }
 }
-
-
-// ([
-//     {title: "Plusmarquista",
-//       date: "3/2/2017",
-//       habit: "Corredor mañanero",
-//       level: "3"
-//     },
-//     {title: "Cocinillas",
-//       date: "5/10/2019",
-//       habit: "Cocina para estudiantes",
-//       level: "1"
-//     },
-//     {title: "Medallista olimpico",
-//       date: "10/8/2017",
-//       habit: "Corredor mañanero",
-//       level: "8"
-//     },
-//     {title: "Rata de biblioteca",
-//       date: "20/3/2018",
-//       habit: "Lector de clasicos",
-//       level: "5"
-//     },
-//     {title: "Plusmarquista",
-//       date: "3/2/2017",
-//       habit: "Corredor mañanero",
-//       level: "3"
-//     },
-//     {title: "El terror de los descuentos",
-//       date: "3/2/2017",
-//       habit: "Corredor mañanero",
-//       level: "3"
-//     },
-//   ]);

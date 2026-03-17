@@ -234,7 +234,10 @@ export class HabitCreationComponent implements OnInit {
     return this.fb.group({
       name: ["", [Validators.required, Validators.minLength(3)]],
       description: ["", [Validators.required, Validators.minLength(10)]],
-      icon: ["trophy"],
+      associationType: ["habit"],           // "habit" | "level" | "mission"
+      associationIndex: [null],             // índice del nivel (para tipo "level")
+      associationLevelIndex: [null],        // índice del nivel (para tipo "mission")
+      associationMissionIndex: [null],      // índice de la misión dentro del nivel
     });
   }
 
@@ -297,9 +300,28 @@ export class HabitCreationComponent implements OnInit {
       achievements: formValue.achievements.map((a: any) => ({
         name: a.name,
         description: a.description,
-        icon: a.icon,
+        associationType: a.associationType,
+        associationIndex: a.associationIndex,
+        associationLevelIndex: a.associationLevelIndex,
+        associationMissionIndex: a.associationMissionIndex,
       }))
     };
+  }
+
+  // Resetea los índices cuando cambia el tipo de asociación
+  onAssociationTypeChange(index: number): void {
+    const achievement = this.achievements.at(index) as FormGroup;
+    achievement.patchValue({
+      associationIndex: null,
+      associationLevelIndex: null,
+      associationMissionIndex: null,
+    });
+  }
+
+  // Resetea el índice de misión cuando cambia el nivel en tipo "mission"
+  onAchievementLevelChange(index: number): void {
+    const achievement = this.achievements.at(index) as FormGroup;
+    achievement.patchValue({ associationMissionIndex: null });
   }
 
   cancelCreation(): void {

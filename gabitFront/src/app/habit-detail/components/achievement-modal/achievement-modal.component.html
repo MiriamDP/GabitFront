@@ -1,16 +1,39 @@
 <div class="modal-overlay" (click)="onClose()">
   <div class="modal-content" (click)="$event.stopPropagation()">
-    <lucide-icon name="trophy" size="48" class="achievement-icon"></lucide-icon>
+
+    <!-- Partículas de celebración -->
+    <div class="particles">
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+    </div>
+
+    <div class="trophy-icon-wrapper">
+      <div class="trophy-icon-glow"></div>
+      <div class="trophy-icon">
+        <lucide-icon name="trophy" [size]="40"></lucide-icon>
+      </div>
+    </div>
+
     <h2>¡Logro desbloqueado!</h2>
+
     <div class="achievements-list">
       <div *ngFor="let achievement of achievements" class="achievement-item">
-        <span class="achievement-icon">{{ achievement.icon }}</span>
-        <div>
+        <div class="achievement-item-icon">
+          <lucide-icon name="trophy" [size]="22"></lucide-icon>
+        </div>
+        <div class="achievement-item-info">
           <h3>{{ achievement.name }}</h3>
           <p>{{ achievement.description }}</p>
         </div>
       </div>
     </div>
+
     <button class="btn-close" (click)="onClose()">Genial</button>
   </div>
 </div>

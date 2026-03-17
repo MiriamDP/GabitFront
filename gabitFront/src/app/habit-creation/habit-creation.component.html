@@ -27,7 +27,8 @@
       </div>
     </div>
   </div>
-<!-- PASO 1 - Información básica -->
+
+  <!-- PASO 1 - Información básica -->
   <form [formGroup]="habitForm" class="creation-form">
     <div class="form-step" *ngIf="currentStep === 1" [@fadeIn]>
       <div class="step-content" formGroupName="basicInfo">
@@ -117,7 +118,8 @@
         </div>
       </div>
     </div>
-<!-- PASO 3 - Misiones -->
+
+    <!-- PASO 3 - Misiones -->
     <div class="form-step" *ngIf="currentStep === 3" [@fadeIn]>
       <div class="step-content">
         <h2 class="step-title">Crea las misiones</h2>
@@ -182,7 +184,7 @@
     <div class="form-step" *ngIf="currentStep === 4" [@fadeIn]>
       <div class="step-content">
         <h2 class="step-title">Logros especiales (opcional)</h2>
-        <p class="step-description">Crea hitos importantes que motiven a los usuarios</p>
+        <p class="step-description">Crea hitos importantes que motiven a los usuarios. Puedes asociar cada logro al hábito completo, a un nivel o a una misión específica.</p>
 
         <button type="button" class="btn-add" (click)="addAchievement()">+ Añadir logro</button>
 
@@ -195,11 +197,11 @@
             [formGroupName]="i">
             <div class="achievement-header">
               <span class="achievement-icon-display">
-                <lucide-icon [name]="achievement.get('icon')?.value || 'trophy'" [size]="48"></lucide-icon>
+               <lucide-icon name="trophy" [size]="48"></lucide-icon>
               </span>
               <button type="button" class="btn-remove-icon" (click)="removeAchievement(i)" title="Eliminar logro">
                 <lucide-icon name="x" [size]="18"></lucide-icon>
-                </button>
+              </button>
             </div>
             <div class="achievement-body">
               <div class="form-group">
@@ -212,11 +214,56 @@
                 <textarea [id]="'achievementDesc' + i" formControlName="description" class="form-textarea-sm" rows="2"
                   placeholder="Describe qué significa conseguir este logro..."></textarea>
               </div>
+              <!-- Asociación del logro -->
               <div class="form-group">
-                <label [for]="'achievementIcon' + i" class="form-label-sm">Icono (Lucide)</label>
-                <input [id]="'achievementIcon' + i" type="text" formControlName="icon" class="form-input-sm"
-                  placeholder="Ej: trophy, star, zap">
+                <label [for]="'achievementAssociation' + i" class="form-label-sm">Asociar a</label>
+                <select [id]="'achievementAssociation' + i" formControlName="associationType"
+                  class="form-select-sm" (change)="onAssociationTypeChange(i)">
+                  <option value="habit">Hábito completo</option>
+                  <option value="level">Un nivel específico</option>
+                  <option value="mission">Una misión específica</option>
+                </select>
               </div>
+
+              <!-- Selector de nivel (cuando se asocia a un nivel) -->
+              <div class="form-group" *ngIf="achievement.get('associationType')?.value === 'level'">
+                <label [for]="'achievementLevel' + i" class="form-label-sm">Nivel</label>
+                <select [id]="'achievementLevel' + i" formControlName="associationIndex" class="form-select-sm">
+                  <option [ngValue]="null" disabled>Selecciona un nivel</option>
+                  <option *ngFor="let level of levelDetails.controls; let li = index" [ngValue]="li">
+                    {{ level.get('name')?.value || 'Nivel ' + (li + 1) }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Selectores de nivel + misión (cuando se asocia a una misión) -->
+              <div class="form-group-inline" *ngIf="achievement.get('associationType')?.value === 'mission'">
+                <div class="form-group flex-1">
+                  <label [for]="'achievementMissionLevel' + i" class="form-label-sm">Nivel</label>
+                  <select [id]="'achievementMissionLevel' + i" formControlName="associationLevelIndex"
+                    class="form-select-sm" (change)="onAchievementLevelChange(i)">
+                    <option [ngValue]="null" disabled>Selecciona un nivel</option>
+                    <option *ngFor="let level of levelDetails.controls; let li = index" [ngValue]="li">
+                      {{ level.get('name')?.value || 'Nivel ' + (li + 1) }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group flex-1">
+                  <label [for]="'achievementMission' + i" class="form-label-sm">Misión</label>
+                  <select [id]="'achievementMission' + i" formControlName="associationMissionIndex"
+                    class="form-select-sm"
+                    [attr.disabled]="achievement.get('associationLevelIndex')?.value === null ? true : null">
+                    <option [ngValue]="null" disabled>Selecciona una misión</option>
+                    <ng-container *ngIf="achievement.get('associationLevelIndex')?.value !== null">
+                      <option *ngFor="let mission of getMissionsForLevel(achievement.get('associationLevelIndex')?.value).controls; let mi = index"
+                        [ngValue]="mi">
+                        {{ mission.get('description')?.value || 'Misión ' + (mi + 1) }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
