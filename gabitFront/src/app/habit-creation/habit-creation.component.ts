@@ -247,13 +247,12 @@ export class HabitCreationComponent implements OnInit {
     this.basicInfo.patchValue({ color });
   }
 
-  //Maneja el envío del formulario para crear un nuevo hábito
+  //Controla el envío del formulario para crear un nuevo hábito
   onSubmit(): void {
     //Verifica si el formulario es válido antes de enviar y evita envíos múltiples
     if (this.habitForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
       const habitData = this.prepareHabitData();
-      //Envía los datos que ahora mismo no funciona porque no hay backend
       this.habitService.createHabit(habitData).subscribe({
         next: (response: any) => {
           this.isSubmitting = false;
@@ -308,7 +307,7 @@ export class HabitCreationComponent implements OnInit {
     };
   }
 
-  // Resetea los índices cuando cambia el tipo de asociación
+  // Resetea los índices cuando cambia el tipo de asociación para el formulario de logros
   onAssociationTypeChange(index: number): void {
     const achievement = this.achievements.at(index) as FormGroup;
     achievement.patchValue({

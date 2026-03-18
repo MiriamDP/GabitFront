@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <!-- PASO 1 - Información básica -->
+  <!-- Información básica -->
   <form [formGroup]="habitForm" class="creation-form">
     <div class="form-step" *ngIf="currentStep === 1" [@fadeIn]>
       <div class="step-content" formGroupName="basicInfo">
@@ -89,7 +89,7 @@
       </div>
     </div>
 
-    <!-- PASO 2 - Niveles -->
+    <!-- Niveles -->
     <div class="form-step" *ngIf="currentStep === 2" [@fadeIn]>
       <div class="step-content" formGroupName="levels">
         <h2 class="step-title">Configura los niveles</h2>
@@ -119,7 +119,7 @@
       </div>
     </div>
 
-    <!-- PASO 3 - Misiones -->
+    <!-- Misiones -->
     <div class="form-step" *ngIf="currentStep === 3" [@fadeIn]>
       <div class="step-content">
         <h2 class="step-title">Crea las misiones</h2>
@@ -180,7 +180,7 @@
       </div>
     </div>
 
-    <!-- PASO 4 - Logros -->
+    <!-- Logros -->
     <div class="form-step" *ngIf="currentStep === 4" [@fadeIn]>
       <div class="step-content">
         <h2 class="step-title">Logros especiales (opcional)</h2>
@@ -282,7 +282,7 @@
         <span *ngIf="!isSubmitting" style="display: flex; align-items: center; gap: 8px;">
           <lucide-icon name="check" [size]="18"></lucide-icon> Crear hábito
         </span>
-        <span *ngIf="isSubmitting">⏳ Guardando...</span>
+        <span *ngIf="isSubmitting">Guardando...</span>
       </button>
     </div>
   </form>

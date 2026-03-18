@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core'; 
 import { Mission } from '../../../interfaces/habit/habit.interface';
 
 @Component({
@@ -6,9 +6,15 @@ import { Mission } from '../../../interfaces/habit/habit.interface';
   templateUrl: './mission-list.component.html',
   styleUrls: ['./mission-list.component.css']
 })
-export class MissionListComponent {
+export class MissionListComponent implements OnChanges { 
   @Input() missions: Mission[] = [];
   @Output() missionComplete = new EventEmitter<number>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['missions']) {
+      console.log('Misiones actualizadas:', this.missions);
+    }
+  }
 
   get completedCount(): number {
     if (!this.missions) return 0;
