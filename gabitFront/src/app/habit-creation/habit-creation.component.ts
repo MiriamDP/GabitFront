@@ -53,7 +53,7 @@ export class HabitCreationComponent implements OnInit {
     this.initForm();
   }
 
-  //Función para cargar categorías desde el backend que aun no funciona
+  //Función para cargar categorías desde el backend
   loadCategories(): void {
     this.isLoading = true;
     this.habitService.getCategories().subscribe({
@@ -234,7 +234,10 @@ export class HabitCreationComponent implements OnInit {
     return this.fb.group({
       name: ["", [Validators.required, Validators.minLength(3)]],
       description: ["", [Validators.required, Validators.minLength(10)]],
-      icon: ["trophy"],
+      associationType: ["habit"],           // "habit" | "level" | "mission"
+      associationIndex: [null],             // índice del nivel (para tipo "level")
+      associationLevelIndex: [null],        // índice del nivel (para tipo "mission")
+      associationMissionIndex: [null],      // índice de la misión dentro del nivel
     });
   }
 
@@ -244,13 +247,12 @@ export class HabitCreationComponent implements OnInit {
     this.basicInfo.patchValue({ color });
   }
 
-  //Maneja el envío del formulario para crear un nuevo hábito
+  //Controla el envío del formulario para crear un nuevo hábito
   onSubmit(): void {
     //Verifica si el formulario es válido antes de enviar y evita envíos múltiples
     if (this.habitForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
       const habitData = this.prepareHabitData();
-      //Envía los datos que ahora mismo no funciona porque no hay backend
       this.habitService.createHabit(habitData).subscribe({
         next: (response: any) => {
           this.isSubmitting = false;
@@ -297,31 +299,31 @@ export class HabitCreationComponent implements OnInit {
       achievements: formValue.achievements.map((a: any) => ({
         name: a.name,
         description: a.description,
-        icon: a.icon,
+        associationType: a.associationType,
+        associationIndex: a.associationIndex,
+        associationLevelIndex: a.associationLevelIndex,
+        associationMissionIndex: a.associationMissionIndex,
       }))
     };
+  }
+
+  // Resetea los índices cuando cambia el tipo de asociación para el formulario de logros
+  onAssociationTypeChange(index: number): void {
+    const achievement = this.achievements.at(index) as FormGroup;
+    achievement.patchValue({
+      associationIndex: null,
+      associationLevelIndex: null,
+      associationMissionIndex: null,
+    });
+  }
+
+  // Resetea el índice de misión cuando cambia el nivel en tipo "mission"
+  onAchievementLevelChange(index: number): void {
+    const achievement = this.achievements.at(index) as FormGroup;
+    achievement.patchValue({ associationMissionIndex: null });
   }
 
   cancelCreation(): void {
     this.router.navigate(['/dashboard']);
   }
-
-  // Este método prepara los datos para enviar al backend y que se vean así
-  /*   {
-    name: "Ejercicio diario",
-    description: "...",
-    category: "Deporte",
-    color: "#3B82F6",
-    isPublic: false,
-    levels: [
-      {
-        name: "Principiante",
-        pointsRequired: 100,
-        missions: [
-          { description: "...", points: 10, type: "diaria", requirement: 1 }
-        ]
-      }
-    ],
-    achievements: [...]
-  } */
 }

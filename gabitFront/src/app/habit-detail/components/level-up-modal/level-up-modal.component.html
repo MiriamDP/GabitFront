@@ -1,7 +1,14 @@
 <div class="modal-overlay" (click)="onClose()">
   <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="level-icon-wrapper">
+      <div class="level-icon-glow"></div>
+      <div class="level-icon">
+       <lucide-icon name="Star" [size]="40"></lucide-icon>
+      </div>
+    </div>
     <h2>¡Nivel completado!</h2>
-    <p>Has alcanzado el <strong>Nivel {{ newLevel }}</strong></p>
-    <button class="btn-close" (click)="onClose()">Continuar</button>
+    <p class="modal-subtitle">Has desbloqueado un nuevo nivel</p>
+    <div class="level-badge">Nivel {{ newLevel }}</div>
+    <button class="btn-continue" (click)="onClose()">Continuar</button>
   </div>
 </div>
